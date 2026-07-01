@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WISEAP DIGITAL — Trading Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --bg:#0a0d12;--bg2:#10141b;--bg3:#161b24;--bg4:#1c2230;--bg5:#232a38;
+  --fg:#e2e5eb;--fg2:#8891a0;--fg3:#4e5668;
+  --sell:#ef4444;--sell-dim:rgba(239,68,68,0.1);--sell-mid:rgba(239,68,68,0.18);--sell-glow:rgba(239,68,68,0.22);
+  --buy:#22c55e;--buy-dim:rgba(34,197,94,0.1);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.08);--amber-mid:rgba(245,158,11,0.15);--amber-glow:rgba(245,158,11,0.2);
+  --cyan:#06b6d4;--cyan-dim:rgba(6,182,212,0.08);
+  --border:rgba(255,255,255,0.04);--border2:rgba(255,255,255,0.07);
+  --font:'Chakra Petch','Noto Sans Thai',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:.76rem;overflow-x:hidden;min-height:100vh}
+
+/* ===== NAV ===== */
+.topnav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.5rem;height:46px;
+  background:rgba(10,13,18,0.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-brand{display:flex;align-items:center;gap:.7rem}
+.nav-logo{font-weight:700;font-size:.88rem;letter-spacing:.08em;color:var(--amber)}
+.nav-logo i{margin-right:.2rem;font-size:.75rem}
+.nav-links{display:flex;align-items:center;gap:1px;background:var(--bg3);border-radius:8px;padding:2px}
+.nav-link{
+  padding:.38rem .9rem;border-radius:6px;font-size:.65rem;font-weight:500;
+  color:var(--fg3);cursor:pointer;transition:all .2s ease;letter-spacing:.04em;
+}
+.nav-link:hover{color:var(--fg2);background:rgba(255,255,255,0.03)}
+.nav-link.active{color:var(--amber);background:var(--amber-dim)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-clock{font-size:.58rem;color:var(--fg3);font-variant-numeric:tabular-nums;letter-spacing:.03em}
+.nav-live{display:flex;align-items:center;gap:.3rem;font-size:.55rem;color:var(--buy);font-weight:500}
+.nav-live-dot{width:5px;height:5px;border-radius:50%;background:var(--buy);box-shadow:0 0 8px rgba(34,197,94,0.5);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ===== TICKER ===== */
+.ticker{
+  display:flex;align-items:center;padding:.45rem 1.5rem;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  overflow-x:auto;gap:0;
+}
+.tk-pair{display:flex;align-items:center;gap:.45rem;padding:0 1.2rem;white-space:nowrap;border-right:1px solid var(--border)}
+.tk-pair:last-child{border-right:none}
+.tk-name{font-size:.62rem;color:var(--fg3);font-weight:500;min-width:62px}
+.tk-bid{font-size:.78rem;font-weight:600;font-variant-numeric:tabular-nums;transition:color .3s}
+.tk-bid.up{color:var(--buy)}.tk-bid.down{color:var(--sell)}
+.tk-ask{font-size:.68rem;font-weight:500;color:var(--fg3);font-variant-numeric:tabular-nums}
+.tk-chg{font-size:.56rem;font-weight:600;padding:.12rem .4rem;border-radius:4px;margin-left:.2rem}
+.tk-chg.up{color:var(--buy);background:var(--buy-dim)}
+.tk-chg.down{color:var(--sell);background:var(--sell-dim)}
+
+/* ===== MAIN LAYOUT ===== */
+.main{
+  display:grid;
+  grid-template-columns:1fr 300px;
+  min-height:calc(100vh - 92px);
+}
+
+/* ===== LEFT CONTENT ===== */
+.content{padding:1.2rem 1.5rem;overflow-y:auto}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:var(--fg3);border-radius:2px}
+
+/* -- Section head -- */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.sec-title{font-size:.68rem;font-weight:600;letter-spacing:.08em;color:var(--fg2);text-transform:uppercase;display:flex;align-items:center;gap:.5rem}
+.sec-title i{font-size:.6rem;color:var(--amber)}
+.sec-badge{font-size:.48rem;padding:.12rem .5rem;border-radius:99px;font-weight:600;letter-spacing:.06em}
+
+/* -- Signal Cards -- */
+.sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:1.2rem}
+.sig-card{
+  padding:1rem;border-radius:10px;text-align:center;position:relative;overflow:hidden;
+  border:1px solid var(--border);background:var(--bg3);
+  transition:all .3s ease;cursor:default;
+}
+.sig-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;transition:opacity .3s}
+.sig-card.sc-sell::after{background:linear-gradient(90deg,transparent,var(--sell),transparent);opacity:.4}
+.sig-card.sc-wait::after{background:linear-gradient(90deg,transparent,var(--amber),transparent);opacity:.3}
+.sig-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.3)}
+.sig-card:hover::after{opacity:.8}
+
+.sc-top{display:flex;align-items:center;justify-content:center;gap:.35rem;margin-bottom:.6rem}
+.sc-pulse{width:7px;height:7px;border-radius:50%}
+.sc-pulse.sell{background:var(--sell);box-shadow:0 0 8px var(--sell-glow);animation:blink 1.5s ease-in-out infinite}
+.sc-pulse.wait{background:var(--amber);box-shadow:0 0 8px var(--amber-glow);animation:blink 2.5s ease-in-out infinite}
+.sc-dir{font-size:1.05rem;font-weight:700;letter-spacing:.14em}
+.sc-dir.sell{color:var(--sell)}.sc-dir.wait{color:var(--amber)}
+
+.sc-conf{font-size:.58rem;color:var(--fg3);margin-bottom:.7rem}
+.sc-conf span{font-weight:700;font-size:.72rem}
+.sc-conf .cs{color:var(--sell)}.sc-conf .cw{color:var(--amber)}
+
+.sc-rows{display:flex;flex-direction:column;gap:.25rem;margin-bottom:.5rem}
+.sc-row{display:flex;justify-content:space-between;padding:.2rem .5rem;border-radius:4px;background:rgba(255,255,255,0.02);font-size:.6rem}
+.sc-row-k{color:var(--fg3)}.sc-row-v{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
+.sc-time{font-size:.48rem;color:var(--fg3);letter-spacing:.05em}
+
+/* -- Action Buttons -- */
+.act-row{display:flex;gap:.6rem;margin-bottom:1.4rem}
+.act-btn{
+  flex:1;padding:.65rem;border-radius:8px;font-family:var(--font);
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;transition:all .25s ease;border:1px solid;
+  display:flex;align-items:center;justify-content:center;gap:.45rem;
+}
+.act-btn i{font-size:.62rem}
+.act-sell{background:var(--sell-dim);border-color:rgba(239,68,68,0.18);color:var(--sell)}
+.act-sell:hover{background:var(--sell-mid);border-color:rgba(239,68,68,0.35);box-shadow:0 0 25px rgba(239,68,68,0.1)}
+.act-wait{background:var(--amber-dim);border-color:rgba(245,158,11,0.12);color:var(--amber)}
+.act-wait:hover{background:var(--amber-mid);border-color:rgba(245,158,11,0.28)}
+
+/* -- AI Analysis inline -- */
+.ai-inline{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1.4rem}
+.ai-chip{
+  padding:.65rem .75rem;border-radius:8px;border:1px solid var(--border);
+  background:var(--bg3);transition:border-color .2s;
+}
+.ai-chip:hover{border-color:var(--border2)}
+.ai-chip-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem}
+.ai-chip-dir{font-size:.65rem;font-weight:700;letter-spacing:.08em;color:var(--sell)}
+.ai-chip-sc{font-size:.56rem;color:var(--fg3)}.ai-chip-sc span{font-weight:600;color:var(--sell)}
+.ai-chip-text{font-size:.55rem;color:var(--fg3);line-height:1.5}
+.ai-chip-text strong{color:var(--fg2);font-weight:500}
+
+/* -- History -- */
+.hist-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.hist-head-left{display:flex;align-items:center;gap:.4rem;font-size:.65rem;font-weight:600;letter-spacing:.06em;color:var(--fg3)}
+.hist-head-left i{font-size:.58rem;color:var(--amber)}
+.hist-count{font-size:.5rem;color:var(--fg3);background:var(--bg4);padding:.12rem .45rem;border-radius:99px}
+
+.hist-list{display:flex;flex-direction:column;gap:.25rem;max-height:220px;overflow-y:auto}
+.hist-list::-webkit-scrollbar{width:2px}
+.hist-list::-webkit-scrollbar-thumb{background:var(--fg3);border-radius:1px}
+.hr{
+  display:grid;grid-template-columns:50px 48px 1fr 80px;
+  align-items:center;gap:.5rem;
+  padding:.4rem .6rem;border-radius:6px;background:var(--bg3);
+  font-size:.6rem;transition:background .2s;
+}
+.hr:hover{background:var(--bg4)}
+.hr-dir{font-weight:700;letter-spacing:.1em}
+.hr-dir.sell{color:var(--sell)}.hr-dir.wait{color:var(--amber)}
+.hr-sc{text-align:center;color:var(--fg3)}
+.hr-sc span{font-weight:600}
+.hr-sc .cs{color:var(--sell)}.hr-sc .cw{color:var(--amber)}
+.hr-detail{color:var(--fg3);font-size:.56rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hr-detail strong{color:var(--fg2)}
+.hr-time{color:var(--fg3);text-align:right;font-variant-numeric:tabular-nums;font-size:.55rem}
+
+/* ===== RIGHT SIDEBAR ===== */
+.sidebar{
+  border-left:1px solid var(--border);background:var(--bg2);
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--fg3);border-radius:2px}
+
+.sb-section{padding:1rem 1.1rem;border-bottom:1px solid var(--border)}
+.sb-section:last-child{border-bottom:none}
+
+/* Pair price */
+.pair-center{text-align:center;margin-bottom:.2rem}
+.pair-label{font-size:.62rem;color:var(--fg3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.pair-name{font-size:1.1rem;font-weight:700;letter-spacing:.08em;color:var(--fg);margin-bottom:.35rem}
+.pair-nums{display:flex;align-items:baseline;justify-content:center;gap:.25rem}
+.pair-bid{font-size:1.3rem;font-weight:700;font-variant-numeric:tabular-nums;transition:color .3s}
+.pair-ask{font-size:1.3rem;font-weight:600;font-variant-numeric:tabular-nums;color:var(--fg3)}
+.pair-slash{color:var(--fg3);font-size:.85rem}
+.pair-meta{font-size:.52rem;color:var(--fg3);margin-top:.25rem;letter-spacing:.03em}
+
+/* Acct */
+.acct-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem .8rem}
+.acct-item{display:flex;flex-direction:column;gap:.1rem}
+.acct-lbl{font-size:.5rem;color:var(--fg3);letter-spacing:.04em}
+.acct-val{font-size:.72rem;font-weight:600;font-variant-numeric:tabular-nums}
+.acct-val.w{color:var(--fg)}.acct-val.g{color:var(--buy)}.acct-val.r{color:var(--sell)}.acct-val.a{color:var(--amber)}
+.acct-full{grid-column:1/-1}
+
+/* News */
+.news-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.news-head-l{font-size:.62rem;font-weight:600;letter-spacing:.06em;color:var(--fg3);display:flex;align-items:center;gap:.4rem}
+.news-head-l i{font-size:.55rem;color:var(--amber)}
+.news-head-r{font-size:.48rem;color:var(--fg3)}
+.news-item{padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.news-item:last-child{border-bottom:none}
+.news-time{font-size:.48rem;color:var(--fg3);margin-bottom:.15rem}
+.news-txt{font-size:.58rem;color:var(--fg2);line-height:1.45}
+.news-imp{display:inline-block;font-size:.45rem;padding:.06rem .3rem;border-radius:3px;font-weight:600;margin-top:.18rem;letter-spacing:.04em}
+.news-imp.h{color:var(--sell);background:var(--sell-dim)}
+.news-imp.m{color:var(--amber);background:var(--amber-dim)}
+.news-imp.l{color:var(--cyan);background:var(--cyan-dim)}
+
+/* ===== Animations ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideR{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.au{animation:fadeUp .5s ease-out both}
+.ar{animation:slideR .5s ease-out both}
+
+/* ===== Responsive ===== */
+@media(max-width:1100px){.main{grid-template-columns:1fr}.sidebar{border-left:none;border-top:1px solid var(--border)}}
+@media(max-width:768px){
+  .sig-grid{grid-template-columns:1fr}.ai-inline{grid-template-columns:1fr}
+  .nav-links{display:none}.ticker{padding:.4rem .8rem}.tk-pair{padding:0 .7rem}
+  .content{padding:1rem}.sb-section{padding:.8rem 1rem}
+  .hr{grid-template-columns:44px 42px 1fr 65px;font-size:.56rem}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-brand">
+    <span class="nav-logo"><i class="fas fa-bolt"></i>WISEAP DIGITAL</span>
+  </div>
+  <div class="nav-links">
+    <div class="nav-link active" tabindex="0">เว็บ</div>
+    <div class="nav-link" tabindex="0">nsW</div>
+    <div class="nav-link" tabindex="0">Strategy</div>
+    <div class="nav-link" tabindex="0">AI Learning</div>
+    <div class="nav-link" tabindex="0">โหลด</div>
+  </div>
+  <div class="nav-right">
+    <span class="nav-clock" id="navTime">--:--:--</span>
+    <div class="nav-live"><span class="nav-live-dot"></span>LIVE</div>
+  </div>
+</nav>
+
+<div class="ticker" id="ticker">
+  <div class="tk-pair"><span class="tk-name">XAU/USD</span><span class="tk-bid up" id="tk0">4025.36</span><span class="tk-ask">4025.40</span><span class="tk-chg down">-0.18%</span></div>
+  <div class="tk-pair"><span class="tk-name">XAG/USD</span><span class="tk-bid down" id="tk1">29.142</span><span class="tk-ask">29.148</span><span class="tk-chg down">-0.42%</span></div>
+  <div class="tk-pair"><span class="tk-name">EUR/USD</span><span class="tk-bid up" id="tk2">1.0847</span><span class="tk-ask">1.0848</span><span class="tk-chg up">+0.12%</span></div>
+  <div class="tk-pair"><span class="tk-name">USD/JPY</span><span class="tk-bid down" id="tk3">157.82</span><span class="tk-ask">157.84</span><span class="tk-chg down">-0.08%</span></div>
+  <div class="tk-pair"><span class="tk-name">GBP/USD</span><span class="tk-bid up" id="tk4">1.2715</span><span class="tk-ask">1.2717</span><span class="tk-chg up">+0.06%</span></div>
+</div>
+
+<div class="main">
+  <!-- LEFT: Content -->
+  <main class="content">
+
+    <!-- Signals -->
+    <div class="sec-head au" style="animation-delay:.05s">
+      <div class="sec-title"><i class="fas fa-signal"></i> สัญญาณการเทรด</div>
+      <span class="sec-badge" style="background:var(--sell-dim);color:var(--sell);border:1px solid rgba(239,68,68,0.12)">SELL DOMINANT</span>
+    </div>
+
+    <div class="sig-grid">
+      <div class="sig-card sc-sell au" style="animation-delay:.1s">
+        <div class="sc-top"><span class="sc-pulse sell"></span><span class="sc-dir sell">SELL</span></div>
+        <div class="sc-conf">Confidence: <span class="cs">8/10</span></div>
+        <div class="sc-rows">
+          <div class="sc-row"><span class="sc-row-k">Entry</span><span class="sc-row-v">4026.04</span></div>
+          <div class="sc-row"><span class="sc-row-k">SL</span><span class="sc-row-v">4044.33</span></div>
+          <div class="sc-row"><span class="sc-row-k">TP</span><span class="sc-row-v">4011.54</span></div>
+        </div>
+        <div class="sc-time">14:32:08</div>
+      </div>
+      <div class="sig-card sc-sell au" style="animation-delay:.18s">
+        <div class="sc-top"><span class="sc-pulse sell"></span><span class="sc-dir sell">SELL</span></div>
+        <div class="sc-conf">Confidence: <span class="cs">8/10</span></div>
+        <div class="sc-rows">
+          <div class="sc-row"><span class="sc-row-k">Entry</span><span class="sc-row-v">4025.80</span></div>
+          <div class="sc-row"><span class="sc-row-k">SL</span><span class="sc-row-v">4044.00</span></div>
+          <div class="sc-row"><span class="sc-row-k">TP</span><span class="sc-row-v">4010.00</span></div>
+        </div>
+        <div class="sc-time">14:28:45</div>
+      </div>
+      <div class="sig-card sc-wait au" style="animation-delay:.26s">
+        <div class="sc-top"><span class="sc-pulse wait"></span><span class="sc-dir wait">WAIT</span></div>
+        <div class="sc-conf">Confidence: <span class="cw">7/10</span></div>
+        <div class="sc-rows">
+          <div class="sc-row"><span class="sc-row-k">Condition</span><span class="sc-row-v">&lt; 4005.00</span></div>
+          <div class="sc-row"><span class="sc-row-k">Type</span><span class="sc-row-v">Breakout</span></div>
+          <div class="sc-row"><span class="sc-row-k">Status</span><span class="sc-row-v">รอยืนยัน</span></div>
+        </div>
+        <div class="sc-time">14:25:12</div>
+      </div>
+    </div>
+
+    <!-- Action -->
+    <div class="act-row au" style="animation-delay:.32s">
+      <button class="act-btn act-sell" id="btnSell"><i class="fas fa-arrow-trend-down"></i>SELL</button>
+      <button class="act-btn act-wait" id="btnWait"><i class="fas fa-hourglass-half"></i>WAIT</button>
+    </div>
+
+    <!-- AI Analysis -->
+    <div class="sec-head au" style="animation-delay:.36s">
+      <div class="sec-title"><i class="fas fa-brain"></i> AI วิเคราะห์ทางการตลาด</div>
+    </div>
+    <div class="ai-inline">
+      <div class="ai-chip au" style="animation-delay:.4s">
+        <div class="ai-chip-top"><span class="ai-chip-dir">SELL</span><span class="ai-chip-sc"><span>8/10</span></span></div>
+        <div class="ai-chip-text"><strong>EMA 50/200</strong> ตัดขึ้นลงบน 4H ราคาต่ำกว่า EMA ทั้งสองเส้น แนวโน้ม Bearish</div>
+      </div>
+      <div class="ai-chip au" style="animation-delay:.46s">
+        <div class="ai-chip-top"><span class="ai-chip-dir">SELL</span><span class="ai-chip-sc"><span>8/10</span></span></div>
+        <div class="ai-chip-text"><strong>RSI (14)</strong> ที่ 38.2 ใกล้ Oversold แต่ยังไม่ถึง 30 แรงขายดำเนินต่อ</div>
+      </div>
+      <div class="ai-chip au" style="animation-delay:.52s">
+        <div class="ai-chip-top"><span class="ai-chip-dir">SELL</span><span class="ai-chip-sc"><span>7/10</span></span></div>
+        <div class="ai-chip-text"><strong>Volume</strong> ขายสูงกว่าซื้อ 1.8x ใน 3 แท่งล่าสุด แรงกดดันผู้ขาย</div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="hist-head au" style="animation-delay:.56s">
+      <div class="hist-head-left"><i class="fas fa-clock-rotate-left"></i> ประวัติสัญญาณ</div>
+      <span class="hist-count" id="histCount">6 รายการ</span>
+    </div>
+    <div class="hist-list" id="histList">
+      <div class="hr ar" style="animation-delay:.6s"><span class="hr-dir sell">SELL</span><span class="hr-sc"><span class="cs">8/10</span></span><span class="hr-detail"><strong>E:</strong>4026.04 <strong>SL:</strong>4044.33 <strong>TP:</strong>4011.54</span><span class="hr-time">14:32:08</span></div>
+      <div class="hr ar" style="animation-delay:.65s"><span class="hr-dir sell">SELL</span><span class="hr-sc"><span class="cs">8/10</span></span><span class="hr-detail"><strong>E:</strong>4025.80 <strong>SL:</strong>4044.00 <strong>TP:</strong>4010.00</span><span class="hr-time">14:28:45</span></div>
+      <div class="hr ar" style="animation-delay:.7s"><span class="hr-dir wait">WAIT</span><span class="hr-sc"><span class="cw">7/10</span></span><span class="hr-detail">รอ breakout ต่ำกว่า <strong>4005.00</strong></span><span class="hr-time">14:25:12</span></div>
+      <div class="hr ar" style="animation-delay:.75s"><span class="hr-dir sell">SELL</span><span class="hr-sc"><span class="cs">9/10</span></span><span class="hr-detail"><strong>E:</strong>4030.50 <strong>SL:</strong>4048.00 <strong>TP:</strong>4015.00</span><span class="hr-time">14:18:33</span></div>
+      <div class="hr ar" style="animation-delay:.8s"><span class="hr-dir sell">SELL</span><span class="hr-sc"><span class="cs">7/10</span></span><span class="hr-detail"><strong>E:</strong>4032.10 <strong>SL:</strong>4050.00 <strong>TP:</strong>4018.00</span><span class="hr-time">14:12:07</span></div>
+      <div class="hr ar" style="animation-delay:.85s"><span class="hr-dir wait">WAIT</span><span class="hr-sc"><span class="cw">6/10</span></span><span class="hr-detail">รอยืนยันแนวรับ <strong>4020.00</strong></span><span class="hr-time">14:05:51</span></div>
+    </div>
+
+  </main>
+
+  <!-- RIGHT: Sidebar -->
+  <aside class="sidebar">
+
+    <!-- Pair -->
+    <div class="sb-section">
+      <div class="pair-center">
+        <div class="pair-label">Currency Pair</div>
+        <div class="pair-name">XAU / USD</div>
+        <div class="pair-nums">
+          <span class="pair-bid" id="pBid">4025.36</span>
+          <span class="pair-slash">/</span>
+          <span class="pair-ask" id="pAsk">4025.40</span>
+        </div>
+        <div class="pair-meta">Spread: 0.04 &nbsp;|&nbsp; Leverage: 1:100</div>
+      </div>
+    </div>
+
+    <!-- Account -->
+    <div class="sb-section">
+      <div class="news-head" style="margin-bottom:.6rem">
+        <div class="news-head-l"><i class="fas fa-wallet"></i> ข้อมูลบัญชี</div>
+      </div>
+      <div class="acct-grid">
+        <div class="acct-item"><span class="acct-lbl">ยอดเงิน</span><span class="acct-val w" id="aBal">$9,888.12</span></div>
+        <div class="acct-item"><span class="acct-lbl">กำไร/ขาดทุนลอย</span><span class="acct-val r" id="aPnl">-$190.90</span></div>
+        <div class="acct-item"><span class="acct-lbl">Equity</span><span class="acct-val w" id="aEq">$9,697.22</span></div>
+        <div class="acct-item"><span class="acct-lbl">Margin ใช้</span><span class="acct-val a">$1,250.00</span></div>
+        <div class="acct-item"><span class="acct-lbl">หมายเลขบัญชี</span><span class="acct-val w">112257441</span></div>
+        <div class="acct-item"><span class="acct-lbl">บทบาท</span><span class="acct-val a">ADMIN</span></div>
+      </div>
+    </div>
+
+    <!-- News -->
+    <div class="sb-section" style="flex:1">
+      <div class="news-head">
+        <div class="news-head-l"><i class="fas fa-newspaper"></i> News Guard</div>
+        <span class="news-head-r">ดูข่าวสาร</span>
+      </div>
+      <div class="news-item">
+        <div class="news-time">14:20</div>
+        <div class="news-txt">Fed ชี้ว่าอัตราดอกเบี้ยจะคงที่ในการประชุมครั้งถัดไป ตลาดทองปรับตัวลด</div>
+        <span class="news-imp h">HIGH IMPACT</span>
+      </div>
+      <div class="news-item">
+        <div class="news-time">13:45</div>
+        <div class="news-txt">ดัชนีดอลลาร์สหรัฐอ่อนแรงลง ทองคำได้แรงหนุนจากการลงทุนหลบภัย</div>
+        <span class="news-imp m">MEDIUM</span>
+      </div>
+      <div class="news-item">
+        <div class="news-time">12:30</div>
+        <div class="news-txt">ตลาดเอเชียเปิดในแดนลบ นักลงทุนรอข้อมูลเศรษฐกิจสหรัฐ</div>
+        <span class="news-imp l">LOW</span>
+      </div>
+      <div class="news-item">
+        <div class="news-time">11:15</div>
+        <div class="news-txt">ความตึงเครียดภูมิรัฐศาสตร์ในตะวันออกกลางยังคงสนับสนุนทองคำ</div>
+        <span class="news-imp m">MEDIUM</span>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<script>
+/* นาฬิกา */
+function updateClock(){
+  const n=new Date();
+  const h=String((n.getUTCHours()+7)%24).padStart(2,'0');
+  const m=String(n.getMinutes()).padStart(2,'0');
+  const s=String(n.getSeconds()).padStart(2,'0');
+  document.getElementById('navTime').textContent=`${h}:${m}:${s} UTC+7`;
+}
+updateClock();setInterval(updateClock,1000);
+
+/* ราคา */
+let bp=4025.36;
+const tkEls=[document.getElementById('tk0'),document.getElementById('tk1'),document.getElementById('tk2'),document.getElementById('tk3'),document.getElementById('tk4')];
+const bases=[4025.36,29.142,1.0847,157.82,1.2715];
+const ranges=[.08,.015,.0008,.05,.0006];
+function tickPrices(){
+  bases.forEach((b,i)=>{
+    const d=(Math.random()-.52)*ranges[i];
+    bases[i]=Math.max(b-ranges[i]*8,Math.min(b+ranges[i]*8,bases[i]+d));
+    const up=d>0;
+    tkEls[i].textContent=bases[i].toFixed(i===1?3:i===2||i===4?4:2);
+    tkEls[i].className='tk-bid '+(up?'up':'down');
+  });
+  const bid=bases[0].toFixed(2);
+  document.getElementById('pBid').textContent=bid;
+  document.getElementById('pAsk').textContent=(bases[0]+0.04).toFixed(2);
+  document.getElementById('pBid').style.color=bases[0]>bp?'var(--buy)':'var(--sell)';
+  bp=bases[0];
+}
+setInterval(tickPrices,1500);
+
+/* Score pulse on signal cards */
+document.querySelectorAll('.sig-card').forEach(c=>{
+  c.addEventListener('mouseenter',()=>{c.style.transition='all .3s ease'});
+});
+
+/* Buttons */
+document.getElementById('btnSell').addEventListener('click',()=>{
+  addHist('SELL','8/10','cs','E: <strong>'+(bp-.4).toFixed(2)+'</strong> SL: <strong>'+(bp+18).toFixed(2)+'</strong> TP: <strong>'+(bp-14).toFixed(2)+'</strong>');
+  toast('เปิดตำแหน่ง SELL สำเร็จ','sell');
+});
+document.getElementById('btnWait').addEventListener('click',()=>{
+  addHist('WAIT','7/10','cw','รอยืนยัน breakout ต่ำกว่า <strong>'+(bp-20).toFixed(2)+'</strong>');
+  toast('ตั้งค่า WAIT แล้ว','wait');
+});
+
+function addHist(dir,sc,scCls,detail){
+  const list=document.getElementById('histList');
+  const n=new Date();
+  const t=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`;
+  const row=document.createElement('div');row.className='hr';row.style.animation='slideR .4s ease-out both';
+  const sDir=document.createElement('span');sDir.className='hr-dir '+dir.toLowerCase();sDir.textContent=dir;
+  const sSc=document.createElement('span');sSc.className='hr-sc';const sScInner=document.createElement('span');sScInner.className=scCls;sScInner.textContent=sc;sSc.appendChild(sScInner);
+  const sDet=document.createElement('span');sDet.className='hr-detail';sDet.textContent=detail;
+  const sTime=document.createElement('span');sTime.className='hr-time';sTime.textContent=t;
+  row.appendChild(sDir);row.appendChild(sSc);row.appendChild(sDet);row.appendChild(sTime);
+  list.insertBefore(row,list.firstChild);
+  while(list.children.length>15)list.removeChild(list.lastChild);
+  document.getElementById('histCount').textContent=list.children.length+' รายการ';
+}
+
+function toast(msg,type){
+  const ex=document.querySelector('.p-toast');if(ex)ex.remove();
+  const t=document.createElement('div');t.className='p-toast';
+  const c=type==='sell'?'var(--sell)':'var(--amber)';
+  const ic=type==='sell'?'fa-check-circle':'fa-hourglass-half';
+  t.style.cssText=`position:fixed;top:58px;left:50%;transform:translateX(-50%);z-index:200;padding:.55rem 1.2rem;border-radius:8px;background:var(--bg4);border:1px solid ${c}30;backdrop-filter:blur(16px);font-size:.68rem;color:${c};display:flex;align-items:center;gap:.5rem;animation:fadeUp .3s ease-out both;box-shadow:0 8px 30px rgba(0,0,0,0.5);font-family:var(--font);white-space:nowrap`;
+  const icon=document.createElement('i');icon.className='fas '+ic;
+  t.appendChild(icon);t.appendChild(document.createTextNode(msg));document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(-8px)';t.style.transition='all .3s ease';setTimeout(()=>t.remove(),300)},2500);
+}
+
+/* Nav */
+document.querySelectorAll('.nav-link').forEach(l=>{
+  l.addEventListener('click',()=>{document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));l.classList.add('active')});
+  l.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();l.click()}});
+});
+
+/* PNL */
+let pnl=-190.90;
+function updatePnl(){
+  pnl+=(Math.random()-.48)*4;
+  const el=document.getElementById('aPnl');
+  el.textContent=(pnl>=0?'+$':'-$')+Math.abs(pnl).toFixed(2);
+  el.className='acct-val '+(pnl>=0?'g':'r');
+  document.getElementById('aEq').textContent='$'+(9888.12+pnl).toFixed(2);
+}
+setInterval(updatePnl,3500);
+</script>
+</body>
+</html>

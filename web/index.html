@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Council Trinity Lab</title>
+<style>
+  :root{
+    --bg:#0a0d14; --panel:#11161f; --panel2:#0e131b; --line:#1e2733;
+    --txt:#d7e0ea; --muted:#7c8aa0; --cyan:#38e0c8; --violet:#9d8bff;
+    --orange:#ff7a45; --green:#56d364; --red:#f26d6d; --amber:#e3b341; --blue:#4aa3ff;
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bottom:env(safe-area-inset-bottom,0px);
+    --bottom-nav-h:64px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:"Segoe UI",system-ui,sans-serif;font-size:14px;line-height:1.55;}
+  code,.mono{font-family:ui-monospace,"Cascadia Code",Consolas,monospace;}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px;}
+  header{display:flex;flex-direction:column;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line);}
+  .hdr-row{display:flex;align-items:center;gap:10px;}
+  .hdr-tiers{justify-content:center;gap:8px;}
+  .hdr-title{justify-content:center;gap:12px;}
+  .hdr-budget{justify-content:center;gap:10px;}
+  .logo{display:flex;align-items:center;gap:10px;}
+  .bolt{width:28px;height:28px;border-radius:8px;
+    background:linear-gradient(135deg,var(--orange),var(--violet));
+    display:flex;align-items:center;justify-content:center;font-size:15px;
+    box-shadow:0 0 16px rgba(157,139,255,.5);}
+  .title{font-weight:700;font-size:20px;letter-spacing:.5px;}
+  .sub{color:var(--muted);font-size:12px;display:none;}
+  .chips{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;}
+  .chip{font-size:11px;padding:4px 12px;border-radius:8px;border:1px solid var(--line);
+    background:var(--panel);color:var(--muted);}
+  .chip.on{color:var(--cyan);border-color:rgba(56,224,200,.4);}
+  .chip.credit{border-color:rgba(255,193,7,.4);color:#ffc107;font-weight:600;}
+  .util-btns{display:flex;gap:6px;margin-left:auto;}
+  .util-btn{background:var(--panel);border:1px solid var(--line);color:var(--muted);
+    border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:.15s;}
+  .util-btn:hover{filter:brightness(1.15);}
+  .util-btn.amber{border-color:var(--amber);color:var(--amber);}
+  .util-btn.red{border-color:var(--red);color:var(--red);}
+
+  /* ===== Desktop Tab Bar ===== */
+  .room-tabs{display:flex;gap:4px;margin:14px 0 0;padding:4px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;width:fit-content;margin-left:auto;margin-right:auto;}
+  .room-tab{background:transparent;border:none;color:var(--muted);border-radius:9px;
+    padding:8px 24px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit;}
+  .room-tab:hover{color:var(--txt);}
+  .room-tab.active{color:#06121a;background:linear-gradient(135deg,var(--cyan),var(--blue));}
+  .room-tab.active.council{background:linear-gradient(135deg,var(--orange),var(--violet));color:#fff;}
+
+  /* ===== Room Headers ===== */
+  .room-header{display:flex;align-items:center;gap:10px;margin:14px 0 10px;padding:10px 16px;
+    border-radius:12px;background:var(--panel);border:1px solid var(--line);}
+  .room-header .icon{font-size:20px;}
+  .room-header .label{font-size:16px;font-weight:700;color:var(--cyan);}
+  .room-header.council{border-left:3px solid var(--violet);}
+  .room-header.council .label{color:var(--violet);}
+  .room-header.chat{border-left:3px solid var(--cyan);}
+
+  /* ===== Persona Selector (inside chat room) ===== */
+  .persona-bar{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap;}
+  .persona-btn{background:var(--panel);border:1px solid var(--line);color:var(--muted);
+    border-radius:20px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;}
+  .persona-btn:hover{filter:brightness(1.15);}
+  .persona-btn.on{color:#06121a;background:linear-gradient(135deg,var(--cyan),var(--blue));border-color:transparent;}
+  .bar{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap;}
+  textarea,input,select{background:var(--panel2);border:1px solid var(--line);
+    color:var(--txt);border-radius:9px;padding:10px 12px;font-size:14px;font-family:inherit;}
+  textarea{flex:1;min-width:280px;resize:vertical;min-height:46px;}
+  input.proj{width:200px;}
+  select{width:96px;}
+  button{background:linear-gradient(135deg,var(--cyan),var(--blue));border:none;
+    color:#06121a;font-weight:700;border-radius:9px;padding:0 20px;cursor:pointer;
+    font-size:14px;transition:.15s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  button:hover{filter:brightness(1.1);} button:disabled{opacity:.45;cursor:wait;}
+  #stream{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--muted);
+    border-radius:10px;padding:10px 14px;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;}}
+  .who{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:5px;font-size:13px;}
+  .tier{margin-left:auto;font-size:10px;padding:2px 8px;border-radius:6px;
+    background:var(--panel2);color:var(--muted);border:1px solid var(--line);}
+  .body{white-space:pre-wrap;word-break:break-word;color:#c2cdda;font-size:13px;}
+  .body .mono{display:block;background:var(--panel2);border:1px solid var(--line);
+    border-radius:7px;padding:8px 10px;margin:6px 0;overflow-x:auto;font-size:12px;}
+  .dadd{color:var(--green);} .drem{color:var(--red);}
+  .c-arch{border-left-color:var(--violet);} .c-arch .who{color:var(--violet);}
+  .c-code{border-left-color:var(--cyan);}   .c-code .who{color:var(--cyan);}
+  .c-rev{border-left-color:var(--orange);}  .c-rev .who{color:var(--orange);}
+  .c-ok{border-left-color:var(--green);}    .c-ok .who{color:var(--green);}
+  .c-warn{border-left-color:var(--amber);}  .c-warn .who{color:var(--amber);}
+  .c-sum{border-left-color:var(--blue);}    .c-sum .who{color:var(--blue);}
+  .c-sys{border-left-color:var(--muted);}   .c-sys .who{color:var(--muted);}
+  .c-err{border-left-color:var(--red);}     .c-err .who{color:var(--red);}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);
+    display:inline-block;animation:pulse 1s infinite;}
+  @keyframes pulse{50%{opacity:.3;}}
+  .hint{color:var(--muted);font-size:12px;text-align:center;margin-top:30px;}
+  .modes{display:none !important;}
+  .room-tabs{display:flex;}
+  #chatlog{display:flex;flex-direction:column;gap:10px;margin:6px 0;}
+  .msg{max-width:82%;padding:9px 13px;border-radius:12px;animation:fade .2s ease;
+    white-space:pre-wrap;word-break:break-word;font-size:13px;}
+  .msg.me{align-self:flex-end;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#06121a;}
+  .msg.me .msg-body{color:#06121a;}
+  .msg.them{align-self:flex-start;background:var(--panel);border:1px solid var(--line);}
+  .msg .nm{font-size:11px;color:var(--muted);margin-bottom:3px;}
+  .msg-body{white-space:pre-wrap;word-break:break-word;line-height:1.55;}
+  .chatbar{display:flex;gap:8px;margin-top:10px;position:sticky;bottom:0;
+    background:var(--bg);padding:8px 0;}
+  .think-dots{display:inline-flex;gap:5px;align-items:center;}
+  .think-dots span{width:10px;height:7px;border-radius:50%;background:var(--violet);
+    animation:thinkPulse 1.4s infinite ease-in-out both;}
+  .think-dots span:nth-child(1){animation-delay:-.32s;}
+  .think-dots span:nth-child(2){animation-delay:-.16s;}
+  @keyframes thinkPulse{
+    0%,100%{transform:scaleX(.6) scaleY(.6);opacity:.3;}
+    50%{transform:scaleX(1.4) scaleY(1.1);opacity:1;}
+  }
+  .think-green-dot{width:8px;height:8px;border-radius:50%;background:var(--green);
+    display:inline-block;box-shadow:0 0 6px rgba(86,211,100,.6);
+    animation:greenBlink 1.5s infinite ease-in-out;}
+  @keyframes greenBlink{0%,100%{opacity:1;}50%{opacity:.3;}}
+  .msg.collapsed .msg-body{max-height:80px;overflow:hidden;position:relative;}
+  .msg.collapsed .msg-body::after{content:"";position:absolute;bottom:0;left:0;right:0;height:25px;
+    background:linear-gradient(transparent,var(--panel));pointer-events:none;}
+  .msg.me.collapsed .msg-body::after{background:linear-gradient(transparent,rgba(56,224,200,.15));}
+  .card.collapsed .body{max-height:80px;overflow:hidden;position:relative;}
+  .card.collapsed .body::after{content:"";position:absolute;bottom:0;left:0;right:0;height:30px;
+    background:linear-gradient(transparent,var(--panel));pointer-events:none;}
+  .toggle-btn{font-size:11px;padding:3px 12px;border-radius:6px;
+    background:var(--panel2);color:var(--muted);border:1px solid var(--line);
+    font-weight:600;cursor:pointer;margin-top:6px;display:inline-block;}
+  .toggle-btn:hover{filter:brightness(1.3);color:var(--cyan);}
+  .msg.me .toggle-btn{background:rgba(6,18,26,.35);color:#06121a;border-color:rgba(6,18,26,.3);}
+  .msg.me .toggle-btn:hover{color:#06121a;filter:brightness(1.1);}
+  .attach-btn{background:var(--panel);border:1px solid var(--line);color:var(--cyan);
+    border-radius:9px;padding:10px 14px;cursor:pointer;font-size:18px;flex-shrink:0;transition:.15s;}
+  .attach-btn:hover{filter:brightness(1.2);border-color:var(--cyan);}
+  #attachPopup button:hover{background:rgba(157,139,255,.12);}
+  .attach-preview{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0;}
+  .attach-chip{font-size:11px;padding:5px 10px;border-radius:7px;background:var(--panel2);
+    border:1px solid var(--line);color:var(--cyan);display:flex;align-items:center;gap:8px;}
+  .attach-chip .rm{cursor:pointer;color:var(--red);font-weight:700;font-size:14px;}
+  .attach-chip img{width:36px;height:36px;border-radius:5px;object-fit:cover;}
+  .help-btn{display:none;text-decoration:none;font-size:20px;width:36px;height:36px;
+    border-radius:50%;background:var(--panel);border:1px solid var(--line);color:var(--cyan);
+    align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:.2s;}
+  .help-btn:active{transform:scale(.9);}
+
+  /* ===== Bottom Navigation Bar (Mobile) ===== */
+  #bottomNav{display:none;position:fixed;bottom:0;left:0;right:0;
+    height:calc(var(--bottom-nav-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom);
+    background:rgba(17,22,31,.95);border-top:1px solid var(--line);z-index:150;
+    align-items:center;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;-ms-overflow-style:none;gap:2px;padding-left:4px;padding-right:4px;}
+  #bottomNav::-webkit-scrollbar{display:none;}
+  #bottomNav::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1px;
+    background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.4;}
+  .nav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+    background:none;border:none;color:var(--muted);font-size:20px;padding:8px 12px;border-radius:12px;
+    cursor:pointer;transition:all .2s;min-width:56px;min-height:44px;font-family:inherit;position:relative;flex-shrink:0;}
+  .nav-btn span{font-size:10px;font-weight:600;}
+  .nav-btn.active{color:var(--cyan);}
+  .nav-btn.active::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:20px;height:3px;background:var(--cyan);border-radius:0 0 3px 3px;}
+  .nav-btn{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  .nav-btn:active{transform:scale(.9);}
+  .nav-btn.nav-exit{color:var(--red);opacity:.6;}
+  .nav-btn.nav-exit:active{opacity:1;}
+
+  /* ===== Toast ===== */
+  .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);
+    background:var(--panel);border:1px solid var(--line);color:var(--txt);padding:12px 20px;
+    border-radius:12px;font-size:14px;font-weight:600;z-index:999;
+    box-shadow:0 8px 32px rgba(0,0,0,.4);transition:transform .4s cubic-bezier(.16,1,.3,1);
+    white-space:nowrap;max-width:90vw;text-align:center;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+  .toast.toast-success{border-color:rgba(86,211,100,.3);color:var(--green);}
+  .toast.toast-error{border-color:rgba(242,109,109,.3);color:var(--red);}
+
+  /* ===== Mobile Responsive ===== */
+  @media (max-width:768px){
+    .wrap{padding:10px 12px;padding-bottom:calc(var(--bottom-nav-h) + var(--safe-bottom) + 20px);}
+    header{gap:8px;padding-bottom:10px;}
+    .hdr-tiers{gap:4px;}
+    .hdr-title{gap:8px;}
+    .hdr-budget{gap:6px;}
+    .title{font-size:16px;}
+    .sub{display:none;}
+    .chips{gap:4px;}
+    .chip{font-size:10px;padding:3px 8px;}
+    .util-btns{display:none !important;}
+    .room-tabs{display:none !important;}
+    #bottomNav{display:flex;flex-wrap:nowrap;}
+    .help-btn{display:flex !important;}
+    .bar{flex-direction:column;gap:8px;margin:10px 0;}
+    .bar textarea{min-width:0;width:100%;font-size:16px;}
+    .bar input.proj{width:100%;font-size:16px;}
+    .bar select{width:100%;font-size:16px;}
+    .bar button{width:100%;justify-content:center;min-height:44px;}
+    #navfloat{right:10px !important;left:auto !important;top:calc(10px + var(--safe-top,0px)) !important;bottom:auto !important;
+      flex-direction:row !important;gap:4px !important;}
+    #navfloat button{width:34px !important;height:34px !important;font-size:12px !important;}
+    #saveBar{flex-direction:column;}
+    #saveBar button{width:100%;}
+    .chatbar{padding-bottom:calc(4px + var(--safe-bottom));}
+    #chatview{padding-bottom:calc(var(--bottom-nav-h) + var(--safe-bottom) + 48px);}
+    #scanview{padding-bottom:calc(var(--bottom-nav-h) + var(--safe-bottom) + 250px) !important;}
+    .chatbar textarea{font-size:16px;}
+    #chatmsg{font-size:16px;}
+    .msg{max-width:90%;font-size:14px;}
+    .card{padding:10px 12px;}
+    .body{font-size:14px;}
+    #councilSessionSel{font-size:16px !important;}
+    #task{font-size:16px !important;}
+    #project{font-size:16px !important;}
+    #mode,#rounds{font-size:16px !important;}
+    .room-header{padding:8px 12px;margin:10px 0 8px;}
+    .room-header .label{font-size:14px;}
+    .persona-btn{padding:6px 12px;font-size:12px;}
+  }
+  @media (max-width:359px){
+    .wrap{padding:8px 8px;}
+    .title{font-size:14px;}
+    .chip{font-size:9px;padding:2px 5px;}
+    .msg{max-width:94%;}
+  }
+  @media (min-width:769px){
+    #bottomNav{display:none !important;}
+  }
+
+  /* ===== Collapsible Header (Mobile) ===== */
+  header{transition:transform .3s ease,opacity .3s ease,max-height .3s ease,margin .3s ease;transform-origin:top;}
+  header.collapsed{transform:scaleY(0);opacity:0;max-height:0;margin:0;padding:0;overflow:hidden;border:none;}
+  .header-placeholder{display:none;}
+  .header-placeholder.show{display:block;height:0;}
+
+  /* ===== Pull to Refresh ===== */
+  #pullIndicator{
+    position:fixed;top:calc(0px + var(--safe-top,0px));left:50%;transform:translateX(-50%) translateY(-60px);
+    width:44px;height:44px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:20px;z-index:200;
+    transition:transform .2s ease,opacity .2s ease;opacity:0;pointer-events:none;
+    box-shadow:0 4px 16px rgba(0,0,0,.4);
+  }
+  #pullIndicator.visible{opacity:1;}
+  #pullIndicator.refreshing{animation:spin 1s linear infinite;}
+  @keyframes spin{from{transform:translateX(-50%) translateY(0) rotate(0deg);}to{transform:translateX(-50%) translateY(0) rotate(360deg);}}
+  body{overscroll-behavior-y:contain;}
+</style>
+</head>
+<body>
+<div id="pullIndicator">🔄</div>
+<div id="navfloat" style="position:fixed;right:16px;top:calc(16px + var(--safe-top,0px));display:flex;flex-direction:column;gap:8px;z-index:50;">
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})" title="ขึ้นบนสุด" aria-label="ขึ้นบนสุด"
+    style="width:40px;height:40px;border-radius:50%;padding:0;font-size:18px;background:var(--panel);color:var(--cyan);border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.4);">↑</button>
+  <button onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})" title="ลงล่างสุด" aria-label="ลงล่างสุด"
+    style="width:40px;height:40px;border-radius:50%;padding:0;font-size:18px;background:var(--panel);color:var(--violet);border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.4);">↓</button>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="hdr-row hdr-tiers">
+      <div class="chips" id="chips"><span class="chip">กำลังโหลด…</span></div>
+    </div>
+    <div class="hdr-row hdr-title">
+      <div class="logo">
+        <div class="bolt">⚡</div>
+        <div class="title">Council Trinity Lab</div>
+      </div>
+      <a href="manual.html" class="help-btn" id="helpBtn" title="คู่มือการใช้งาน">❓</a>
+      <div class="util-btns">
+        <button class="util-btn amber" id="sysBtn" title="เติมเงิน / ข้อมูลระบบ">💰 เติมเงิน</button>
+        <button class="util-btn red" id="logoutBtn" title="ออกจากระบบ">🚪 Exit</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Desktop Tab Bar (hidden on mobile, bottom nav handles it) -->
+  <div class="room-tabs" id="roomTabs">
+    <button class="room-tab" data-room="profile" style="background:linear-gradient(135deg,var(--violet),#ff6b9d);color:#fff;">👤 ตั้งค่าโปรไฟล์</button>
+    <button class="room-tab council" data-room="council">🏛️ ห้องประชุมสภา</button>
+    <button class="room-tab active" data-room="chat">💬 ห้องแชท</button>
+    <button class="room-tab" data-room="scan">🧾 สแกนบิล</button>
+  </div>
+
+  <!-- Hidden mode buttons for JS compatibility -->
+  <div class="modes" id="modes" style="display:none !important;">
+    <button class="mode" data-p="แจ่มจูน">📐 แจ่มจูน</button>
+    <button class="mode" data-p="แจงจูน">👩‍💻 แจงจูน</button>
+    <button class="mode" data-p="เจนจูน">🔍 เจนจูน</button>
+    <button class="mode council on" data-p="">🏛️ ประชุมสภา</button>
+    <button class="mode sys" id="sysBtnOld" title="ข้อมูลระบบ">💰 เติมเงิน 50 บาท</button>
+    <button class="mode logout" id="logoutBtnOld" title="ออกจากระบบ">🚪 Exit</button>
+    <span class="user-info" id="userInfo"></span>
+  </div>
+
+
+  <div id="councilview" style="display:none;">
+    <div class="room-header council">
+      <span class="icon">🏛️</span>
+      <span class="label">ห้องประชุมสภา</span>
+      <span style="margin-left:auto;font-size:12px;color:var(--muted);">๓ พี่น้อง + Claude วิจารณ์</span>
+    </div>
+    <div style="margin:10px 0 6px;">
+      <select id="councilSessionSel" style="width:100%;font-size:12px;"><option value="">📜 เลือกงานประชุมครั้งก่อน — โหลดมาทำซ้ำ/แก้ (ไม่ต้องพิมพ์ใหม่)…</option></select>
+    </div>
+    <div class="bar" style="position:relative;">
+      <button class="attach-btn" id="attachBtn" title="แนบไฟล์/รูปภาพ หรือ เลือกโฟลเดอร์">📎</button>
+      <div id="attachPopup" style="display:none;position:absolute;top:100%;left:0;z-index:200;background:var(--panel2);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.4);padding:6px;min-width:200px;margin-top:4px;">
+        <button id="attachFileOpt" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 14px;background:none;border:none;color:var(--text);font-size:14px;cursor:pointer;border-radius:8px;text-align:left;">📎 แนบไฟล์/รูปภาพ</button>
+        <button id="attachFolderOpt" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 14px;background:none;border:none;color:var(--text);font-size:14px;cursor:pointer;border-radius:8px;text-align:left;">📁 เลือกโฟลเดอร์ (สร้าง/แก้/ตรวจงาน)</button>
+      </div>
+      <textarea id="task" placeholder="พิมพ์งานที่อยากให้สภาทำ… เช่น เขียนสคริปต์จัดไฟล์ตามวันที่ พร้อมเทส"></textarea>
+      <input class="proj" id="project" placeholder="โปรเจกต์ (ไม่บังคับ) เช่น C:\myapp">
+      <select id="mode" title="เลือกราง: อัตโนมัติให้ระบบจำแนก / งานโค้ด / งานคิด"><option value="auto" selected>🧭 อัตโนมัติ</option><option value="a">💻 งานโค้ด</option><option value="b">💭 งานคิด</option></select>
+      <select id="rounds"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option></select>
+      <button id="run">▶ ประชุม</button>
+      <button id="stop" style="display:none;background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;">■ หยุด</button>
+      <button id="auditBtn" title="สแกนบั๊กทั้งโปรเจกต์ แก้ไข้จนเสร็จ" style="background:linear-gradient(135deg,var(--violet),var(--blue));color:#fff;">🔍 ตรวจทั้งโปรเจกต์</button>
+    </div>
+    <input type="file" id="fileInput" style="display:none" multiple>
+    <div class="attach-preview" id="attachPreview"></div>
+    <div id="thinkIndicator" style="display:none;align-items:center;gap:10px;margin:6px 0 0;padding:8px 14px;
+      border-radius:10px;background:rgba(157,139,255,.08);border:1px solid rgba(157,139,255,.25);
+      color:var(--violet);font-size:13px;font-weight:600;">
+      <div class="think-dots"><span></span><span></span><span></span></div>
+      <span class="think-green-dot"></span>
+      <span id="thinkText">กำลังคิด…</span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:-6px 0 8px;font-size:12px;color:var(--muted);">
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--amber);">
+        <input type="checkbox" id="applyChk" style="width:auto;"> ✍️ แก้ไฟล์จริงในโปรเจกต์ (สำรองอัตโนมัติ ย้อนคืนได้)
+      </label>
+      <span style="flex:1;"></span>
+      <select id="backupSel" style="width:auto;min-width:150px;font-size:12px;"><option value="">↩️ ย้อนคืนการแก้…</option></select>
+      <button id="restore" style="padding:0 12px;font-size:12px;background:linear-gradient(135deg,var(--amber),var(--orange));color:#3a2500;">ย้อนคืน</button>
+    </div>
+    <div id="meetingStatus" style="display:none;align-items:center;gap:9px;margin:4px 0 12px;padding:9px 14px;
+      border-radius:10px;background:rgba(86,211,100,.1);border:1px solid rgba(86,211,100,.35);
+      color:var(--green);font-weight:600;font-size:13px;">
+      <span class="dot" style="width:9px;height:9px;"></span> 🟢 กำลังประชุม… สภายังทำงานอยู่ (ยังไม่จบ — รอสักครู่นะคะ)
+    </div>
+    <div id="stream"></div>
+    <div class="hint" id="hint">พิมพ์งานแล้วกด "ประชุม" — สภาจะออกแบบ เขียน เทส ตรวจ แก้จนผ่าน แบบสดๆ</div>
+    <div style="margin:8px 0 4px;padding:10px 14px;background:linear-gradient(135deg,rgba(183,148,246,0.12),rgba(74,163,255,0.08));border:1px solid rgba(183,148,246,0.25);border-radius:10px;text-align:center;">
+      <span style="font-size:15px;font-weight:700;color:var(--violet);line-height:1.5;">💡 ก่อนประชุม ให้สนทนาในห้องแชทก่อน เพื่อสรุปหัวข้อ จะช่วยให้การประชุมได้เนื้อหาที่ดีขึ้น</span>
+    </div>
+    <div id="saveBar" style="display:none;margin-top:14px;gap:8px;justify-content:center;flex-wrap:wrap;">
+      <button id="save" style="background:linear-gradient(135deg,var(--green),var(--cyan));color:#06121a;font-size:15px;padding:0 24px;height:42px;">� แชร์บันทึก</button>
+      <button id="expandBottom" style="background:linear-gradient(135deg,var(--violet),var(--blue));color:#fff;font-size:15px;padding:0 24px;height:42px;">📋 ขยายความ</button>
+      <button id="seniorBottom" style="background:linear-gradient(135deg,#9d8bff,#38e0c8);color:#06121a;font-size:15px;padding:0 24px;height:42px;">🤍 ส่งให้พี่จูนวิเคราะห์</button>
+    </div>
+  </div>
+
+  <div id="chatview">
+    <div class="room-header chat">
+      <span class="icon">💬</span>
+      <span class="label">ห้องแชท</span>
+      <span style="margin-left:auto;font-size:12px;color:var(--muted);">คุยกับลูกตัวต่อตัว</span>
+    </div>
+    <div class="persona-bar" id="personaBar">
+      <button class="persona-btn" data-p="แจ่มจูน">📐 แจ่มจูน</button>
+      <button class="persona-btn on" data-p="แจงจูน">👩‍💻 แจงจูน</button>
+      <button class="persona-btn" data-p="เจนจูน">🔍 เจนจูน</button>
+    </div>
+    <div style="margin:8px 0;text-align:right;">
+      <button id="toCouncilChat" style="background:linear-gradient(135deg,var(--orange),var(--violet));color:#fff;font-size:13px;padding:6px 16px;">🏛️ สรุปเรื่องที่คุย → ส่งสภาวิเคราะห์</button>
+    </div>
+    <div id="chatlog"></div>
+    <div class="hint" id="chathint"></div>
+    <div class="chatbar">
+      <textarea id="chatmsg" style="flex:1;min-height:44px;" placeholder="คุยกับลูกตัวต่อตัว… พิมพ์ 'สร้างรูป ...' เพื่อสร้างรูป (Ctrl+Enter ส่ง) — คำสั่งพิเศษ: /review /security /plan /memory"></textarea>
+      <button id="send">ส่ง</button>
+    </div>
+    <div style="display:flex;gap:8px;padding:4px 0 0;justify-content:flex-end;">
+      <button class="attach-btn" id="chatAttachBtn" title="แนบไฟล์/รูปภาพ" style="font-size:13px;padding:4px 10px;">📎 แนบไฟล์</button>
+      <button class="attach-btn" id="genImgBtn" title="สร้างรูปด้วย AI (ฟรี)" style="font-size:13px;padding:4px 10px;">🎨 สร้างรูป</button>
+    </div>
+    <input type="file" id="chatFileInput" style="display:none" multiple>
+    <div class="attach-preview" id="chatAttachPreview"></div>
+  </div>
+</div>
+
+<!-- Bottom Navigation (Mobile Only) -->
+<nav id="bottomNav" aria-label="เมนูหลัก">
+  <button class="nav-btn" data-tab="profile" aria-label="ตั้งค่าโปรไฟล์">
+    👤<span>โปรไฟล์</span>
+  </button>
+  <button class="nav-btn" data-tab="council" aria-label="สภา">
+    🏛️<span>สภา</span>
+  </button>
+  <button class="nav-btn active" data-tab="chat" aria-label="แชท">
+    💬<span>แชท</span>
+  </button>
+  <button class="nav-btn" data-tab="scan" aria-label="สแกนบิล">
+    🧾<span>สแกนบิล</span>
+  </button>
+  <button class="nav-btn" data-tab="ai" aria-label="AI เครื่องมือ">
+    🤖<span>AI เครื่องมือ</span>
+  </button>
+  <button class="nav-btn" data-tab="info" aria-label="เติมเงิน">
+    💰<span>เติมเงิน</span>
+  </button>
+  <button class="nav-btn" data-tab="help" aria-label="คู่มือ">
+    ❓<span>คู่มือ</span>
+  </button>
+  <button class="nav-btn nav-exit" data-tab="exit" aria-label="ออก">
+    🚪<span>ออก</span>
+  </button>
+</nav>
+
+<!-- Scan Bill View -->
+<div id="scanview" style="display:none;padding:16px;max-width:800px;margin:0 auto;">
+  <h2 style="margin:0 0 12px;">🧾 สแกนบิล → Excel</h2>
+  <div class="card" style="margin-bottom:12px;">
+    <p style="margin:0 0 10px;font-size:13px;color:var(--muted);">อัปโหลดรูปบิล/ใบเสร็จ/statement ระบบจะสกัดข้อมูลแล้วส่งออกเป็น Excel</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <input type="file" id="billFileInput" accept="image/*" multiple style="display:none;">
+      <button id="billUploadBtn" style="padding:8px 16px;">📷 เลือกรูปบิล (หลายรูปได้)</button>
+      <button id="billScanBtn" disabled style="padding:8px 16px;opacity:0.5;">🔍 สแกน</button>
+    </div>
+    <div id="billPreview" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;"></div>
+  </div>
+  <div id="billResult" style="display:none;">
+    <div class="card" style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <strong>ข้อมูลที่สกัดได้</strong>
+        <span id="billMethod" style="font-size:11px;color:var(--muted);"></span>
+      </div>
+      <div id="billTextPreview" style="font-size:12px;white-space:pre-wrap;max-height:150px;overflow:auto;background:var(--bg);padding:8px;border-radius:8px;margin-bottom:10px;"></div>
+      <p style="font-size:12px;color:var(--muted);margin:0 0 8px;">แก้ไขข้อมูลในตารางด้านล่างก่อน export:</p>
+    </div>
+    <div id="billTableWrap" style="overflow-x:auto;margin-bottom:12px;"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <input id="billFilename" type="text" placeholder="ชื่อไฟล์ (เช่น บิลธันวาคม)" style="flex:1;min-width:150px;padding:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--text);">
+      <button id="billExportBtn" style="padding:8px 16px;">📊 ส่งออก Excel</button>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <strong>📁 ไฟล์ที่ส่งออกแล้ว</strong>
+      <button id="billRefreshExportsBtn" style="font-size:12px;padding:4px 10px;">🔄 รีเฟรช</button>
+    </div>
+    <div id="billExportsList" style="font-size:13px;"></div>
+  </div>
+</div>
+
+<!-- AI Tools View -->
+<div id="aiview" style="display:none;padding:16px;max-width:800px;margin:0 auto;">
+  <h2 style="margin:0 0 12px;">🤖 AI เครื่องมือ</h2>
+
+  <!-- Code Review 5 Agents -->
+  <div class="card" style="margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <strong>🔍 โค้ดรีวิว 5 เอเจนต์</strong>
+    </div>
+    <p style="margin:0 0 10px;font-size:13px;color:var(--muted);">5 มุมมอง: Bug · Style · Performance · Security · Git History</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+      <input id="reviewPath" type="text" placeholder="path โปรเจกต์ (ว่าง = โปรเจกต์นี้)" style="flex:1;min-width:150px;padding:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:13px;">
+      <button id="reviewRunBtn" style="padding:8px 16px;">🔍 รีวิว</button>
+    </div>
+    <div id="reviewResult" style="font-size:13px;display:none;"></div>
+  </div>
+
+  <!-- Security Review -->
+  <div class="card" style="margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <strong>🔒 ซีเคียวริตี้ รีวิว</strong>
+    </div>
+    <p style="margin:0 0 10px;font-size:13px;color:var(--muted);">สแกนช่องโหว่ก่อนขึ้น live — static scan + AI analysis</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+      <input id="secReviewPath" type="text" placeholder="path โปรเจกต์ (ว่าง = โปรเจกต์นี้)" style="flex:1;min-width:150px;padding:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:13px;">
+      <button id="secReviewRunBtn" style="padding:8px 16px;">🔒 สแกน</button>
+    </div>
+    <div id="secReviewResult" style="font-size:13px;display:none;"></div>
+  </div>
+
+  <!-- Cross-Session Memory -->
+  <div class="card" style="margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <strong>🧠 ความจำข้ามเซสชั่น</strong>
+      <button id="memClearBtn" style="font-size:12px;padding:4px 10px;">🗑 ล้าง</button>
+    </div>
+    <p style="margin:0 0 10px;font-size:13px;color:var(--muted);">AI จำบริบทของคุณข้ามเซสชั่น — ไม่ต้องอธิบายซ้ำ</p>
+    <div id="memList" style="font-size:13px;"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+// ถ้าหน้าไม่ได้เปิดผ่าน http (เช่น preview/file://) ให้ยิง API ไปที่เซิร์ฟเวอร์ตรงๆ
+const API=location.protocol.startsWith("http")?"":"http://127.0.0.1:8091";
+const stream=$("#stream"), runBtn=$("#run");
+
+fetch(API+"/api/tiers").then(r=>{if(!r.ok)return null;return r.json();}).then(d=>{
+  if(!d)return;
+  const c=$("#chips"); c.innerHTML="";
+  ["deepseek","gemini","claude"].forEach(t=>{
+    const on=(d.tiers||[]).includes(t);
+    const e=document.createElement("span");
+    e.className="chip"+(on?" on":""); e.textContent=t+(on?"":" · off");
+    c.appendChild(e);
+  });
+  const b=document.createElement("span");
+  b.className="chip"; b.textContent="💰 $"+(d.budget_today||0).toFixed(3)+" / $5";
+  c.appendChild(b);
+  const cr=document.createElement("span");
+  cr.className="chip credit"; cr.id="creditChip";
+  const creditVal=(d.credit_thb!=null?d.credit_thb.toFixed(2):"50.00");
+  cr.dataset.credit=creditVal;
+  cr.textContent="เครดิต "+creditVal+" ฿";
+  c.appendChild(cr);
+  // เพิ่มชื่อบัญชี
+  fetch(API+"/api/system").then(sr=>sr.json()).then(sd=>{
+    if(sd && sd.username){
+      const un=document.createElement("span");
+      un.className="chip"; un.id="userChip";
+      un.textContent="👤 "+(sd.display_name||sd.username);
+      c.appendChild(un);
+      // อัปเดต credit chip ใส่ชื่อบัญชี
+      cr.textContent=(sd.username)+" · เครดิต "+creditVal+" ฿";
+    }
+  }).catch(()=>{});
+}).catch(()=>{});
+
+function cls(sp){
+  if(sp.includes("แจ่มจูน"))return"c-arch";
+  if(sp.includes("แจงจูน"))return"c-code";
+  if(sp.includes("เจนจูน"))return"c-rev";
+  if(sp.includes("Auto-Test"))return sp+""; // handled by content
+  if(sp.includes("✅"))return"c-ok";
+  if(sp.includes("🔄"))return"c-warn";
+  if(sp.includes("📋"))return"c-sum";
+  if(sp.includes("⚠️"))return"c-err";
+  return"c-sys";
+}
+function renderBody(text){
+  // diff/code coloring
+  const lines=text.split("\n");
+  let html="", inMono=false, buf=[];
+  const flush=()=>{ if(buf.length){html+='<span class="mono">'+buf.join("\n")+'</span>';buf=[];} };
+  for(const ln of lines){
+    const esc=ln.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    if(/^\s*[+]\s/.test(ln)){buf.push('<span class="dadd">'+esc+'</span>');inMono=true;}
+    else if(/^\s*[-]\s/.test(ln)){buf.push('<span class="drem">'+esc+'</span>');inMono=true;}
+    else if(ln.includes("```")||/^(===|RUN:|def |class |import |\s{2,})/.test(ln)){buf.push(esc);inMono=true;}
+    else{flush();html+=esc+"\n";}
+  }
+  flush();
+  return html;
+}
+function add(sp,text){
+  $("#hint").style.display="none";
+  let c=cls(sp);
+  if(sp.includes("Auto-Test")) c = text.includes("ไม่ผ่าน")?"c-err":"c-ok";
+  const tierM=sp.match(/\[(\w+)\]/);
+  const name=sp.replace(/\[\w+\]/,"").trim();
+  const div=document.createElement("div");
+  div.className="card "+c;
+  div.innerHTML='<div class="who">'+name+(tierM?'<span class="tier">'+tierM[1]+'</span>':'')+'</div>'+
+                '<div class="body">'+renderBody(text)+'</div>';
+  const long=text.length>300;
+  if(long){
+    const btn=document.createElement("button");
+    btn.className="toggle-btn"; btn.textContent="� ย่อ";
+    btn.onclick=()=>{
+      if(div.classList.contains("collapsed")){div.classList.remove("collapsed");btn.textContent="📕 ย่อ";}
+      else{div.classList.add("collapsed");btn.textContent="📖 ขยาย";}
+    };
+    div.appendChild(btn);
+  }
+  stream.appendChild(div);
+  window.scrollTo(0,document.body.scrollHeight);
+}
+
+let es=null, watchdog=null;
+const stopBtn=$("#stop");
+function collapseOldCards(){
+  // ไม่ย่อ card เก่าอัตโนมัติ — ให้ผู้ใช้ย่อเอง
+}
+function note(c,who,body){const d=document.createElement("div");d.className="card "+c;
+  d.innerHTML='<div class="who">'+who+'</div><div class="body">'+body+'</div>';
+  const long=body.split("\n").length>10;
+  if(long){
+    const btn=document.createElement("button");
+      btn.className="toggle-btn"; btn.textContent="📕 ย่อ";
+    btn.onclick=()=>{
+      if(d.classList.contains("collapsed")){d.classList.remove("collapsed");btn.textContent="📕 ย่อ";}
+      else{d.classList.add("collapsed");btn.textContent="📖 ขยาย";}
+    };
+    d.appendChild(btn);
+  }
+  collapseOldCards();
+  stream.appendChild(d);window.scrollTo(0,document.body.scrollHeight);}
+function refreshBudget(){fetch(API+"/api/tiers").then(r=>{if(!r.ok)return null;return r.json();}).then(x=>{
+  if(!x)return;
+  const cs=$("#chips");
+  const chips=cs.children;
+  if(chips.length>=4){
+    chips[chips.length-2].textContent="💰 $"+(x.budget_today||0).toFixed(3)+" / $5";
+  }
+  const cc=$("#creditChip");
+  if(cc){
+    const creditVal=(x.credit_thb!=null?x.credit_thb.toFixed(2):"50.00");
+    cc.dataset.credit=creditVal;
+    const uc=$("#userChip");
+    const uname=uc?uc.textContent.replace("👤 ",""):"";
+    cc.textContent=uname?uname+" · เครดิต "+creditVal+" ฿":"เครดิต "+creditVal+" ฿";
+  }
+}).catch(()=>{});}
+function finishUI(){runBtn.style.display="";runBtn.disabled=false;runBtn.textContent="▶ ประชุม";
+  stopBtn.style.display="none";$("#meetingStatus").style.display="none";hideThink();
+  document.querySelectorAll(".dot").forEach(e=>e.style.animation="none");
+  clearTimeout(watchdog);if(es){es.close();es=null;}}
+function armWatchdog(){clearTimeout(watchdog);watchdog=setTimeout(()=>{
+  note("c-warn","⏳ ไม่มีการตอบ","สภาเงียบเกิน 100 วิ — อาจค้าง/เน็ตช้า กด ■ หยุด แล้วลองใหม่ได้");},100000);}
+
+runBtn.onclick=async()=>{
+  const taskText=$("#task").value.trim();
+  if(!taskText){$("#task").focus();return;}
+  const task=taskText+buildAttachText(councilAttachs);
+  stream.innerHTML=""; $("#task").value=""; clearAttachs(); runBtn.disabled=true; runBtn.style.display="none"; stopBtn.style.display="";
+  $("#meetingStatus").style.display="flex"; $("#saveBar").style.display="none"; showThink("กำลังเตรียมตัวประชุม…");
+  note("c-sys",'<span class="dot"></span> เริ่มประชุม',taskText);
+  armWatchdog();
+  try{
+    const r=await fetch(API+"/api/run",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({task,project:$("#project").value,rounds:$("#rounds").value,apply:$("#applyChk").checked,mode:$("#mode").value})});
+    if(!r.ok){const e=await r.json();note("c-err","⚠️ เริ่มไม่ได้",e.error||"error");finishUI();return;}
+  }catch(e){note("c-err","⚠️ error",String(e));finishUI();return;}
+  es=new EventSource(API+"/api/stream");
+  es.onmessage=ev=>{
+    armWatchdog();
+    const d=JSON.parse(ev.data);
+    if(d.speaker==="__done__"){hideThink();note("c-ok","✔ จบการประชุม","สภาทำงานเสร็จ — ดูผลงานในโฟลเดอร์ projects/ (หรือในโปรเจกต์จริงถ้าติ๊กแก้ไฟล์)");refreshBudget();loadBackups();loadCouncilSessions();finishUI();
+      fetch(API+"/api/sessions").then(r=>r.json()).then(s=>{lastSid=(s.sessions&&s.sessions[0])?s.sessions[0].id:"";});
+      $("#saveBar").style.display="flex";return;}
+    add(d.speaker,d.text);
+    refreshBudget();
+    const nextThink=d.speaker.includes("แจ่มจูน")?"เจนจูนกำลังค้าน…":
+                    d.speaker.includes("เจนจูน")?"แจงจูนกำลังตอบ…":
+                    d.speaker.includes("แจงจูน")?"กำลังสรุปมติ…":"กำลังคิดต่อ…";
+    showThink(nextThink);
+  };
+  es.onerror=()=>{if(stopBtn.style.display==="none")return;
+    note("c-warn","⚠️ การเชื่อมต่อหลุด","เซิร์ฟเวอร์อาจรีสตาร์ท/หลุด — กดประชุมใหม่ได้");finishUI();};
+};
+stopBtn.onclick=()=>{fetch(API+"/api/stop",{method:"POST"}).catch(()=>{});
+  note("c-err","■ หยุดแล้ว","กำลังยกเลิก… (ถ้ากำลังเรียก AI อยู่ อาจใช้เวลาสักครู่)");finishUI();};
+$("#task").addEventListener("keydown",e=>{if(e.ctrlKey&&e.key==="Enter")runBtn.click();});
+
+// ── ตรวจสอบบั๊กทั้งโปรเจกต์ ──
+const auditBtn=$("#auditBtn");
+auditBtn.onclick=async()=>{
+  const proj=$("#project").value.trim();
+  if(!proj){ showToast("กรุณาใส่ path โปรเจกต์ก่อน","error"); $("#project").focus(); return; }
+  if(!confirm("🔍 ตรวจสอบบั๊กทั้งโปรเจกต์\nโฟลเดอร์: "+proj+"\n\nสภาจะสแกนทุกไฟล์ แก้บั๊กที่พบ วนจนเสร็จ\nไฟล์เดิมจะถูกสำรองก่อนแก้ (ย้อนคืนได้)\n\nยืนยัน?")) return;
+  stream.innerHTML=""; runBtn.disabled=true; runBtn.style.display="none"; stopBtn.style.display=""; auditBtn.disabled=true;
+  $("#meetingStatus").style.display="flex"; $("#saveBar").style.display="none"; showThink("กำลังตรวจสอบทั้งโปรเจกต์…");
+  note("c-sys",'🔍 ตรวจสอบบั๊กทั้งโปรเจกต์',proj);
+  armWatchdog();
+  try{
+    const r=await fetch(API+"/api/audit",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({project:proj})});
+    const d=await r.json();
+    if(d.error){ note("c-err","⚠️ ไม่สามารถเริ่มได้",d.error); finishUI(); auditBtn.disabled=false; return; }
+    es=new EventSource(API+"/api/stream");
+    es.onmessage=ev=>{
+      const m=JSON.parse(ev.data);
+      if(m.speaker==="__done__"){ finishUI(); auditBtn.disabled=false; loadBackups(); return; }
+      armWatchdog(); hideThink();
+      if(m.speaker==="__question__"){
+        try{
+          const q=JSON.parse(m.text);
+          showAuditQuestion(q);
+        }catch(e){}
+      } else if(m.speaker.startsWith("📐")||m.speaker.startsWith("🔄")||m.speaker.startsWith("📋")||m.speaker.startsWith("🔧")||m.speaker.startsWith("✍️")||m.speaker.startsWith("✅")||m.speaker.startsWith("📊")||m.speaker.startsWith("⚠️")||m.speaker.startsWith("ℹ️")||m.speaker.startsWith("🙋")||m.speaker.startsWith("⏭")||m.speaker.startsWith("⏱")){
+        note("c-sys",m.speaker,m.text);
+      } else {
+        note("c-ai",m.speaker,m.text);
+      }
+      window.scrollTo(0,document.body.scrollHeight);
+    };
+    es.onerror=()=>{ if(stopBtn.style.display==="none")return;
+      note("c-warn","⚠️ การเชื่อมต่อหลุด","เซิร์ฟเวอร์อาจรีสตาร์ท — ลองใหม่ได้"); finishUI(); auditBtn.disabled=false; };
+  }catch(e){ note("c-err","⚠️ ติดต่อไม่ได้",String(e).slice(0,200)); finishUI(); auditBtn.disabled=false; }
+};
+
+// ── กล่องคำถามจากแจ่มจูนระหว่าง audit ──
+function showAuditQuestion(q){
+  const div=document.createElement("div");
+  div.className="card c-sys";
+  div.style.cssText="border:2px solid var(--violet);background:rgba(157,139,255,.08);";
+  let html='<div class="who">🙋 แจ่มจูนถาม</div>';
+  html+='<div class="body" style="white-space:pre-wrap;">'+q.question+'</div>';
+  html+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">';
+  q.options.forEach(opt=>{
+    html+='<button class="audit-opt" data-val="'+opt.value+'" style="padding:8px 18px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:14px;cursor:pointer;font-family:inherit;transition:.15s;">'+opt.label+'</button>';
+  });
+  html+='</div>';
+  div.innerHTML=html;
+  stream.appendChild(div);
+  window.scrollTo(0,document.body.scrollHeight);
+  div.querySelectorAll(".audit-opt").forEach(btn=>{
+    btn.onclick=async()=>{
+      const val=btn.dataset.val;
+      div.querySelectorAll(".audit-opt").forEach(b=>{b.disabled=true;b.style.opacity="0.5";});
+      btn.style.borderColor="var(--violet)";
+      btn.style.background="rgba(157,139,255,.2)";
+      btn.textContent+=" ✓";
+      try{
+        await fetch(API+"/api/audit/answer",{method:"POST",headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({answer:val})});
+      }catch(e){}
+      setTimeout(()=>{ div.style.opacity="0.5"; div.style.transition="opacity .5s"; },1000);
+    };
+  });
+}
+
+// ── แชร์บันทึกการประชุมออกจากเครื่อง (Web Share API) ──
+function shareMeeting(){
+  const cards=document.querySelectorAll("#stream .card");
+  if(!cards.length){ showToast("ยังไม่มีการประชุมให้แชร์ครับ","error"); return; }
+  let txt="บันทึกการประชุม Council Trinity Lab\n"+new Date().toLocaleString("th-TH")+"\n"+"=".repeat(54)+"\n\n";
+  cards.forEach(c=>{
+    const who=(c.querySelector(".who")||{}).innerText||"";
+    const body=(c.querySelector(".body")||{}).innerText||"";
+    txt+="【 "+who.trim()+" 】\n"+body.trim()+"\n\n"+"-".repeat(44)+"\n\n";
+  });
+  const filename="ประชุมสภา_"+new Date().toISOString().slice(0,16).replace(/[:T]/g,"-")+".txt";
+  // ลอกลอง navigator.share แบบ text ก่อน (รองรับกว้างขวางกว่าไฟล์)
+  if(navigator.share){
+    if(navigator.canShare&&navigator.canShare({files:[new File([txt],filename,{type:"text/plain;charset=utf-8"})]})){
+      const file=new File([txt],filename,{type:"text/plain;charset=utf-8"});
+      navigator.share({files:[file],title:"บันทึกการประชุมสภา"}).catch(()=>shareViaClipboard(txt));
+    } else {
+      navigator.share({title:"บันทึกการประชุมสภา",text:txt}).catch(()=>shareViaClipboard(txt));
+    }
+  } else {
+    shareViaClipboard(txt);
+  }
+}
+function shareViaClipboard(txt){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(()=>{
+      showToast("คัดลอกบันทึกแล้ว — ไปวางใน LINE/อีเมลได้","success");
+    }).catch(()=>fallbackDownload(txt));
+  } else {
+    fallbackDownload(txt);
+  }
+}
+function fallbackDownload(txt){
+  const filename="ประชุมสภา_"+new Date().toISOString().slice(0,16).replace(/[:T]/g,"-")+".txt";
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([txt],{type:"text/plain;charset=utf-8"}));
+  a.download=filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  showToast("ดาวน์โหลดไฟล์บันทึกแล้ว","success");
+}
+let lastSid="";
+$("#save").onclick=shareMeeting;
+$("#expandBottom").onclick=async(e)=>{
+  const sid=await getLatestSid();
+  if(sid) endExpand(sid,e.target);
+  else { showToast("ไม่พบการประชุมล่าสุด","error"); }
+};
+$("#seniorBottom").onclick=async(e)=>{
+  if(!confirm("⚠️ Claude AI มีค่า API สูงกว่าปกติ\nการวิเคราะห์นี้จะหักเครดิตมากกว่าการประชุมสภาทั่วไป\n\nยืนยันที่จะส่งให้ Claude AI วิเคราะห์หรือไม่?")){return;}
+  const sid=await getLatestSid();
+  if(sid) endSenior(sid,e.target);
+  else { showToast("ไม่พบการประชุมล่าสุด","error"); }
+};
+
+async function getLatestSid(){
+  try{
+    const r=await fetch(API+"/api/sessions");
+    if(!r.ok){ console.error("getLatestSid: API error",r.status); return ""; }
+    const d=await r.json();
+    lastSid=(d.sessions&&d.sessions[0])?d.sessions[0].id:"";
+    if(!lastSid) console.warn("getLatestSid: no sessions found",d);
+    return lastSid;
+  }catch(e){ console.error("getLatestSid fetch failed:",e); return ""; }
+}
+
+// ── ปุ่มท้ายการประชุม: บันทึก / ขยายความ / ส่งให้พี่จูน (ทำกับการประชุมที่เพิ่งจบ) ──
+function streamCard(cls,who,bodyHtml){
+  const d=document.createElement("div"); d.className="card "+cls;
+  d.innerHTML='<div class="who">'+who+'</div><div class="body">'+bodyHtml+'</div>';
+  stream.appendChild(d); window.scrollTo(0,document.body.scrollHeight); return d;
+}
+function showEndActions(){
+  fetch(API+"/api/sessions").then(r=>r.json()).then(d=>{
+    const sid=(d.sessions&&d.sessions[0])?d.sessions[0].id:"";
+    const div=document.createElement("div"); div.className="card c-sum";
+    div.innerHTML='<div class="who" style="color:var(--blue)">⚡ ทำอะไรต่อกับการประชุมนี้?</div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">'
+      +'<button id="endSave" style="background:linear-gradient(135deg,var(--green),var(--cyan));color:#06121a;">� แชร์บันทึก</button>'
+      +'<button id="endExpand" style="background:linear-gradient(135deg,var(--violet),var(--blue));color:#fff;">📋 ขยายความ</button>'
+      +'<button id="endSenior" style="background:linear-gradient(135deg,#9d8bff,#38e0c8);color:#06121a;">🤍 ส่งให้พี่จูนวิเคราะห์</button>'
+      +'</div>';
+    stream.appendChild(div);
+    div.querySelector("#endSave").onclick=shareMeeting;
+    div.querySelector("#endExpand").onclick=(e)=>endExpand(sid,e.target);
+    div.querySelector("#endSenior").onclick=(e)=>endSenior(sid,e.target);
+    window.scrollTo(0,document.body.scrollHeight);
+  });
+}
+async function endExpand(sid,btn){
+  if(!sid){alert("ไม่พบการประชุม");return;}
+  btn.disabled=true; const t=streamCard("c-arch","📐 แจ่มจูน","กำลังขยายความ…");
+  try{
+    const r=await fetch(API+"/api/expand_session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({session_id:sid})});
+    const d=await r.json(); refreshBudget();
+    t.querySelector(".body").innerHTML=d.error?("⚠️ "+d.error):renderBody(d.reply);
+  }catch(e){ t.querySelector(".body").innerText="⚠️ "+e; }
+  btn.disabled=false;
+}
+async function endSenior(sid,btn){
+  if(!sid){alert("ไม่พบการประชุม");return;}
+  if(!confirm("⚠️ Claude AI มีค่า API สูงกว่าปกติ\nการวิเคราะห์นี้จะหักเครดิตมากกว่าการประชุมสภาทั่วไป\n\nยืนยันที่จะส่งให้ Claude AI วิเคราะห์หรือไม่?")){return;}
+  btn.disabled=true; const t=streamCard("c-sum","🤍 พี่จูน (Claude)","กำลังวิเคราะห์เชิงลึก…");
+  try{
+    const r=await fetch(API+"/api/senior",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({session_id:sid})});
+    const d=await r.json(); refreshBudget();
+    t.querySelector(".body").innerHTML=d.error?("⚠️ "+d.error):renderBody(d.reply);
+    if(d.blueprint) showBlueprintActions(d.blueprint,stream);
+  }catch(e){ t.querySelector(".body").innerText="⚠️ "+e; }
+  btn.disabled=false;
+}
+
+// ── ช่องเลือกงานประชุมครั้งก่อน (โหลดมาทำซ้ำ/แก้ ไม่ต้องไปห้องแชท) ──
+const councilSessionSel=$("#councilSessionSel");
+function loadCouncilSessions(){
+  fetch(API+"/api/sessions").then(r=>r.json()).then(d=>{
+    councilSessionSel.innerHTML='<option value="">📜 เลือกงานประชุมครั้งก่อน — โหลดมาทำซ้ำ/แก้ (ไม่ต้องพิมพ์ใหม่)…</option>';
+    (d.sessions||[]).forEach(s=>{
+      const o=document.createElement("option");
+      o.value=s.id; o.dataset.task=s.task_full||s.task||"";
+      o.textContent=(s.approved?"✅ ":"• ")+s.label+" — "+(s.task||"(ไม่มีชื่องาน)");
+      councilSessionSel.appendChild(o);
+    });
+  }).catch(e=>{console.error("loadCouncilSessions failed:",e);});
+}
+loadCouncilSessions();
+councilSessionSel.onchange=()=>{
+  const opt=councilSessionSel.options[councilSessionSel.selectedIndex];
+  const t=opt&&opt.dataset?opt.dataset.task:"";
+  if(t){ $("#task").value=t; $("#task").focus(); }
+};
+
+// ── แก้ไฟล์จริง: โหลดรายการแบ็กอัพ + ย้อนคืน ──
+const backupSel=$("#backupSel"), restoreBtn=$("#restore");
+function loadBackups(){
+  fetch(API+"/api/backups").then(r=>r.json()).then(d=>{
+    backupSel.innerHTML='<option value="">↩️ ย้อนคืนการแก้…</option>';
+    (d.backups||[]).forEach(b=>{
+      const o=document.createElement("option"); o.value=b.id;
+      const t=(b.target||"").split(/[\\/]/).pop();
+      o.textContent=b.time+" — "+t+" ("+b.count+" ไฟล์)";
+      backupSel.appendChild(o);
+    });
+  }).catch(()=>{});
+}
+loadBackups();
+restoreBtn.onclick=async()=>{
+  const id=backupSel.value;
+  if(!id){ alert("เลือกแบ็กอัพที่จะย้อนคืนก่อนครับ"); return; }
+  if(!confirm("ย้อนคืนไฟล์กลับเป็นก่อนแก้? (ของใหม่จะถูกลบ ของเดิมจะกลับมา)"))return;
+  restoreBtn.disabled=true;
+  try{
+    const r=await fetch(API+"/api/restore",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});
+    const d=await r.json();
+    if(d.error)alert("ย้อนคืนไม่ได้: "+d.error);
+    else alert("✅ ย้อนคืนแล้ว\nคืนไฟล์เดิม: "+(d.result.restored.join(", ")||"-")+"\nลบไฟล์ใหม่: "+(d.result.removed.join(", ")||"-"));
+  }catch(e){ alert("ย้อนคืนไม่ได้: "+e); }
+  restoreBtn.disabled=false;
+};
+
+// ── โหมดคุยรายบุคคล ──
+const EMO={"แจ่มจูน":"📐","แจงจูน":"👩‍💻","เจนจูน":"🔍"};
+const HINT={"แจ่มจูน":"คุยกับแจ่มจูน — สถาปนิก/นักคิด ออกแบบ วางแผน อธิบายภาพรวม",
+  "แจงจูน":"คุยกับแจงจูน — มือเขียนโค้ด ถามวิธีทำ เขียนยังไง แก้ยังไง",
+  "เจนจูน":"คุยกับเจนจูน — นักรีวิว/นักสืบ ช่างสงสัย ชอบหาจุดบกพร่อง"};
+const histories={"แจ่มจูน":[],"แจงจูน":[],"เจนจูน":[]};
+let curP="แจงจูน";  // default persona for chat room
+
+const chatlog=$("#chatlog"), chatmsg=$("#chatmsg"), sendBtn=$("#send");
+
+document.querySelectorAll(".mode").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".mode").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    curP=b.dataset.p;
+    if(curP){
+      $("#councilview").style.display="none"; $("#chatview").style.display="";
+      $("#chathint").textContent=HINT[curP]; loadHistory(); chatmsg.focus();
+      syncPersonaBar(curP);
+      syncRoomTabs("chat");
+    } else {
+      $("#chatview").style.display="none"; $("#councilview").style.display="";
+      syncRoomTabs("council");
+    }
+  };
+});
+
+function syncPersonaBar(p){
+  document.querySelectorAll(".persona-btn").forEach(x=>{
+    x.classList.toggle("on",x.dataset.p===p);
+  });
+}
+
+function syncRoomTabs(room){
+  document.querySelectorAll(".room-tab").forEach(x=>{
+    x.classList.toggle("active",x.dataset.room===room);
+  });
+}
+
+document.querySelectorAll(".persona-btn").forEach(b=>{
+  b.onclick=()=>{
+    const p=b.dataset.p;
+    const modeBtn=document.querySelector('.mode[data-p="'+p+'"]');
+    if(modeBtn) modeBtn.click();
+  };
+});
+
+document.querySelectorAll(".room-tab").forEach(b=>{
+  b.onclick=()=>{
+    const room=b.dataset.room;
+    if(room==="profile"){
+      window.location.href="profile.html?edit=1";
+      return;
+    }
+    if(room==="council"){
+      const councilBtn=document.querySelector('.mode.council');
+      if(councilBtn) councilBtn.click();
+    } else if(room==="scan"){
+      $("#councilview").style.display="none";
+      $("#chatview").style.display="none";
+      $("#scanview").style.display="";
+      $("#navfloat").style.display="none";
+      syncRoomTabs("scan");
+    } else {
+      $("#councilview").style.display="";
+      $("#scanview").style.display="none";
+      if(!curP){
+        const chatBtn=document.querySelector('.mode[data-p="แจงจูน"]');
+        if(chatBtn) chatBtn.click();
+      }
+    }
+  };
+});
+
+function loadHistory(){
+  chatlog.innerHTML='<div class="hint">กำลังโหลดประวัติ…</div>';
+  fetch(API+"/api/history?persona="+encodeURIComponent(curP)).then(r=>r.json()).then(d=>{
+    histories[curP]=d.messages||[]; renderChat();
+  }).catch(()=>{renderChat();});
+}
+
+function renderChat(){
+  chatlog.innerHTML="";
+  histories[curP].forEach((m,i)=>{
+    const me=(m.role==="\u0e1e\u0e48\u0e32"||m.role==="\u0e04\u0e38\u0e13"||m.role==="\u0e2d\u0e32\u0e08\u0e32\u0e23\u0e22\u0e4c");
+    const d=document.createElement("div");
+    d.className="msg "+(me?"me":"them");
+    let nm="";
+    if(!me){
+      const label = (m.role===curP) ? (EMO[curP]+" "+curP+(m.tier?" \u00b7 "+m.tier:""))
+                                    : ("\ud83e\udd0d "+m.role);
+      nm='<div class="nm">'+label+'</div>';
+    }
+    const esc=m.text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    const long=m.text.split("\n").length>10;
+    const isLast=(i===histories[curP].length-1);
+    const hasImage=esc.indexOf("data:image/")>=0;
+    if(hasImage){
+      const imgMatch=esc.match(/data:image\/[a-z]+;base64,[A-Za-z0-9+/=]+/);
+      const beforeImg=esc.substring(0,esc.indexOf("data:image/")).trim();
+      const afterImg=esc.substring(esc.indexOf("data:image/")).replace(/data:image\/[a-z]+;base64,[A-Za-z0-9+/=]+/,"").trim();
+      let imgHtml=nm;
+      if(beforeImg) imgHtml+='<div class="msg-body">'+beforeImg+'</div>';
+      if(imgMatch) imgHtml+='<div style="margin:6px 0;"><img src="'+imgMatch[0]+'" style="max-width:100%;border-radius:10px;border:1px solid var(--line);" /></div>';
+      if(afterImg) imgHtml+='<div class="msg-body" style="font-size:11px;color:var(--muted);">'+afterImg+'</div>';
+      d.innerHTML=imgHtml;
+    } else if(long){
+      d.innerHTML=nm+'<div class="msg-body">'+esc+'</div>';
+      const btn=document.createElement("button");
+      btn.className="toggle-btn"; btn.textContent="\ud83d\udcd5 \u0e22\u0e48\u0e2d";
+      if(me){btn.style.cssText="background:rgba(6,18,26,.4) !important;color:#06121a !important;border:1px solid rgba(6,18,26,.4) !important;font-weight:700 !important;";}
+      btn.onclick=()=>{
+        if(d.classList.contains("collapsed")){d.classList.remove("collapsed");btn.textContent="\ud83d\udcd5 \u0e22\u0e48\u0e2d";}
+        else{d.classList.add("collapsed");btn.textContent="\ud83d\udcd6 \u0e02\u0e22\u0e32\u0e22";}
+      };
+      d.appendChild(btn);
+    } else {
+      d.innerHTML=nm+esc;
+    }
+    const cpy=document.createElement("button");
+    cpy.className="toggle-btn copy-btn";
+    cpy.textContent="📋 คัดลอก";
+    cpy.onclick=()=>{
+      navigator.clipboard.writeText(m.text||"").then(()=>{
+        cpy.textContent="✔ คัดลอกแล้ว";
+        setTimeout(()=>cpy.textContent="📋 คัดลอก",1500);
+      }).catch(()=>{
+        const ta=document.createElement("textarea"); ta.value=m.text||"";
+        document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
+        cpy.textContent="✔ คัดลอกแล้ว";
+        setTimeout(()=>cpy.textContent="📋 คัดลอก",1500);
+      });
+    };
+    d.appendChild(cpy);
+    chatlog.appendChild(d);
+  });
+  window.scrollTo(0,document.body.scrollHeight);
+}
+
+async function sendChat(forced){
+  const rawMsg=(forced||chatmsg.value).trim();
+  const attachText=buildAttachText(chatAttachs);
+  const images=extractImages(chatAttachs);
+  const msg=rawMsg+attachText;
+  if(!msg.trim()||!curP)return;
+
+  // ── ตรวจจับคำสั่งสร้างรูป ──
+  const imgCmd=/^(สร้างรูป|วาดรูป|สร้างภาพ|วาดภาพ|generate image|draw|สร้างรูปภาพ)\s+/i;
+  if(imgCmd.test(rawMsg)&&!attachText){
+    const imgPrompt=rawMsg.replace(imgCmd,"").trim();
+    if(imgPrompt){
+      if(!forced){chatmsg.value="";}
+      histories[curP].push({role:userTitle,text:rawMsg});
+      renderChat();
+      const loading=document.createElement("div"); loading.className="msg them";
+      loading.innerHTML='<div class="nm">'+EMO[curP]+' ⏳ กำลังสร้างรูป… (10-30 วินาที)</div>';
+      chatlog.appendChild(loading); window.scrollTo(0,document.body.scrollHeight);
+      try{
+        const r=await fetch(API+"/api/genimage",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:imgPrompt})});
+        const d=await r.json();
+        loading.remove();
+        if(d.error){ histories[curP].push({role:curP,text:"⚠️ "+d.error}); }
+        else{ histories[curP].push({role:curP,text:"🎨 รูปที่สร้าง: "+d.prompt+"\n\n"+d.image+"\n\n_ℹ️ "+d.limit_info+"_"}); }
+      }catch(e){ loading.remove(); histories[curP].push({role:curP,text:"⚠️ สร้างรูปไม่สำเร็จ: "+e}); }
+      renderChat(); chatmsg.focus();
+      return;
+    }
+  }
+
+  const sentAttachs=chatAttachs.slice();
+  if(!forced){chatAttachs=[];$("#chatAttachPreview").innerHTML="";$("#chatFileInput").value="";}
+  histories[curP].push({role:userTitle,text:msg});
+  chatmsg.value=""; renderChat();
+  sendBtn.disabled=true; sendBtn.textContent="…";
+  const typing=document.createElement("div");
+  typing.className="msg them";
+  typing.innerHTML='<div class="nm">'+EMO[curP]+' กำลังคิด…</div>'+
+    '<div class="think-dots"><span></span><span></span><span></span></div>'+
+    '<span class="think-green-dot" style="margin-left:8px;"></span>';
+  chatlog.appendChild(typing); window.scrollTo(0,document.body.scrollHeight);
+  try{
+    const r=await fetch(API+"/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({persona:curP,message:msg,history:histories[curP].slice(0,-1),images:images})});
+    const d=await r.json();
+    typing.remove();
+    if(d.error){histories[curP].push({role:curP,text:"⚠️ "+d.error});}
+    else{histories[curP].push({role:curP,text:d.reply,tier:d.tier}); refreshBudget();}
+  }catch(e){ typing.remove(); histories[curP].push({role:curP,text:"⚠️ เชื่อมต่อไม่ได้: "+e}); }
+  renderChat(); sendBtn.disabled=false; sendBtn.textContent="ส่ง"; chatmsg.focus();
+}
+sendBtn.onclick=()=>sendChat();
+chatmsg.addEventListener("keydown",e=>{if(e.ctrlKey&&e.key==="Enter")sendChat();});
+
+// ── สร้างรูปด้วย AI (Pollinations.ai ฟรี) ──
+const genImgBtn=$("#genImgBtn");
+let _genImgBusy=false;
+genImgBtn.onclick=async()=>{
+  if(!curP){ showToast("เปิดห้องแชทก่อน แล้วกดสร้างรูป","error"); return; }
+  if(_genImgBusy){ showToast("กำลังสร้างรูปอยู่ รอสักครู่…","error"); return; }
+  const p=prompt("พิมพ์คำอธิบายรูปที่ต้องการสร้าง (ภาษาอังกฤษแนะนำ)\nเช่น: a cute cat sitting on a temple roof");
+  if(!p||!p.trim()) return;
+  _genImgBusy=true; genImgBtn.disabled=true; genImgBtn.textContent="⏳";
+  const userMsg={role:userTitle,text:"🎨 สร้างรูป: "+p.trim()};
+  histories[curP].push(userMsg); renderChat();
+  const loading=document.createElement("div"); loading.className="msg them";
+  loading.innerHTML='<div class="nm">'+curP+'</div><div class="msg-body">⏳ กำลังสร้างรูป… (อาจใช้เวลา 10-30 วินาที)</div>';
+  chatlog.appendChild(loading); window.scrollTo(0,document.body.scrollHeight);
+  try{
+    const r=await fetch(API+"/api/genimage",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:p.trim()})});
+    const d=await r.json();
+    loading.remove();
+    if(d.error){ histories[curP].push({role:curP,text:"⚠️ "+d.error}); }
+    else{
+      const imgMsg={role:curP,text:"🎨 รูปที่สร้าง: "+d.prompt+"\n\n"+d.image+"\n\n_ℹ️ "+d.limit_info+"_"};
+      histories[curP].push(imgMsg);
+    }
+  }catch(e){ loading.remove(); histories[curP].push({role:curP,text:"⚠️ สร้างรูปไม่สำเร็จ: "+e}); }
+  renderChat(); _genImgBusy=false; genImgBtn.disabled=false; genImgBtn.textContent="🎨"; chatmsg.focus();
+};
+
+// ── ส่งสรุปบทสนทนาไปห้องประชุมสภา (เฉพาะประเด็นล่าสุด) ──
+function detectTopicSplit(msgs){
+  // ถ้าสั้น (<=6 ข้อความ) ส่งทั้งหมด
+  if(msgs.length<=6) return msgs;
+  // วนจากท้ายหาจุดเปลี่ยนประเด็น: ดู keyword overlap ระหว่างข้อความติดๆ กัน
+  const recent=msgs.slice(-10); // เก็บล่าสุดไม่เกิน 10 ข้อความ
+  // หาจุดที่ประเด็นเปลี่ยน — เปรียบเทียบ keyword ของข้อความคู่ติดๆ
+  let cutIdx=0;
+  for(let i=1;i<recent.length;i++){
+    const prev=extractKeywords(recent[i-1].text||"");
+    const curr=extractKeywords(recent[i].text||"");
+    const overlap=prev.filter(k=>curr.includes(k));
+    // ถ้าไม่มี keyword ตรงกันเลย และทั้งสองมี keyword พอสมควร → น่าจะเปลี่ยนประเด็น
+    if(overlap.length===0 && prev.length>=2 && curr.length>=2){
+      cutIdx=i;
+    }
+  }
+  return recent.slice(cutIdx);
+}
+
+function extractKeywords(text){
+  // ตัด stop words ออก เก็บคำสำคัญ (คำที่ยาว>=2 ตัวอักษร ไม่ใช่คำทั่วไป)
+  const stop=new Set(["สวัสดี","ค่ะ","ครับ","ไหม","มั้ย","อะไร","ยังไง","เป็น","แล้ว","ก็","แต่","ที่","นี้","นั้น","อัน","ใช่","ไม่","ใช้","ทำ","มี","ต้อง","การ","เรื่อง","ช่วย","ขอ","ให้","แนะ","นำ","หน่อย","ได้","หรือ","และ","หรือเปล่า","อยาก","ต้องการ","เกี่ยว","กับ","จาก","เพื่อ","เพราะ","ถ้า","เมื่อ","ก่อน","หลัง","ตอนนี้","ทำไม","อย่างไร","เช่น","เคย","เลย","เท่านั้น","ทุก","บาง","อาจ","จะ","กัน","ว่า","อีก","เดียว","พอ","เรา","คุณ","พี่","น้อง","สภา","โค้ด","ไฟล์","งาน"]);
+  const words=text.replace(/[^\u0E00-\u0E7Fa-zA-Z0-9\s]/g," ").split(/\s+/)
+    .filter(w=>w.length>=2 && !stop.has(w.toLowerCase()));
+  return [...new Set(words)].slice(0,10);
+}
+
+$("#toCouncilChat").onclick=()=>{
+  if(!curP||!histories[curP].length){ showToast("ยังไม่มีบทสนทนาให้ส่งครับ","error"); return; }
+  const segment=detectTopicSplit(histories[curP]);
+  let txt="สรุปบทสนทนากับ "+curP+" (ส่งจากห้องแชท — เฉพาะประเด็นล่าสุด)\n"+new Date().toLocaleString("th-TH")+"\n"+"=".repeat(50)+"\n\n";
+  segment.forEach(m=>{
+    txt+="【 "+m.role+(m.tier?" · "+m.tier:"")+" 】\n"+(m.text||"").trim()+"\n\n"+"-".repeat(40)+"\n\n";
+  });
+  txt+="— ส่งให้สภาวิเคราะห์บทสนทนานี้ต่อ —";
+  fillCouncil(txt);
+  const note=segment.length<histories[curP].length ? ` (ส่งเฉพาะ ${segment.length}/${histories[curP].length} ข้อความล่าสุด)` : "";
+  showToast("ส่งไปห้องประชุมแล้ว"+note+" — ทบทวนแล้วกดประชุมได้","success");
+};
+
+function showBlueprintActions(bp,container){
+  container=container||chatlog;
+  const box=document.createElement("div");
+  box.className="card c-sum";
+  box.innerHTML='<div class="who" style="color:var(--blue)">📐 พิมพ์เขียวจากพี่จูน — พร้อมส่งต่อ</div>'
+    +'<div class="body mono" style="max-height:160px;overflow:auto;">'
+    +bp.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")+'</div>'
+    +'<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">'
+    +'<button id="toCouncil" style="background:linear-gradient(135deg,var(--orange),var(--violet));color:#fff;">🏛️ ส่งให้สภาแก้ไข (ทบทวนก่อน)</button>'
+    +'</div>';
+  container.appendChild(box);
+  box.querySelector("#toCouncil").onclick=()=>fillCouncil(bp);
+  window.scrollTo(0,document.body.scrollHeight);
+}
+
+function fillCouncil(bp){
+  document.querySelector('.mode.council').click();   // สลับไปโหมดสภา
+  $("#task").value=bp;
+  $("#task").scrollIntoView({behavior:"smooth"});
+  $("#task").focus();
+}
+
+// ── Thinking indicator ──
+function showThink(txt){
+  const t=$("#thinkIndicator");
+  $("#thinkText").textContent=txt||"กำลังคิด…";
+  t.style.display="flex";
+}
+function hideThink(){ $("#thinkIndicator").style.display="none"; }
+
+// ── File attachment ──
+let councilAttachs=[], chatAttachs=[];
+const TEXT_EXTS=[".txt",".md",".py",".js",".json",".csv",".html",".css",".xml",".yaml",".yml",".log",".sql",".java",".c",".cpp",".h",".sh",".bat",".ps1"];
+function isTextFile(name){ const ext=name.toLowerCase().match(/\.[^.]+$/); return ext&&TEXT_EXTS.includes(ext[0]); }
+function isImageFile(name){ return /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(name); }
+
+function renderAttachPreview(container,attachs,onRemove){
+  container.innerHTML="";
+  attachs.forEach((a,i)=>{
+    const chip=document.createElement("div");
+    chip.className="attach-chip";
+    if(a.type==="image"&&a.dataUrl){
+      chip.innerHTML='<img src="'+a.dataUrl+'"><span>'+a.name+'</span><span class="rm">✕</span>';
+    } else {
+      chip.innerHTML='<span>📄 '+a.name+'</span><span class="rm">✕</span>';
+    }
+    chip.querySelector(".rm").onclick=()=>{onRemove(i);};
+    container.appendChild(chip);
+  });
+}
+function removeCouncilAttach(i){ councilAttachs.splice(i,1); renderAttachPreview($("#attachPreview"),councilAttachs,removeCouncilAttach); }
+function removeChatAttach(i){ chatAttachs.splice(i,1); renderAttachPreview($("#chatAttachPreview"),chatAttachs,removeChatAttach); }
+
+function handleFiles(files,attachs,previewEl,onRemove){
+  Array.from(files).forEach(f=>{
+    if(isImageFile(f.name)){
+      const r=new FileReader();
+      r.onload=e=>{ attachs.push({name:f.name,type:"image",dataUrl:e.target.result,size:f.size}); renderAttachPreview(previewEl,attachs,onRemove); };
+      r.readAsDataURL(f);
+    } else if(isTextFile(f.name)||f.size<50000){
+      const r=new FileReader();
+      r.onload=e=>{ attachs.push({name:f.name,type:"text",content:e.target.result,size:f.size}); renderAttachPreview(previewEl,attachs,onRemove); };
+      r.readAsText(f,"utf-8");
+    } else {
+      attachs.push({name:f.name,type:"binary",size:f.size});
+      renderAttachPreview(previewEl,attachs,onRemove);
+    }
+  });
+}
+
+const attachBtn=$("#attachBtn"), attachPopup=$("#attachPopup");
+attachBtn.onclick=e=>{ e.stopPropagation(); attachPopup.style.display = attachPopup.style.display==="none" ? "block" : "none"; };
+document.addEventListener("click",()=>attachPopup.style.display="none");
+attachPopup.addEventListener("click",e=>e.stopPropagation());
+$("#attachFileOpt").onclick=()=>{ attachPopup.style.display="none"; $("#fileInput").click(); };
+$("#fileInput").onchange=e=>{ handleFiles(e.target.files,councilAttachs,$("#attachPreview"),removeCouncilAttach); e.target.value=""; };
+$("#attachFolderOpt").onclick=async()=>{
+  attachPopup.style.display="none";
+  showToast("กำลังเปิดตัวเลือกโฟลเดอร์…","info");
+  try{
+    const r=await fetch(API+"/api/pick-folder");
+    const d=await r.json();
+    if(d.path){
+      $("#project").value=d.path;
+      $("#project").focus();
+      showToast("เลือกโฟลเดอร์แล้ว: "+d.path,"success");
+    } else if(d.error){
+      showToast("ไม่สามารถเปิดตัวเลือกโฟลเดอร์: "+d.error,"error");
+    }
+  }catch(e){
+    showToast("ติดต่อเซิร์ฟเวอร์ไม่ได้: "+String(e).slice(0,150),"error");
+  }
+};
+$("#chatAttachBtn").onclick=()=>$("#chatFileInput").click();
+$("#chatFileInput").onchange=e=>{ handleFiles(e.target.files,chatAttachs,$("#chatAttachPreview"),removeChatAttach); e.target.value=""; };
+
+function clearAttachs(){ councilAttachs=[]; $("#attachPreview").innerHTML=""; $("#fileInput").value=""; }
+
+function buildAttachText(attachs){
+  if(!attachs.length) return "";
+  let out="\n\n[ไฟล์แนบ]";
+  attachs.forEach(a=>{
+    if(a.type==="text"&&a.content){
+      out+="\n--- ไฟล์: "+a.name+" ---\n"+a.content.substring(0,8000)+"\n--- จบไฟล์ ---";
+    } else if(a.type==="image"){
+      out+="\n[แนบรูป: "+a.name+" ("+Math.round(a.size/1024)+"KB)]";
+    } else {
+      out+="\n[แนบไฟล์: "+a.name+" ("+Math.round(a.size/1024)+"KB) — ไฟล์ไบนารี]";
+    }
+  });
+  return out;
+}
+function extractImages(attachs){
+  return attachs.filter(a=>a.type==="image"&&a.dataUrl).map(a=>({
+    name:a.name,
+    mime:a.dataUrl.match(/^data:(.+?);/)?.[1]||"image/png",
+    data:a.dataUrl.split(",")[1]||""
+  }));
+}
+
+// Login and System Functions
+let currentUser = null;
+let currentUsername = null;
+let userTitle = "คุณ";
+
+function checkLoginStatus(){
+  fetch(API+"/api/system").then(r=>{
+    if(!r.ok){
+      window.location.href = "/profile.html";
+      return null;
+    }
+    return r.json();
+  }).then(d=>{
+    if(!d) return;
+    if(d.error){
+      window.location.href = "/profile.html";
+    } else {
+      if(!d.has_profile){
+        window.location.href = "/profile.html";
+        return;
+      }
+      currentUser = d.display_name || "ผู้ใช้";
+      currentUsername = d.username;
+      userTitle = (d.username === "admin") ? "อาจารย์" : "คุณ";
+      updateUserInfo();
+      // ตั้งห้องแชทเป็น default — โหลด hint + history
+      const chathintEl=$("#chathint");
+      if(chathintEl) chathintEl.textContent=HINT[curP];
+      loadHistory();
+      // คลิก mode button แจงจูน เพื่อ sync สถานะ
+      const jengBtn=document.querySelector('.mode[data-p="แจงจูน"]');
+      if(jengBtn){jengBtn.classList.add('on');}
+      // ซ่อน navfloat ในโหมดแชท
+      const nf=$("#navfloat");
+      if(nf) nf.style.display="flex";
+    }
+  }).catch(()=>{
+    window.location.href = "/profile.html";
+  });
+}
+
+function updateUserInfo(){
+  if(currentUser){
+    $("#userInfo").textContent = `👤 ${currentUser}`;
+    const cc=$("#creditChip");
+    if(cc && currentUsername){
+      cc.textContent = `${currentUsername} · เครดิต ${(cc.dataset.credit||"50.00")} ฿`;
+    }
+  }
+}
+
+
+function doLogout(){
+  fetch(API+"/logout", {method:"POST"}).then(()=>{
+    window.location.href = "/profile.html";
+  });
+}
+
+function showSystemInfo(){
+  fetch(API+"/api/system").then(r=>r.json()).then(d=>{
+    const sys = d.system;
+    const app = d.application;
+    const isAdmin = d.is_admin;
+    const info = `
+📊 ข้อมูลระบบ
+━━━━━━━━━━━━━━━━━━━━━━━━
+� ผู้ใช้: ${d.display_name} (${d.username})
+
+�🖥️  แพลตฟอร์ม: ${sys.platform} ${sys.python}
+⚡️ CPU: ${sys.cpu_percent.toFixed(1)}%
+💾 RAM: ${sys.memory_percent.toFixed(1)}%
+💿 Disk: ${sys.disk_percent.toFixed(1)}%
+
+💰 ค่าใช้จ่ายของคุณ:
+   ${app.user_cost_thb} บาท (${app.user_cost_usd} USD)
+🎫 เครดิตคงเหลือ: ${app.credit_thb} บาท${app.credit_thb <= 0 ? ' ❌ หมดแล้ว!' : app.credit_thb < 10 ? ' ⚠️ ใกล้หมด' : ''}
+
+${isAdmin ? `👥 ผู้ใช้งาน: ${app.active_users} คน
+🤖 AI Tiers: ${app.available_tiers.join(", ") || "ไม่มี"}
+💬 ไฟล์แชท: ${app.total_chat_files} ไฟล์
+📝 บันทึกประชุม: ${app.total_sessions} ครั้ง` : ``}
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+🏦 สนับสนุนงานวิจัย
+   ธนาคารกสิกรไทย
+   เลขบัญชี: 262-2-80739-7
+   "ขอบริจาคเพื่องานวิจัย 50 บาท"
+━━━━━━━━━━━━━━━━━━━━━━━━
+    `.trim();
+    alert(info);
+  }).catch(e=>{
+    alert("โหลดข้อมูลระบบไม่ได้: "+e);
+  });
+}
+
+$("#logoutBtn").onclick=doLogout;
+$("#sysBtn").onclick=showSystemInfo;
+
+// Check login on load
+checkLoginStatus();
+
+// ===== Mobile Bottom Navigation =====
+const toastEl=$("#toast");
+function showToast(msg,type=''){
+  toastEl.textContent=msg;
+  toastEl.className='toast'+(type?' toast-'+type:'');
+  requestAnimationFrame(()=>toastEl.classList.add('show'));
+  clearTimeout(showToast._t);
+  showToast._t=setTimeout(()=>toastEl.classList.remove('show'),2500);
+}
+
+const navBtns=document.querySelectorAll('#bottomNav .nav-btn');
+let mobileTab='chat';
+
+function mobileSwitchTab(tab){
+  const prevTab=mobileTab;
+  if(tab==='profile'){
+    window.location.href="profile.html?edit=1";
+    return;
+  }
+  mobileTab=tab;
+  navBtns.forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+
+  if(tab==='council'){
+    document.querySelectorAll('.mode').forEach(x=>x.classList.remove('on'));
+    const councilBtn=document.querySelector('.mode.council');
+    if(councilBtn){councilBtn.classList.add('on');councilBtn.click();}
+    curP="";
+    $("#councilview").style.display="";
+    $("#chatview").style.display="none";
+    $("#navfloat").style.display="";
+    syncRoomTabs("council");
+  } else if(tab==='chat'){
+    if(!curP){
+      const chatBtn=document.querySelector('.mode[data-p="แจงจูน"]');
+      if(chatBtn){chatBtn.click();}
+    }
+    $("#navfloat").style.display="flex";
+    syncRoomTabs("chat");
+  } else if(tab==='scan'){
+    $("#councilview").style.display="none";
+    $("#chatview").style.display="none";
+    $("#scanview").style.display="";
+    $("#aiview").style.display="none";
+    $("#navfloat").style.display="none";
+  } else if(tab==='ai'){
+    $("#councilview").style.display="none";
+    $("#chatview").style.display="none";
+    $("#scanview").style.display="none";
+    $("#aiview").style.display="";
+    $("#navfloat").style.display="none";
+    loadMemory();
+  } else if(tab==='info'){
+    showSystemInfo();
+    mobileTab=prevTab;
+    navBtns.forEach(b=>b.classList.toggle('active',b.dataset.tab===prevTab));
+  } else if(tab==='exit'){
+    doLogout();
+  }
+}
+
+navBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const tab=btn.dataset.tab;
+    if(tab==='exit'){doLogout();return;}
+    if(tab==='info'){showSystemInfo();return;}
+    if(tab==='help'){window.location.href='manual.html';return;}
+    if(tab==='scan'){mobileSwitchTab('scan');return;}
+    if(tab==='ai'){mobileSwitchTab('ai');return;}
+    mobileSwitchTab(tab);
+  });
+});
+
+// ── สแกนบิล → Excel ──
+const billFileInput=$("#billFileInput"),billUploadBtn=$("#billUploadBtn"),billScanBtn=$("#billScanBtn");
+const billPreview=$("#billPreview"),billResult=$("#billResult"),billTextPreview=$("#billTextPreview");
+const billMethod=$("#billMethod"),billTableWrap=$("#billTableWrap"),billExportBtn=$("#billExportBtn");
+let _billImages=[],_billRows=[];
+
+billUploadBtn.onclick=()=>billFileInput.click();
+billFileInput.onchange=()=>{
+  const files=Array.from(billFileInput.files);
+  if(!files.length)return;
+  _billImages=[];
+  billPreview.innerHTML="";
+  let loaded=0;
+  files.forEach((f,i)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      _billImages[i]=reader.result;
+      const img=document.createElement("img");
+      img.src=reader.result;
+      img.style.cssText="max-width:120px;max-height:120px;border-radius:8px;border:1px solid var(--line);object-fit:cover;";
+      billPreview.appendChild(img);
+      loaded++;
+      if(loaded===files.length){
+        billScanBtn.disabled=false; billScanBtn.style.opacity=1;
+        billScanBtn.textContent="🔍 สแกน ("+files.length+" รูป)";
+      }
+    };
+    reader.readAsDataURL(f);
+  });
+};
+
+billScanBtn.onclick=async()=>{
+  if(!_billImages.length)return;
+  billScanBtn.disabled=true; billScanBtn.textContent="⏳ กำลังสแกน…";
+  billResult.style.display="none";
+  _billRows=[];
+  const allTexts=[],allMethods=[];
+  for(let i=0;i<_billImages.length;i++){
+    billScanBtn.textContent="⏳ สแกนรูปที่ "+(i+1)+"/"+_billImages.length+"…";
+    try{
+      const r=await fetch(API+"/api/scan_bill",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({image:_billImages[i]})});
+      const d=await r.json();
+      console.log("scan_bill["+i+"] response:",d);
+      if(d.error){ showToast("รูปที่ "+(i+1)+": "+d.error,"error"); continue; }
+      allTexts.push("=== รูปที่ "+(i+1)+" ===\n"+d.text);
+      allMethods.push(d.method);
+      let parsed=null;
+      try{
+        let txt=d.text.replace(/```json/gi,"").replace(/```/g,"").trim();
+        const m=txt.match(/\{[\s\S]*\}/);
+        if(m) parsed=JSON.parse(m[0]);
+      }catch(e){ console.log("JSON parse failed ["+i+"]:",e); }
+      if(parsed&&typeof parsed==="object"&&!Array.isArray(parsed)){
+        // flat key-value: 1 บิล = 1 แถว
+        let row={};
+        Object.keys(parsed).forEach(k=>{
+          let val=parsed[k];
+          if(val!==null&&typeof val==="object") val=JSON.stringify(val);
+          row[k]=String(val||"");
+        });
+        row["รูปที่"]=i+1;
+        _billRows.push(row);
+      } else {
+        _billRows.push({"รูปที่":i+1,"ข้อความที่สกัดได้":d.text});
+      }
+    }catch(e){ showToast("รูปที่ "+(i+1)+" สแกนไม่สำเร็จ: "+e,"error"); console.error("scan error["+i+"]:",e); }
+  }
+  if(_billRows.length>0){
+    billResult.style.display="";
+    billTextPreview.textContent=allTexts.join("\n\n");
+    const uniqMethods=[...new Set(allMethods)];
+    billMethod.textContent="method: "+uniqMethods.join(", ")+" · "+_billImages.length+" รูป";
+    renderBillTable();
+  }
+  billScanBtn.disabled=false; billScanBtn.textContent="🔍 สแกน ("+_billImages.length+" รูป)";
+};
+
+function renderBillTable(){
+  if(!_billRows.length){billTableWrap.innerHTML="<p style='color:var(--muted);'>ไม่มีข้อมูล</p>";return;}
+  // รวมทุก key จากทุกแถว → หัวตารางเดียว
+  const headerSet=new Set();
+  _billRows.forEach(row=>Object.keys(row).forEach(k=>headerSet.add(k)));
+  // จัดเรียง: "รูปที่" ก่อน, แล้วตามลำดับที่เจอ
+  const headers=["รูปที่",...[...headerSet].filter(h=>h!=="รูปที่")];
+  let html='<table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr>';
+  headers.forEach(h=>html+='<th style="padding:6px 8px;border:1px solid var(--line);background:var(--panel);text-align:left;white-space:nowrap;">'+h+'</th>');
+  html+='</tr></thead><tbody>';
+  _billRows.forEach((row,ri)=>{
+    html+='<tr>';
+    headers.forEach((h,ci)=>{
+      const v=row[h]||"";
+      html+='<td style="padding:4px 8px;border:1px solid var(--line);"><input data-row="'+ri+'" data-col="'+ci+'" value="'+String(v).replace(/"/g,'&quot;')+'" style="width:100%;background:transparent;border:none;color:var(--text);font-size:13px;" /></td>';
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  html+='<button id="addRowBtn" style="margin-top:6px;font-size:12px;padding:4px 10px;">+ เพิ่มแถว</button>';
+  billTableWrap.innerHTML=html;
+  // bind edits
+  billTableWrap.querySelectorAll("input").forEach(inp=>{
+    inp.onchange=()=>{
+      const ri=+inp.dataset.row,ci=+inp.dataset.col;
+      _billRows[ri][headers[ci]]=inp.value;
+    };
+  });
+  $("#addRowBtn").onclick=()=>{
+    const newRow={}; headers.forEach(h=>newRow[h]="");
+    _billRows.push(newRow); renderBillTable();
+  };
+}
+
+billExportBtn.onclick=async()=>{
+  if(!_billRows.length){showToast("ไม่มีข้อมูลส่งออก","error");return;}
+  const fn=$("#billFilename").value.trim()||"bill_export";
+  billExportBtn.disabled=true; billExportBtn.textContent="⏳ กำลังสร้าง…";
+  try{
+    const r=await fetch(API+"/api/export_excel",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({rows:_billRows,filename:fn})});
+    if(!r.ok){const d=await r.json();showToast(d.error||"ส่งออกไม่สำเร็จ","error");}
+    else{
+      const blob=await r.blob();
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement("a");
+      a.href=url; a.download=fn+".xlsx"; a.click();
+      URL.revokeObjectURL(url);
+      showToast("ส่งออก Excel สำเร็จ ✓","ok");
+      // ล้างข้อมูลทั้งหมดหลัง export สำเร็จ
+      _billImages=[]; _billRows=[];
+      billPreview.innerHTML="";
+      billResult.style.display="none";
+      billFileInput.value="";
+      billScanBtn.disabled=true; billScanBtn.style.opacity=0.5; billScanBtn.textContent="🔍 สแกน";
+      $("#billFilename").value="";
+      loadExports();
+    }
+  }catch(e){showToast("ส่งออกไม่สำเร็จ: "+e,"error");}
+  billExportBtn.disabled=false; billExportBtn.textContent="📊 ส่งออก Excel";
+};
+
+// ── รายการไฟล์ที่ export แล้ว ──
+const billExportsList=$("#billExportsList"), billRefreshExportsBtn=$("#billRefreshExportsBtn");
+async function loadExports(){
+  try{
+    const r=await fetch(API+"/api/list_exports");
+    const d=await r.json();
+    if(!d.files||!d.files.length){
+      billExportsList.innerHTML="<p style='color:var(--muted);margin:0;'>ยังไม่มีไฟล์ที่ส่งออก</p>";
+      return;
+    }
+    let html="";
+    d.files.forEach(f=>{
+      const dlUrl=API+"/api/download_export/"+encodeURIComponent(f.name);
+      html+="<div style='display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);'>";
+      html+="<div><div style='font-weight:500;'>📄 "+f.name+"</div><div style='font-size:11px;color:var(--muted);'>"+f.time+" · "+(f.size<1024?f.size+" B":Math.round(f.size/1024)+" KB")+"</div></div>";
+      html+="<a href='"+dlUrl+"' download style='padding:4px 10px;font-size:12px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--text);text-decoration:none;'>⬇ ดาวน์โหลด</a>";
+      html+="</div>";
+    });
+    billExportsList.innerHTML=html;
+  }catch(e){ billExportsList.innerHTML="<p style='color:var(--muted);'>โหลดรายการไม่สำเร็จ</p>"; }
+}
+billRefreshExportsBtn.onclick=loadExports;
+// โหลดรายการเมื่อเปิด tab scan
+loadExports();
+
+// ── AI Tools: Code Review, Security Review, Memory ──
+
+// Code Review 5 Agents
+const reviewRunBtn=$("#reviewRunBtn"), reviewResult=$("#reviewResult"), reviewPath=$("#reviewPath");
+let reviewBusy=false;
+reviewRunBtn.onclick=async()=>{
+  if(reviewBusy) return;
+  reviewBusy=true;
+  reviewRunBtn.disabled=true;
+  reviewRunBtn.style.opacity=0.5;
+  reviewResult.style.display="";
+  reviewResult.innerHTML="<p style='color:var(--muted);'>⏳ กำลังรีวิว... รอสักครู่ (5 เอเจนต์ทำงานพร้อมกัน)</p>";
+  const ctrl=new AbortController();
+  const tid=setTimeout(()=>ctrl.abort(), 120000);
+  try{
+    const r=await fetch(API+"/api/code_review",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({project_path:reviewPath.value.trim()}),
+      signal:ctrl.signal
+    });
+    clearTimeout(tid);
+    const d=await r.json();
+    if(d.error){reviewResult.innerHTML="<p style='color:#e74c3c;'>"+d.error+"</p>";return;}
+    let html="<div style='margin-bottom:8px;font-weight:500;'>"+(d.summary||"").replace(/\n/g,"<br>")+"</div>";
+    const f=d.findings||{};
+    for(const[key,val] of Object.entries(f)){
+      const name=val.name||key, report=(val.report||"").substring(0,3000), tier=val.tier||"";
+      html+="<div style='margin-top:10px;padding:10px;background:var(--panel);border-radius:8px;border:1px solid var(--line);'>";
+      html+="<div style='font-weight:500;margin-bottom:6px;'>"+name+" <span style='font-size:11px;color:var(--muted);'>("+tier+")</span></div>";
+      html+="<div style='white-space:pre-wrap;font-size:12px;overflow-y:auto;max-height:400px;'>"+report.replace(/</g,"&lt;")+"</div>";
+      html+="</div>";
+    }
+    reviewResult.innerHTML=html;
+  }catch(e){
+    clearTimeout(tid);
+    if(e.name==='AbortError'){reviewResult.innerHTML="<p style='color:#f39c12;'>⏱ หมดเวลารอ (120 วินาที) — ลองใหม่อีกครั้ง</p>";}
+    else{reviewResult.innerHTML="<p style='color:#e74c3c;'>เกิดข้อผิดพลาด: "+e.message+"</p>";}
+  }finally{
+    reviewBusy=false;
+    reviewRunBtn.disabled=false;
+    reviewRunBtn.style.opacity=1;
+  }
+};
+
+// Security Review
+const secReviewRunBtn=$("#secReviewRunBtn"), secReviewResult=$("#secReviewResult"), secReviewPath=$("#secReviewPath");
+let secReviewBusy=false;
+secReviewRunBtn.onclick=async()=>{
+  if(secReviewBusy) return;
+  secReviewBusy=true;
+  secReviewRunBtn.disabled=true;
+  secReviewRunBtn.style.opacity=0.5;
+  secReviewResult.style.display="";
+  secReviewResult.innerHTML="<p style='color:var(--muted);'>⏳ กำลังสแกนช่องโหว่... (static + AI)</p>";
+  const ctrl=new AbortController();
+  const tid=setTimeout(()=>ctrl.abort(), 120000);
+  try{
+    const r=await fetch(API+"/api/security_review",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({project_path:secReviewPath.value.trim()}),
+      signal:ctrl.signal
+    });
+    clearTimeout(tid);
+    const d=await r.json();
+    if(d.error){secReviewResult.innerHTML="<p style='color:#e74c3c;'>"+d.error+"</p>";return;}
+    let html="<div style='margin-bottom:8px;font-weight:500;'>"+(d.summary||"").replace(/\n/g,"<br>")+"</div>";
+    const sf=(d.static_findings||[]).slice(0,50);
+    if(sf.length){
+      html+="<div style='margin-top:8px;'><strong>📋 Static Scan ("+sf.length+" จุด)</strong></div>";
+      html+="<div style='margin-top:6px;max-height:300px;overflow-y:auto;'>";
+      sf.forEach(f=>{
+        const color=f.severity==="สูง"?"#e74c3c":f.severity==="กลาง"?"#f39c12":"#7f8c8d";
+        html+="<div style='padding:6px 0;border-bottom:1px solid var(--line);'>";
+        html+="<span style='color:"+color+";font-weight:500;'>["+f.severity+"]</span> ";
+        html+="<span style='font-family:monospace;font-size:11px;'>"+f.file+":"+f.line+"</span> ";
+        html+="<span style='font-size:12px;'>"+f.description+"</span>";
+        html+="<div style='font-size:11px;color:var(--muted);font-family:monospace;margin-top:2px;'>"+(f.match||"").replace(/</g,"&lt;")+"</div>";
+        html+="</div>";
+      });
+      html+="</div>";
+    }
+    if(d.ai_report){
+      html+="<div style='margin-top:10px;padding:10px;background:var(--panel);border-radius:8px;border:1px solid var(--line);'>";
+      html+="<div style='font-weight:500;margin-bottom:6px;'>🤖 AI Audit Report</div>";
+      html+="<div style='white-space:pre-wrap;font-size:12px;overflow-y:auto;max-height:400px;'>"+(d.ai_report||"").substring(0,5000).replace(/</g,"&lt;")+"</div>";
+      html+="</div>";
+    }
+    secReviewResult.innerHTML=html;
+  }catch(e){
+    clearTimeout(tid);
+    if(e.name==='AbortError'){secReviewResult.innerHTML="<p style='color:#f39c12;'>⏱ หมดเวลารอ (120 วินาที) — ลองใหม่อีกครั้ง</p>";}
+    else{secReviewResult.innerHTML="<p style='color:#e74c3c;'>เกิดข้อผิดพลาด: "+e.message+"</p>";}
+  }finally{
+    secReviewBusy=false;
+    secReviewRunBtn.disabled=false;
+    secReviewRunBtn.style.opacity=1;
+  }
+};
+
+// Cross-Session Memory
+const memList=$("#memList"), memClearBtn=$("#memClearBtn");
+async function loadMemory(){
+  try{
+    const r=await fetch(API+"/api/memory");
+    const d=await r.json();
+    const facts=d.facts||[];
+    if(!facts.length){
+      memList.innerHTML="<p style='color:var(--muted);margin:0;'>ยังไม่มีความจำสะสม — AI จะเริ่มจำเมื่อคุณใช้งาน</p>";
+      return;
+    }
+    let html="";
+    facts.slice().reverse().forEach(f=>{
+      const icon=f.type==="project"?"📦":f.type==="preference"?"⚙️":"💬";
+      html+="<div style='padding:6px 0;border-bottom:1px solid var(--line);'>";
+      html+="<div style='font-size:12px;'>"+icon+" "+f.text.replace(/</g,"&lt;")+"</div>";
+      html+="<div style='font-size:10px;color:var(--muted);'>"+f.time+"</div>";
+      html+="</div>";
+    });
+    if(d.last_updated){
+      html+="<div style='font-size:10px;color:var(--muted);margin-top:6px;'>อัปเดตล่าสุด: "+d.last_updated+"</div>";
+    }
+    memList.innerHTML=html;
+  }catch(e){memList.innerHTML="<p style='color:var(--muted);'>โหลดไม่สำเร็จ</p>";}
+}
+memClearBtn.onclick=async()=>{
+  if(!confirm("ล้างความจำทั้งหมด?"))return;
+  try{
+    await fetch(API+"/api/memory/clear",{method:"POST"});
+    loadMemory();
+    showToast("🧠 ล้างความจำแล้ว");
+  }catch(e){showToast("ล้างไม่สำเร็จ");}
+};
+
+// touch-action:manipulation in CSS handles double-tap zoom prevention
+// without blocking click events on mobile
+
+// ── Collapsible Header (mobile only) ──
+(function(){
+  var hdr = document.querySelector('header');
+  if(!hdr) return;
+  var lastScrollY = 0;
+  var ticking = false;
+  var isMobile = window.innerWidth <= 768;
+
+  function onScroll(){
+    var y = window.scrollY;
+    if(!isMobile){ hdr.classList.remove('collapsed'); return; }
+    if(y > 120 && y > lastScrollY + 5){
+      hdr.classList.add('collapsed');
+    } else if(y < lastScrollY - 5 || y < 60){
+      hdr.classList.remove('collapsed');
+    }
+    lastScrollY = y;
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){
+      window.requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, {passive:true});
+  window.addEventListener('resize', function(){
+    isMobile = window.innerWidth <= 768;
+    if(!isMobile) hdr.classList.remove('collapsed');
+  });
+})();
+
+// ── Pull to Refresh ──
+(function(){
+  var indicator = document.getElementById('pullIndicator');
+  if(!indicator) return;
+  var pullStart = 0;
+  var pulling = false;
+  var pullDist = 0;
+  var threshold = 70;
+  var refreshing = false;
+
+  function isAtTop(){ return window.scrollY <= 0; }
+
+  document.addEventListener('touchstart', function(e){
+    if(refreshing || !isAtTop()) return;
+    pullStart = e.touches[0].clientY;
+    pulling = true;
+    pullDist = 0;
+  }, {passive:true});
+
+  document.addEventListener('touchmove', function(e){
+    if(!pulling || refreshing) return;
+    pullDist = e.touches[0].clientY - pullStart;
+    if(pullDist > 0 && isAtTop()){
+      var pct = Math.min(pullDist / threshold, 1);
+      indicator.classList.add('visible');
+      indicator.style.transform = 'translateX(-50%) translateY(' + (pullDist * 0.5 - 10) + 'px) rotate(' + (pct * 180) + 'deg)';
+      indicator.style.opacity = pct;
+    } else {
+      indicator.classList.remove('visible');
+    }
+  }, {passive:true});
+
+  document.addEventListener('touchend', function(e){
+    if(!pulling) return;
+    pulling = false;
+    if(pullDist >= threshold && isAtTop() && !refreshing){
+      refreshing = true;
+      indicator.classList.add('refreshing');
+      indicator.style.transform = 'translateX(-50%) translateY(20px)';
+      indicator.style.opacity = 1;
+      // trigger refresh — reload page data
+      if(typeof refreshBudget === 'function'){ refreshBudget(); }
+      if(typeof loadHistory === 'function'){ loadHistory(); }
+      if(typeof loadCouncilSessions === 'function'){ loadCouncilSessions(); }
+      setTimeout(function(){
+        refreshing = false;
+        indicator.classList.remove('refreshing', 'visible');
+        indicator.style.transform = '';
+        indicator.style.opacity = '';
+        showToast('รีเฟรชแล้ว');
+      }, 1200);
+    } else {
+      indicator.classList.remove('visible');
+      indicator.style.transform = '';
+      indicator.style.opacity = '';
+    }
+    pullDist = 0;
+  }, {passive:true});
+})();
+</script>
+</body>
+</html>

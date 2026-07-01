@@ -1,0 +1,7 @@
+{
+  "id": "b3_roman",
+  "level": "ยาก",
+  "task": "สร้างไฟล์ roman.py มีฟังก์ชัน int_to_roman(n: int) -> str ที่แปลงจำนวนเต็ม 1 ถึง 3999 เป็นเลขโรมัน. ต้องรองรับเคสลบ (subtractive) ให้ถูกต้อง เช่น 4=IV, 9=IX, 40=XL, 90=XC, 400=CD, 900=CM, 58=LVIII, 1994=MCMXCIV, 3999=MMMCMXCIX. เขียน test_roman.py (unittest) ครอบเคสยากเหล่านี้ครบ. เกณฑ์เสร็จ: มีไฟล์ roman.py + test ผ่านครบ",
+  "max_rounds": 6,
+  "hidden_test": "hidden/b3_roman.py"
+}

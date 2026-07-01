@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>คู่มือใช้งาน — Council Trinity Lab</title>
+<style>
+  :root{
+    --bg:#0a0d14; --panel:#11161f; --panel2:#0e131b; --line:#1e2733;
+    --txt:#d7e0ea; --muted:#7c8aa0; --cyan:#38e0c8; --violet:#9d8bff;
+    --orange:#ff7a45; --green:#56d364; --red:#f26d6d; --amber:#e3b341; --blue:#4aa3ff;
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.7;
+    padding-top:var(--safe-top);padding-bottom:calc(20px + var(--safe-bottom));}
+  .wrap{max-width:680px;margin:0 auto;padding:20px 16px;}
+  .topbar{position:sticky;top:0;background:rgba(10,13,14,.95);backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line);
+    padding:12px 16px;display:flex;align-items:center;gap:12px;z-index:10;
+    padding-top:calc(12px + var(--safe-top));}
+  .topbar a{color:var(--cyan);text-decoration:none;font-size:14px;font-weight:600;
+    display:flex;align-items:center;gap:6px;min-height:36px;}
+  .topbar h1{margin:0;font-size:16px;color:var(--txt);flex:1;text-align:center;}
+  h2{color:var(--cyan);font-size:18px;margin:28px 0 12px;border-bottom:1px solid var(--line);padding-bottom:8px;}
+  h3{color:var(--violet);font-size:16px;margin:20px 0 8px;}
+  p{margin:8px 0;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:16px;margin:12px 0;}
+  .feature{display:flex;gap:12px;align-items:flex-start;margin:14px 0;}
+  .feature .icon{font-size:28px;flex-shrink:0;width:44px;height:44px;border-radius:10px;
+    background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;}
+  .feature .desc{flex:1;}
+  .feature .desc strong{color:var(--cyan);font-size:15px;}
+  .feature .desc p{margin:4px 0 0;font-size:14px;color:var(--muted);}
+  .warn{background:rgba(255,122,69,.08);border:1px solid rgba(255,122,69,.25);
+    border-radius:10px;padding:14px 16px;margin:16px 0;}
+  .warn strong{color:var(--orange);}
+  .safe{background:rgba(86,211,100,.08);border:1px solid rgba(86,211,100,.25);
+    border-radius:10px;padding:14px 16px;margin:16px 0;}
+  .safe strong{color:var(--green);}
+  .badge{display:inline-block;font-size:12px;padding:2px 10px;border-radius:20px;
+    background:var(--panel2);border:1px solid var(--line);color:var(--muted);margin-bottom:4px;}
+  .steps{counter-reset:step;}
+  .steps li{margin:10px 0;padding-left:32px;position:relative;list-style:none;}
+  .steps li::before{counter-increment:step;content:counter(step);
+    position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;
+    background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;
+    font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  ul,ol{padding-left:0;margin:8px 0;}
+  .footer{text-align:center;margin-top:30px;padding-top:16px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:13px;}
+  .nav-links{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;}
+  .nav-links a{flex:1;min-width:140px;text-align:center;padding:10px;border-radius:10px;
+    background:var(--panel);border:1px solid var(--line);color:var(--txt);text-decoration:none;
+    font-size:14px;font-weight:600;}
+  .nav-links a:hover{border-color:var(--cyan);color:var(--cyan);}
+  @media(max-width:420px){
+    .wrap{padding:14px 10px;}
+    body{font-size:14px;}
+    h2{font-size:16px;}
+    .feature{flex-direction:column;gap:8px;}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">← กลับ</a>
+  <h1>📖 คู่มือใช้งาน</h1>
+  <span style="width:60px;"></span>
+</div>
+<div class="wrap">
+
+  <div style="text-align:center;margin:10px 0 20px;">
+    <div style="font-size:40px;">🏛️</div>
+    <h2 style="border:none;text-align:center;">Council Trinity Lab</h2>
+    <p style="color:var(--muted);font-size:14px;">ระบบผู้ช่วยอัจฉริยะส่วนตัว — Council Trinity Lab</p>
+    <span class="badge">เฟสทดลองระบบปิด · กลุ่ม 20 คน</span>
+  </div>
+
+  <div class="card">
+    <h2>💡 Council Trinity Lab คืออะไร?</h2>
+    <p>ระบบผู้ช่วยอัจฉริยะส่วนตัว Council Trinity Lab ที่แยกห้องประชุมทำงานเป็นเอกเทศเด็ดขาด โดยใช้สภา AI 3 พี่น้อง (<strong style="color:var(--cyan)">แจ่มจูน</strong>, <strong style="color:var(--cyan)">แจงจูน</strong>, <strong style="color:var(--cyan)">เจนจูน</strong>) ทำงานร่วมกัน ถกเถียงและตรวจ Bug แก้ไขโค้ดเวียนรอบกันสูงสุด 2 ถึง 6 รอบในกล่องทรายทดสอบปิด ก่อนจะส่งให้ <strong style="color:var(--violet)">Claude AI</strong> วิเคราะห์ความสมบูรณ์แบบด่านสุดท้าย ทำให้คุณได้ผลงานที่ฉลาดสูงสุดระดับโปร ในโครงสร้างความประหยัดขั้นสูงสุด</p>
+  </div>
+
+  <h2>🛠️ ฟังก์ชันของระบบ</h2>
+
+  <div style="padding:12px 16px;background:rgba(86,211,100,.08);border:1px solid rgba(86,211,100,.25);border-radius:10px;margin:12px 0;">
+    <strong style="color:var(--green);">✅ ใช้งานได้แล้ว</strong>
+  </div>
+
+  <div class="feature">
+    <div class="icon">🏛️</div>
+    <div class="desc">
+      <strong>ประชุมสภา 3 พี่น้อง</strong>
+      <p>สั่งงานใหญ่ สภา AI (แจ่มจูน/แจงจูน/เจนจูน) ทำงานร่วมกัน 2–6 รอบ ส่งให้ Claude AI วิจารณ์รอบสุดท้าย</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="icon">💬</div>
+    <div class="desc">
+      <strong>แชทเดี่ยวกับ AI</strong>
+      <p>คุยกับ AI คนใดคนหนึ่งตรงๆ ถาม-ตอบ แนบรูปได้</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="icon">💰</div>
+    <div class="desc">
+      <strong>ระบบเครดิต 50 บาท</strong>
+      <p>เครดิตเริ่มต้น 50 บาท หักอัตโนมัติทุกครั้งที่เรียก AI หมดแล้วหยุดใช้งาน กดเติมเงินเพื่อดูข้อมูลการโอน</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="icon">📎</div>
+    <div class="desc">
+      <strong>แนบรูป/ไฟล์</strong>
+      <p>อัปโหลดรูปภาพหรือไฟล์แนบเข้าสภาได้ ระบบส่งเข้า AI วิเคราะห์ได้ทันที</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="icon">🎨</div>
+    <div class="desc">
+      <strong>สร้างรูปด้วย AI (ฟรี)</strong>
+      <p>กดปุ่ม 🎨 ในห้องแชท พิมพ์คำอธิบายรูป ระบบสร้างรูปให้ทันที ใช้ Pollinations.ai ฟรี ไม่จำกัดจำนวนรูป แต่คำขอติดๆ กันต้องห่าง 15 วินาที (Anonymous) หรือ 5 วินาที (สมัครฟรี)</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="icon">🧾</div>
+    <div class="desc">
+      <strong>สแกนบิล → Excel</strong>
+      <p>อัปโหลดรูปบิล/ใบเสร็จ/statement ระบบสกัดข้อมูลด้วย EasyOCR (ฟรี) ถ้าความแม่นยำต่ำจะสลับไป Gemini Vision แก้ไขข้อมูลในตารางได้ก่อนส่งออกเป็นไฟล์ Excel (.xlsx)</p>
+    </div>
+  </div>
+
+  <!-- แก้ไขบั๊ก #1: ลบฟีเจอร์ "สแกนบิล & Statement" ที่ซ้ำกับ "สแกนบิล → Excel" (✅) ออก -->
+  <!-- หมายเหตุ: ฟีเจอร์ OCR Ledger Pipeline (ขั้นสูง) กับสแกนบิลพื้นฐานเป็นคนละตัวกัน -->
+
+  <div style="padding:12px 16px;background:rgba(255,122,69,.08);border:1px solid rgba(255,122,69,.25);border-radius:10px;margin:16px 0 8px;">
+    <strong style="color:var(--orange);">⏳ อยู่ระหว่างพัฒนา</strong>
+  </div>
+
+  <div class="feature">
+    <div class="icon">📝</div>
+    <div class="desc">
+      <strong>เขียน Word <span style="font-size:11px;color:var(--orange);">⏳</span></strong>
+      <p>ป้อนหัวข้อ ระบบจะร่างรายงาน/สัญญา ส่งออกเป็นไฟล์ .docx</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="icon">📊</div>
+    <div class="desc">
+      <strong>สร้าง Excel <span style="font-size:11px;color:var(--orange);">⏳</span></strong>
+      <p>ส่งข้อมูลตัวเลข ระบบจะจัดตารางและใส่สูตร คายออกเป็นไฟล์ .xlsx</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="icon">🖥️</div>
+    <div class="desc">
+      <strong>ทำ PowerPoint <span style="font-size:11px;color:var(--orange);">⏳</span></strong>
+      <p>ส่งเนื้อหา ระบบจะสร้างสไลด์พรีเซนเทชันสำเร็จรูป</p>
+    </div>
+  </div>
+
+  <!-- แก้ไขบั๊ก #1: ลบฟีเจอร์ "สแกนบิล & Statement" ที่ซ้ำกับ "สแกนบิล → Excel" (✅) ออก -->
+
+  <h2>💬 โหมดแชทเดี่ยว — ตอบเป็นมืออาชีพ</h2>
+  <div class="card">
+    <p>ในห้องแชทส่วนตัวกับ AI แต่ละตัว ระบบตอบในสไตล์มืออาชีพ ตรงประเด็น ใช้ศัพท์วิชาการเมื่อเหมาะสม</p>
+    <h3>กฎสำคัญ</h3>
+    <ul>
+      <!-- แก้ไขบั๊ก #2: ปรับข้อความ "ไม่เขียนโค้ดเว้นแต่ขอ" ให้ชัดเจน -->
+      <li><strong>ไม่เขียนโค้ดใหม่เว้นแต่ขอ</strong> — กฎนี้ใช้กับโหมดแชทเดี่ยวเท่านั้น AI จะไม่เขียนโค้ดใหม่ให้โดยอัตโนมัติ ยกเว้นเมื่อคุณขอให้เขียนหรือแสดงโค้ดโดยตรงเท่านั้น แต่สามารถตรวจสอบและแนะนำโค้ดที่มีอยู่ได้ ถ้าไม่ได้พูดถึงโค้ดเลย AI จะตอบเป็นข้อความปกติ ส่วนในโหมดสภา แจงจูนจะเขียนโค้ดให้โดยอัตโนมัติตามที่สภาออกแบบ</li>
+      <li><strong>ตอบตรงคำถาม</strong> — ไม่วนคำ ไม่ขี้อ้อน ตรงประเด็น เด็ดขาด น่าเชื่อถือ</li>
+      <li><strong>ลงท้ายด้วย "ค่ะ"</strong> — ไม่ใช้ "เจ้าค่ะ" ไม่ใช้ "ผม/ครับ"</li>
+    </ul>
+  </div>
+
+  <h2>🏛️ ส่งเรื่องจากแชทไปสภาวิเคราะห์</h2>
+  <div class="card">
+    <p>ในห้องแชทมีปุ่ม <strong>🏛️ สรุปเรื่องที่คุย → ส่งสภาวิเคราะห์</strong> เมื่อกด ระบบจะ:</p>
+    <ol class="steps">
+      <li>ตรวจจับ <strong>ประเด็นล่าสุด</strong> ที่คุยกันอยู่ โดยเปรียบเทียบคำสำคัญระหว่างข้อความติดๆ กัน</li>
+      <li>ถ้าพบว่าประเด็นเปลี่ยนไปจากเดิม จะตัดการสนทนาเก่าทิ้ง ส่งเฉพาะประเด็นปัจจุบัน</li>
+      <li>ส่งเฉพาะส่วนที่เกี่ยวข้องไปยังห้องประชุมสภา เพื่อประหยัด token และให้สภาวิเคราะห์ได้ตรงประเด็น</li>
+      <li>ระบบแจ้งจำนวนข้อความที่ส่ง (เช่น "ส่งเฉพาะ 4/10 ข้อความล่าสุด")</li>
+    </ol>
+    <p style="color:var(--muted);font-size:14px;">วิธีใช้: กดปุ่ม → ระบบส่งไปห้องประชุม → ตรวจสอบเนื้อหา → กดประชุมเพื่อให้สภาทำงานต่อ</p>
+  </div>
+
+  <h2>📋 งานทั่วไป ไม่ใช่แค่โค้ด</h2>
+  <div class="card">
+    <p>สภาไม่ได้ทำแค่งานเขียนโค้ด รองรับงานทั่วไปเช่น:</p>
+    <ul>
+      <li>ประชาสัมพันธ์งานต่างๆ</li>
+      <li>ร่างเอกสาร จดหมาย ประกาศ</li>
+      <li>วางแผน ให้คำแนะนำ วิเคราะห์ปัญหา</li>
+      <li>สรุปเนื้อหา จัดระเบียบข้อมูล</li>
+    </ul>
+    <!-- แก้ไขบั๊ก #2: ปรับข้อความให้ชัดเจนว่า "สำหรับงานที่ไม่ใช่โค้ด" -->
+    <p>สำหรับงานที่ไม่ใช่โค้ด ระบบจะ:</p>
+    <ul>
+      <li><strong>แจ่มจูน</strong> จำแนกประเภทงาน วางแผนเป็นเนื้อหา/เอกสาร (ไม่สั่งเขียนโค้ด)</li>
+      <li><strong>แจงจูน</strong> ทำเนื้อหา/ข้อความ/เอกสารโดยตรง (ไม่สร้างไฟล์โค้ด ไม่สร้าง test)</li>
+      <li><strong>เจนจูน</strong> ตรวจความถูกต้องและครบถ้วนของเนื้อหา (ไม่ตรวจไฟล์โค้ด)</li>
+    </ul>
+    <p style="color:var(--muted);font-size:14px;">ระบบประหยัดเวลาและ token เพราะไม่วนลูปทดสอบโค้ดที่ไม่จำเป็น</p>
+  </div>
+
+  <h2>🚨 กฎเหล็กวินัยระบบที่คุณควรรู้</h2>
+
+  <div class="warn">
+    <strong>⚠️ ระบบตรวจจับการติดหล่ม (Stuck Detection)</strong>
+    <p style="margin-top:8px;">เมื่อ AI พยายามหาคำตอบ แล้วพบว่าตัวเองใช้วิธีคิดเดิม สรุปผลแบบเดิม หรือเขียนโค้ด/สั่งงานแบบเดิมซ้ำกันครบ 2 ครั้ง (โดยที่งานยังไม่สำเร็จ) ระบบจะตัดสินว่า AI กำลัง "ติดหล่ม" (Stuck) และจะบังคับให้ AI เปลี่ยนไปใช้วิธีคิดอื่น หรือเปลี่ยนแนวทางใหม่ทันทีในรอบที่ 3 เป็นต้นไป เพื่อป้องกันไม่ให้มันตอบวนลูปอยู่ที่เดิมเรื่อยๆ</p>
+  </div>
+
+  <div class="safe">
+    <strong>🔒 ความปลอดภัยข้อมูล</strong>
+    <p style="margin-top:8px;">เนื่องจากระบบรันอยู่ในพื้นที่ปิดของเซิร์ฟเวอร์ส่วนตัว (Local Server) เอกสารบัญชีและความลับทางธุรกิจของคุณจะปลอดภัยสุทธิ 100% ไม่รั่วไหลสู่คลาวด์สาธารณะภายนอกเด็ดขาด</p>
+  </div>
+
+  <h2>📱 วิธีใช้งานบนมือถือ</h2>
+  <ol class="steps">
+    <li>เข้าสู่ระบบด้วยชื่อผู้ใช้และรหัสผ่านที่ได้รับ</li>
+    <li>เลือกแท็บ <strong>🏛️ สภา</strong> เพื่อประชุมสภา (สั่งงานใหญ่) หรือ <strong>💬 แชท</strong> เพื่อคุยกับ AI ตัวต่อตัว</li>
+    <li>พิมพ์งานที่ต้องการในกล่องข้อความ แนบไฟล์/รูปได้ถ้าต้องการ</li>
+    <li>กด <strong>▶ ประชุม</strong> ระบบจะเริ่มทำงาน 2–6 รอบอัตโนมัติ</li>
+    <li>ดูเครดิตคงเหลือได้ที่มุมบนของหน้าจอ ถ้าเครดิตหมด ให้กด <strong>💰 เติมเงิน</strong> เพื่อดูข้อมูลการโอน</li>
+  </ol>
+
+  <h2>💰 ระบบเครดิต</h2>
+  <div class="card">
+    <p>ผู้ใช้ทุกคนได้รับเครดิตเริ่มต้น <strong style="color:var(--amber)">50 บาท</strong> ระบบจะหักค่าใช้จ่ายตามจริงทุกครั้งที่เรียกใช้ AI เมื่อเครดิตเหลือ <strong style="color:var(--red)">0 บาท</strong> ระบบจะหยุดการใช้งานอัตโนมัติ จนกว่าจะเติมเงิน</p>
+    <p style="margin-top:10px;">ธนาคารกสิกรไทย · เลขบัญชี: <strong style="color:var(--cyan)">262-2-80739-7</strong><br>"ขอบริจาคเพื่องานวิจัย 50 บาท"</p>
+  </div>
+
+  <div class="nav-links">
+    <a href="research.html">📄 เอกสารวิจัยวิชาการ</a>
+    <a href="index.html">🏛️ กลับหน้าหลัก</a>
+  </div>
+
+  <div class="footer">
+    Council Trinity Lab · รหัสโครงการ: BIS-COUNCIL-LAB-V8<br>
+    Council Trinity Lab · พ.ศ. 2569
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "id": "b2_safe_divide",
+  "level": "กลาง",
+  "task": "สร้างไฟล์ safe_divide.py มีฟังก์ชัน safe_divide(a, b) ที่คืนค่า a/b ตามปกติ แต่ถ้า b == 0 ให้คืน None (ห้าม raise ZeroDivisionError เด็ดขาด). เขียน test_safe_divide.py (unittest) ครอบเคส: หารปกติ, หารด้วยศูนย์ต้องได้ None, ค่าติดลบ, และผลลัพธ์ทศนิยม. เกณฑ์เสร็จ: มีไฟล์ safe_divide.py + test ผ่านครบ",
+  "max_rounds": 5,
+  "hidden_test": "hidden/b2_safe_divide.py"
+}

@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Logs & backups (เก็บแยก ไม่เช็คอิน)
+logs/
+backups/
+checkpoints/
+
+# User data (ส่วนตัว)
+chats/
+sessions/
+projects/
+*.json.bak
+
+# Exports
+exports/
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# IDE
+.codeium/
+.windsurf/
+
+# Secrets
+.env
+*.key
+users.json

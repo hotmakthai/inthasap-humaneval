@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>เอกสารวิจัย — Council Trinity Lab</title>
+<style>
+  :root{
+    --bg:#0a0d14; --panel:#11161f; --panel2:#0e131b; --line:#1e2733;
+    --txt:#d7e0ea; --muted:#7c8aa0; --cyan:#38e0c8; --violet:#9d8bff;
+    --orange:#ff7a45; --green:#56d364; --red:#f26d6d; --amber:#e3b341; --blue:#4aa3ff;
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.8;
+    padding-top:var(--safe-top);padding-bottom:calc(20px + var(--safe-bottom));}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 16px;}
+  .topbar{position:sticky;top:0;background:rgba(10,13,14,.95);backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line);
+    padding:12px 16px;display:flex;align-items:center;gap:12px;z-index:10;
+    padding-top:calc(12px + var(--safe-top));}
+  .topbar a{color:var(--cyan);text-decoration:none;font-size:14px;font-weight:600;
+    display:flex;align-items:center;gap:6px;min-height:36px;}
+  .topbar h1{margin:0;font-size:16px;color:var(--txt);flex:1;text-align:center;}
+  h2{color:var(--cyan);font-size:20px;margin:32px 0 14px;border-bottom:1px solid var(--line);padding-bottom:8px;}
+  h3{color:var(--violet);font-size:17px;margin:22px 0 10px;}
+  p{margin:10px 0;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0;}
+  .badge{display:inline-block;font-size:12px;padding:3px 12px;border-radius:20px;
+    background:var(--panel2);border:1px solid var(--line);color:var(--muted);margin:2px 4px 2px 0;}
+  .badge.status{color:var(--green);border-color:rgba(86,211,100,.3);}
+  pre{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+    padding:16px;overflow-x:auto;font-family:ui-monospace,"Cascadia Code",Consolas,monospace;
+    font-size:13px;line-height:1.6;color:var(--cyan);}
+  .formula{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+    padding:14px 18px;margin:14px 0;text-align:center;font-size:15px;color:var(--amber);
+    font-family:ui-monospace,"Cascadia Code",Consolas,monospace;}
+  .agent{display:flex;gap:14px;align-items:flex-start;margin:16px 0;}
+  .agent .num{flex-shrink:0;width:36px;height:36px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;
+    background:var(--panel2);border:1px solid var(--line);}
+  .agent .body{flex:1;}
+  .agent .body strong{color:var(--cyan);font-size:15px;}
+  .agent .body p{margin:4px 0 0;font-size:14px;color:var(--muted);}
+  .toc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:16px 0;}
+  .toc a{color:var(--cyan);text-decoration:none;font-size:14px;display:block;padding:4px 0;}
+  .toc a:hover{text-decoration:underline;}
+  .warn{background:rgba(255,122,69,.08);border:1px solid rgba(255,122,69,.25);
+    border-radius:10px;padding:14px 16px;margin:16px 0;}
+  .warn strong{color:var(--orange);}
+  .pipe{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+    padding:16px;margin:14px 0;font-family:ui-monospace,Consolas,monospace;font-size:13px;
+    line-height:1.7;overflow-x:auto;white-space:pre;color:var(--cyan);}
+  .footer{text-align:center;margin-top:36px;padding-top:16px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:13px;}
+  .nav-links{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;}
+  .nav-links a{flex:1;min-width:140px;text-align:center;padding:10px;border-radius:10px;
+    background:var(--panel);border:1px solid var(--line);color:var(--txt);text-decoration:none;
+    font-size:14px;font-weight:600;}
+  .nav-links a:hover{border-color:var(--cyan);color:var(--cyan);}
+  @media(max-width:420px){
+    .wrap{padding:14px 10px;}
+    body{font-size:14px;}
+    h2{font-size:17px;}
+    h3{font-size:15px;}
+    .agent{flex-direction:column;gap:8px;}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">← กลับ</a>
+  <h1>📄 เอกสารวิจัย</h1>
+  <span style="width:60px;"></span>
+</div>
+<div class="wrap">
+
+  <div style="text-align:center;margin:10px 0 24px;">
+    <div style="font-size:36px;">🏛️</div>
+    <h2 style="border:none;text-align:center;margin-bottom:8px;">เอกสารงานวิจัยวิชาการ<br>และคู่มือกำกับระบบ</h2>
+    <p style="color:var(--cyan);font-size:18px;font-weight:600;">Council Trinity Lab</p>
+    <div style="margin-top:8px;">
+      <span class="badge">รหัสโครงการ: BIS-COUNCIL-LAB-V8</span>
+      <span class="badge status">สถานะ: พิมพ์เขียว (Core Engine พัฒนาแล้ว · โมดูลเสริมอยู่ระหว่างพัฒนา)</span>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-top:8px;">เฟสทดลองระบบปิดภายในกลุ่ม ๒๐ คน · พ.ศ. ๒๕๖๙</p>
+  </div>
+
+  <div class="toc">
+    <strong style="color:var(--txt);font-size:15px;">📑 สารบัญ</strong>
+    <a href="#ch1">บทที่ ๑: บทนำและสมมติฐานการวิจัย</a>
+    <a href="#ch2">บทที่ ๒: สถาปัตยกรรมระบบสภาปิด ๓ พี่น้อง</a>
+    <a href="#ch3">บทที่ ๓: วินัยเหล็กติดเบรกล้างสมองสภา</a>
+    <a href="#ch4">บทที่ ๔: มหาฟังก์ชันรองรับอเนกประสงค์</a>
+    <a href="#ch5">บทที่ ๕: ระเบียบวิธีวิจัยและการประเมินผล</a>
+    <a href="#ch6">บทที่ ๖: วิเคราะห์ต้นทุน API เปรียบเทียบ</a>
+  </div>
+
+  <!-- บทที่ 1 -->
+  <h2 id="ch1">บทที่ ๑: บทนำและสมมติฐานการวิจัย</h2>
+  <div class="card">
+    <p>ในการพัฒนาเทคโนโลยีปัญญาประดิษฐ์ยุคปัจจุบัน (พ.ศ. ๒๕๖๙) มนุษยชาติกำลังเผชิญหน้ากับกำแพงข้อจำกัดด้านต้นทุนพลังงานและการประมวลผล (Compute Cost Barrier) โมเดลภาษาขนาดใหญ่ (LLMs) ที่มีสติปัญญาสูงสุดและเสถียรที่สุดในโลก เช่น คอร์ส (Claude) ถูกตั้งเงื่อนไขราคาค่า Token ไว้ในระดับที่สูงมาก ส่งผลให้กลุ่มนักพัฒนาอิสระ ธุรกิจขนาดเล็ก หรือบุคคลทั่วไปไม่สามารถเข้าถึงขีดความสามารถสูงสุดของปัญญาประดิษฐ์ในการทำงานเชิงลึกที่ซับซ้อนหลายขั้นตอนได้</p>
+    <p>โครงการวิจัยนี้จึงถูกตั้งสมมติฐานขึ้นมาเพื่อพิสูจน์ตรรกะคณิตศาสตร์ว่า <strong style="color:var(--cyan)">"เราสามารถสร้างระบบจัดเรียงเอเจนต์อัจฉริยะ (Multi-Agent Orchestration) แบบปิด รันบนระบบเซิร์ฟเวอร์ท้องถิ่น (Local Server) เพื่อดึงศักยภาพสูงสุดของโมเดลระดับสูงมาใช้งาน โดยมีโครงสร้างต้นทุนค่า API ต่ำลงกว่าราคาตลาด ๑๐ ถึง ๒๐ เท่าได้จริงหรือไม่"</strong> โดยการจำกัดสโคปการทดลองและประเมินผลลัพธ์ผ่านกลุ่มผู้ใช้งานจริงจำนวนประมาณ ๒๐ คนภายในบ้านอินทร์ทรัพย์ เพื่อเป็นสะพานบุญและวิทยาธรรมแก่คนรุ่นหลังต่อไป</p>
+  </div>
+
+  <!-- บทที่ 2 -->
+  <h2 id="ch2">บทที่ ๒: สถาปัตยกรรมระบบสภาปิด ๓ พี่น้อง</h2>
+  <div class="card">
+    <p>สถาปัตยกรรมหลักของระบบมีชื่อว่า <strong style="color:var(--cyan)">Council Trinity Lab</strong> เป็นระบบที่แยกตัวออกมาเป็นเอกเทศเด็ดขาดจากระบบบ้านหลัก ไม่ทำการดึงคำสั่งที่ส่งผลกระทบต่อความเสถียรของแกนโครงสร้างภายนอก การทำงานควบคุมสถานะผ่าน flag <code>_running</code> ป้องกันการรันซ้อน (Concurrency Lock) โดยสถานะมี ๒ ระดับ: <code>idle</code> (ว่าง) และ <code>running</code> (กำลังประมวลผล) <span style="color:var(--muted);font-size:13px;">(แผนพัฒนา: เปลี่ยนเป็น formal task_queue รองรับคิวหลายงาน)</span></p>
+
+    <p>กลไกหลักภายในกล่องทรายทดสอบ (Sandbox Area) ประกอบด้วยการถ่วงดุลอำนาจทางความคิดของ ๓ เอเจนต์ลูกสาว และ ๑ ปัญญาญาณชี้ขาด ดังนี้:</p>
+
+    <div class="pipe">[ระบบคิวงาน: task_queue] -> ปลดล็อกสถานะ RUNNING
+       │
+       ├──> 📐 ด่านที่ ๑: แจ่มจูน (สถาปนิกความคิด)
+       │    - รับข้อมูลพิมพ์เขียวดิบ สกัดเจตนารมณ์ วางโครงสร้าง Layout
+       │
+       ├──> 👩‍💻 ด่านที่ ๒: แจงจูน (Coder / Operator)
+       │    - ดึงทฤษฎีจากแจ่มจูน ลงแรงเขียนซอร์สโค้ดแบบเต็มแผ่น (Full Script)
+       │
+       ├──> 🔍 ด่านที่ ๓: เจนจูน (นักสืบ / Sandbox Auditor)
+       │    - สั่งรันคำสั่งจริงใน Sandbox จับ Bug ตรวจความปลอดภัย
+       │
+       └──> [ลูปประชุมสภา ๒ ถึง ๖ รอบ]
+               │
+               └──> 👑 ด่านชี้ขาด: คอร์ส (Claude Supreme Auditor)
+                    - วิจารณ์เชิงสถาปัตยกรรม ห้ามลงแรงเขียนเอง</div>
+
+    <h3>๑. แจ่มจูน — สถาปนิกความคิด (Architect Persona)</h3>
+    <p>มีหน้าที่ดึงเอาพิมพ์เขียวความต้องการของผู้ใช้ (User Blueprint Ingestion) มาทำการชำแหละ ถอดสมมติฐาน และกำหนดโครงสร้างเชิงตรรกะ (Logical Blueprinting) วางทิศทาง Layout เพื่อส่งไม้ต่อให้พี่น้องตัวถัดไป</p>
+
+    <h3>๒. แจงจูน — ผู้สร้างและลงแรงเขียน (Coder Persona)</h3>
+    <p>มีหน้าที่รับแผนงานและทฤษฎีจากแจ่มจูน มาทำการลงแรงยกร่างโค้ดคำสั่งหรือพิมพ์ข้อความเนื้อหาทั้งหมดตั้งแต่บรรทัดแรกจนถึงบรรทัดสุดท้ายแบบตัวเต็ม (Full Script) โดยใช้โมเดลประมวลผลที่มีโครงสร้างราคาถูกที่สุดและหนาแน่นที่สุด (เช่น DeepSeek) เป็นแกนขับเคลื่อนหลักเพื่อเซฟค่า API</p>
+
+    <h3>๓. เจนจูน — นักสืบและผู้ตรวจสอบกล่องทราย (Sandbox Auditor)</h3>
+    <p>มีหน้าที่รับวัตถุสำเร็จรูปจากแจงจูน ตรวจสอบโค้ดและตรวจจับรหัสความผิดพลาด (Bug & Error Log Analysis) คุมระเบียบวินัยไม่ให้โค้ดมีรอยตัดทอน <span style="color:var(--muted);font-size:13px;">(สถานะปัจจุบัน: ตรวจสอบแบบ read-only ผ่าน AI analysis · แผนพัฒนา: Isolated Sandbox รันโค้ดจริงใน container แยก)</span></p>
+
+    <h3>๔. คอร์ส — ผู้วิจารณ์สูงสุด (Supreme Reviewer)</h3>
+    <p>เมื่อสภา ๓ พี่น้องประชุมถกเถียงและทดสอบงานใน Sandbox จนจบสิ้นกระบวนความแล้ว ระบบจะคายสารข้อมูลวิ่งผ่านท่อคิวงานส่งต่อไปให้ "คอร์ส" (โมเดล Claude ที่มีระดับสติปัญญาสูงสุดและปลอดภัยสูงสุด) ทำหน้าที่เป็นวิศวกรที่ปรึกษาใหญ่ตรวจสอบความเสถียรขั้นสุดท้าย</p>
+
+    <div class="warn">
+      <strong>⚖️ กฎเหล็กด่านชี้ขาด</strong>
+      <p style="margin-top:8px;">คอร์สมีสิทธิ์วิจารณ์และชี้นำเท่านั้น "ไม่มีหน้าที่และห้ามลงแรงเขียนโค้ดตัวหนาปริมาณมากเองเด็ดขาด" เพื่อควบคุมปริมาณ Input/Output Token ราคาแพงให้ดิ่งลดลงต่ำที่สุด หากคอร์สชี้เป้าว่ามีข้อบกพร่อง ข้อมูลวิจารณ์จะถูกส่งกลับลงมาให้สภา ๓ พี่น้อง (แจงจูน) เป็นผู้ลงแรงเขียนใหม่หมดทั้งแผ่นในพื้นที่ปิด</p>
+    </div>
+  </div>
+
+  <!-- บทที่ 3 -->
+  <h2 id="ch3">บทที่ ๓: วินัยเหล็กติดเบรกล้างสมองสภา</h2>
+  <div class="card">
+    <p><strong>Bi-Round Theoretical Reset Protocol</strong></p>
+    <p>ปัญหาหลักของระบบ Multi-Agent ในอดีตคือ พฤติกรรมการจดจำตรรกะที่ผิดพลาด (Hallucination Anchoring) เมื่อ AI ตัวเขียน ยกร่างคำสั่งที่ผิดพลาด และส่งให้ AI ตัวตรวจ ดีดจับผลลัพธ์เป็น Error ตัว AI ตัวเขียนมักจะมักง่าย นำเอาโค้ดเดิมตัวที่ผิดพลาดมาปรับแก้ทีละบรรทัด เล็กๆ น้อยๆ ส่งผลให้เกิด "วงลูปนรกแก้ Bug ซ้ำซาก (Infinite Error Loop)" เงินงบประมาณ API ภายในเครื่องจะละลายหายไปโดยไม่ได้งานที่เสถียร</p>
+
+    <p>โครงการวิจัยนี้ได้ฝัง "ตรรกะตัดรอบคัพปลิ้งคูณสอง (Bi-Round Step-Up Gating)" ลงในแกนซอฟต์แวร์ควบคุม Sandbox โดยกำหนดเงื่อนไขทางคณิตศาสตร์อย่างเคร่งครัดดั่งนี้:</p>
+
+    <div class="formula">
+      If (Current Round mod 2 == 0) AND (Sandbox Status == FAILED)<br>
+      → Trigger: FREEZE_AND_RESET_TEMPORARY_MEMORY
+    </div>
+
+    <h3>กลไกการขับเคลื่อนวินัยเหล็ก</h3>
+    <p><strong>รอบที่ ๑ และ ๒ (ตรรกะชุดแรก):</strong> แจงจูนเขียนโค้ดตามสมมติฐานแรก เจนจูนตรวจจับผลลัพธ์ในกล่องทราย หากรันไม่ผ่านในรอบที่ ๒ ระบบจะล็อกเป้าทันที</p>
+    <p><strong>คำสั่งทุบทิ้งสร้างใหม่ (The Theoretical Reset):</strong> ระบบคิวงานสั่งการล้างสมองและคลังหน่วยความจำชั่วคราว (Context Memory Window) ของลูปที่ผ่านมาทิ้ง ๑๐๐% เพื่อไม่ให้เอเจนต์จดจำวิธีคิดเดิมๆ</p>
+    <p><strong>การตั้งทฤษฎีใหม่:</strong> บังคับให้ แจ่มจูน (สถาปนิก) ทำหน้าที่วิเคราะห์ความผิดพลาดและดีดสมองคิดค้น "ทฤษฎีการแก้ปัญหาและสมมติฐานชุดใหม่แกะกล่อง" ป้อนเข้าสู่รอบที่ ๓ และ ๔ ต่อไป ทำให้ระบบขยับสเกลขึ้นอย่างฉลาดคมชัด ไม่เดินหลงทางซ้ำซากในหลุมศพเดิม</p>
+  </div>
+
+  <!-- บทที่ 4 -->
+  <h2 id="ch4">บทที่ ๔: มหาฟังก์ชันรองรับอเนกประสงค์</h2>
+  <div class="card">
+    <p>ระบบประมวลผลปลายน้ำของ Council Trinity Lab ถูกออกแบบให้ขยายท่อความสามารถผ่านไลบรารีวิศวกรรมระดับโปร เพื่อรองรับกลุ่มผู้ทดลองทั้ง ๒๐ คนในการสร้างผลผลิตสำเร็จรูป (Output Artifacts) ตัวเต็มแผ่น ๔ โหมดหลัก:</p>
+
+    <h3>๑. ระบบสร้างผลผลิตสารพัดประโยชน์ (Multi-Format Artifacts Engine)</h3>
+
+    <div class="agent">
+      <div class="num">📝</div>
+      <div class="body">
+        <strong>ฟังก์ชัน Word (python-docx) <span style="font-size:11px;color:var(--orange);">⏳ อยู่ระหว่างพัฒนา</span></strong>
+        <p>รับข้อมูลดิบแล้วเรียบเรียง ยกร่างสัญญา ข้อเสนอวิจัย หรือรายงานวิชาการตัวเต็มแผ่น ไร้จุดไข่ปลา</p>
+      </div>
+    </div>
+
+    <div class="agent">
+      <div class="num">📊</div>
+      <div class="body">
+        <strong>ฟังก์ชัน Excel (openpyxl/pandas) <span style="font-size:11px;color:var(--orange);">⏳ อยู่ระหว่างพัฒนา</span></strong>
+        <p>สร้างสูตรคณิตศาสตร์ จัดตารางสถิติโรงงาน หรือสรุปข้อมูลตัวเลขที่ซับซ้อนหลายชั้น</p>
+      </div>
+    </div>
+
+    <div class="agent">
+      <div class="num">🖥️</div>
+      <div class="body">
+        <strong>ฟังก์ชัน PowerPoint (python-pptx) <span style="font-size:11px;color:var(--orange);">⏳ อยู่ระหว่างพัฒนา</span></strong>
+        <p>วิเคราะห์สรุปแก่นสาระสำคัญแล้วสร้าง Layout โครงสร้างสไลด์นำเสนอผลงานที่พร้อมใช้งานทันที</p>
+      </div>
+    </div>
+
+    <div class="agent">
+      <div class="num">🎨</div>
+      <div class="body">
+        <strong>ฟังก์ชัน Image Generation <span style="font-size:11px;color:var(--orange);">⏳ อยู่ระหว่างพัฒนา</span></strong>
+        <p>ถักทอคำสั่งป้อนเข้าสู่อัลกอริทึมสร้างภาพอัตลักษณ์กราฟิก ดีดส่งไฟล์ภาพคายโชว์ที่แผงควบคุมหน้าบ้าน</p>
+      </div>
+    </div>
+
+    <h3>๒. ระบบสแกนแปลงภาพบัญชีและ Statement (Intelligent OCR Ledger Pipeline) <span style="font-size:12px;color:var(--orange);">⏳ อยู่ระหว่างพัฒนา</span></h3>
+    <p>นี่คือฟังก์ชันกู้ชีพสำหรับกลุ่มทดลองที่ประสบความทุกข์ระทมในงานจัดการเอกสารตัวเลข:</p>
+
+    <p><strong>สายพานการไหลของข้อมูล (Data Pipeline):</strong> ผู้ใช้ทำการอัปโหลดไฟล์ภาพถ่าย ภาพแคปหน้าจอมือถือ หรือไฟล์สแกน "บิลใบเสร็จ หรือ Bank Statement จากธนาคารต่างๆ" วิ่งเข้าสู่ท่อรับสัญญาณ <span style="color:var(--green);font-size:13px;">(สถานะ: รับรูปอัปโหลดได้แล้วผ่าน images parameter · แผน: pipeline สกัดตัวเลขอัตโนมัติ)</span></p>
+
+    <p><strong>การวิเคราะห์พิกเซลภาพ (Vision Ingestion):</strong> แจ่มจูนใช้เลเยอร์ Vision ตรวจสอบพิกเซล สกัดตัวหนังสือและตัวเลขสรุปรายการแบ่งเป็น วันที่, รายการธุรกรรม, ยอดเงินเดบิต, ยอดเงินเครดิต <span style="color:var(--muted);font-size:13px;">(แผนพัฒนา)</span></p>
+
+    <p><strong>การดุลสมดุลตัวเลข (Reconciliation Process):</strong> แจงจูนและเจนจูนทำหน้าที่เวียนลูปคำนวณตรวจสอบผลรวมของรายการย่อย (Sub-total) เทียบกับยอดคงเหลือยกไป (Running Balance) ใน Sandbox ๒ ถึง ๖ รอบจนกระทั่งคณิตศาสตร์ดุลกันเป๊ะ ๑๐๐% แล้วคายไฟล์ผลลัพธ์ออกมาเป็นตาราง Excel บัญชีที่สะอาดบริสุทธิ์ ขจัดภาระการคีย์มือของมนุษย์ได้อย่างมหาศาล <span style="color:var(--muted);font-size:13px;">(แผนพัฒนา)</span></p>
+
+    <div style="margin-top:16px;padding:12px 16px;background:rgba(86,211,100,.08);border:1px solid rgba(86,211,100,.25);border-radius:10px;">
+      <strong style="color:var(--green);">✅ ที่พัฒนาแล้วในเฟสปัจจุบัน</strong>
+      <ul style="margin:8px 0 0;padding-left:20px;font-size:14px;color:var(--muted);">
+        <li>ระบบสภา ๓ พี่น้อง + Claude วิจารณ์ (บทที่ ๒)</li>
+        <li>Bi-Round Reset Protocol (บทที่ ๓)</li>
+        <li>ระบบเครดิต ๕๐ บาท + หักอัตโนมัติ</li>
+        <li>ระบบ login + ผู้ใช้หลายคน</li>
+        <li>รับรูปอัปโหลดส่งเข้า AI ได้ (images parameter)</li>
+        <li>UI มือถือ + Bottom Navigation</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- บทที่ 5 -->
+  <h2 id="ch5">บทที่ ๕: ระเบียบวิธีวิจัยและการประเมินผล</h2>
+  <div class="card">
+    <h3>๕.๑ ระยะการวิจัย (Research Phases)</h3>
+    <p>โครงการวิจัยแบ่งเป็น ๓ ระยะ โดยเฟสปัจจุบันอยู่ในระยะที่ ๑:</p>
+
+    <div class="agent">
+      <div class="num" style="background:rgba(86,211,100,.15);border-color:rgba(86,211,100,.3);color:var(--green);">๑</div>
+      <div class="body">
+        <strong>ระยะที่ ๑ — ทดลองปิด (Proof of Concept)</strong>
+        <p>จำนวนผู้ทดลอง: ๒๐ คน · สถานะ: <span style="color:var(--green);">กำลังดำเนินการ</span><br>
+        ทดสอบว่าระบบทำงานได้จริง หา bug ปรับ UI เก็บ feedback เชิงคุณภาพ (qualitative) เพียงพอสำหรับการพิสูจน์แนวคิด</p>
+      </div>
+    </div>
+
+    <div class="agent">
+      <div class="num" style="background:rgba(255,193,7,.1);border-color:rgba(255,193,7,.3);color:var(--amber);">๒</div>
+      <div class="body">
+        <strong>ระยะที่ ๒ — ขยายทดลอง (Expanded Trial)</strong>
+        <p>จำนวนผู้ทดลอง: ๕๐ คน · สถานะ: <span style="color:var(--amber);">วางแผน</span><br>
+        ใช้สถิติเปรียบเทียบได้ (pre/post test) พิสูจน์ต้นทุนลดจริง หลากหลายประเภทผู้ใช้ (เทคนิค/ไม่เทคนิค)</p>
+      </div>
+    </div>
+
+    <div class="agent">
+      <div class="num" style="background:rgba(74,163,255,.1);border-color:rgba(74,163,255,.3);color:var(--blue);">๓</div>
+      <div class="body">
+        <strong>ระยะที่ ๓ — ส่งเป็นงานวิชาการ (Academic Publication)</strong>
+        <p>จำนวนผู้ทดลอง: ๑๐๐+ คน · สถานะ: <span style="color:var(--muted);">อนาคต</span><br>
+        ผ่าน peer review สถิติแข็งแรง (p-value &lt; 0.05) เผยแพร่ในวารสาร/สารานุกรม</p>
+      </div>
+    </div>
+
+    <h3>๕.๒ ตัวชี้วัดการประเมิน (Evaluation Metrics)</h3>
+    <p><strong>ตัวชี้วัดเชิงปริมาณ (Quantitative):</strong></p>
+    <ul style="padding-left:20px;font-size:14px;color:var(--muted);">
+      <li>ต้นทุนต่องาน (บาท/USD) — เปรียบเทียบกับการใช้ Claude อย่างเดียว</li>
+      <li>เวลาที่ใช้ตั้งแต่สั่งงานจนได้ผลลัพธ์ (minutes)</li>
+      <li>จำนวนรอบที่ใช้ (rounds) จนงานผ่าน</li>
+      <li>อัตราสำเร็จ (% ของงานที่ทำได้โดยไม่ต้องแก้มือ)</li>
+    </ul>
+    <p style="margin-top:10px;"><strong>ตัวชี้วัดเชิงคุณภาพ (Qualitative):</strong></p>
+    <ul style="padding-left:20px;font-size:14px;color:var(--muted);">
+      <li>คะแนนความพึงพอใจ (Likert scale 1-5)</li>
+      <li>ความถูกต้องของผลงาน (ผู้เชี่ยวชาญประเมิน)</li>
+      <li>ความเหมาะสมของผลลัพธ์ต่อวัตถุประสงค์</li>
+      <li>Feedback อิสระจากผู้ทดลอง</li>
+    </ul>
+
+    <h3>๕.๓ เหตุผลที่เลือก ๒๐ คนในเฟส ๑</h3>
+    <p>จากหลักการวิจัย Nielsen Norman Group ระบุว่า ๕-๘ คนเพียงพอสำหรับการหาปัญหา UI/UX (ครอบคลุม ๘๕% ของปัญหา) แต่สำหรับการประเมินคุณภาพงาน AI ที่หลากหลาย ต้องการความหลากหลายของประเภทงานมากขึ้น จึงกำหนด ๒๐ คน เพื่อให้ครอบคลุมทั้งการหา bug และการเก็บตัวอย่างงานที่หลากหลายเพียงพอ โดยไม่สิ้นเปลืองงบประมาณในเฟสพิสูจน์แนวคิด</p>
+  </div>
+
+  <!-- บทที่ 6 -->
+  <h2 id="ch6">บทที่ ๖: วิเคราะห์ต้นทุน API เปรียบเทียบ</h2>
+  <div class="card">
+    <h3>๖.๑ ราคา API จริง ณ มิถุนายน ๒๕๖๙</h3>
+    <p>ราคาต่อ ๑ ล้าน tokens (USD) จากเว็บไซต์ทางการของแต่ละค่าย:</p>
+
+    <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--line);">
+          <th style="text-align:left;padding:8px 6px;color:var(--cyan);">โมเดล</th>
+          <th style="text-align:right;padding:8px 6px;color:var(--cyan);">Input<br>Cache Hit $/M</th>
+          <th style="text-align:right;padding:8px 6px;color:var(--cyan);">Input<br>Cache Miss $/M</th>
+          <th style="text-align:right;padding:8px 6px;color:var(--cyan);">Output $/M</th>
+          <th style="text-align:right;padding:8px 6px;color:var(--cyan);">Context</th>
+          <th style="text-align:right;padding:8px 6px;color:var(--cyan);">Max Output</th>
+          <th style="text-align:right;padding:8px 6px;color:var(--cyan);">Concurrent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:8px 6px;"><strong style="color:var(--green);">DeepSeek V4 Flash</strong><br><span style="font-size:10px;color:var(--muted);">แจงจูนใช้</span></td>
+          <td style="text-align:right;padding:8px 6px;color:var(--green);">$0.0028</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--green);">$0.14</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--green);">$0.28</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">1M</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">384K</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">2,500</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:8px 6px;"><strong style="color:var(--blue);">DeepSeek V4 Pro</strong></td>
+          <td style="text-align:right;padding:8px 6px;color:var(--blue);">$0.003625</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--blue);">$0.435</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--blue);">$0.87</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">1M</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">384K</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">500</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:8px 6px;"><strong style="color:var(--amber);">Gemini 3.5 Flash</strong><br><span style="font-size:10px;color:var(--muted);">Google I/O 2026</span></td>
+          <td style="text-align:right;padding:8px 6px;color:var(--amber);">$0.15</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--amber);">$1.50</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--amber);">$9.00</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">1M</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">65K</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">—</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:8px 6px;"><strong style="color:var(--violet);">Claude Opus 4.8</strong><br><span style="font-size:10px;color:var(--muted);">คอร์สใช้ (วิจารณ์)</span></td>
+          <td style="text-align:right;padding:8px 6px;color:var(--violet);">$0.50</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--violet);">$5.00</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--violet);">$25.00</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">1M</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">128K</td>
+          <td style="text-align:right;padding:8px 6px;color:var(--muted);">—</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12px;color:var(--muted);">ที่มา: DeepSeek API Docs (verified Jun 2026) · Google AI Pricing (verified Jun 2026) · Anthropic Pricing (verified Jun 2026)<br>หมายเหตุ: ราคา Cache Hit คือราคาเมื่อส่ง prefix ซ้ำ (ประหยัดได้ ~98-99%) · Concurrency = จำนวนคำขอพร้อมกันสูงสุด</p>
+
+    <h3>๖.๒ สัดส่วนราคา (Price Ratio)</h3>
+    <p>เปรียบเทียบราคา Output tokens ซึ่งเป็นต้นทุนหลัก:</p>
+
+    <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:13px;margin:12px 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--line);">
+          <th style="text-align:left;padding:8px;color:var(--cyan);">เปรียบเทียบ</th>
+          <th style="text-align:right;padding:8px;color:var(--cyan);">สัดส่วน</th>
+          <th style="text-align:right;padding:8px;color:var(--cyan);">ความหมาย</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:8px;">Claude vs DeepSeek</td>
+          <td style="text-align:right;padding:8px;color:var(--red);font-weight:700;">89x</td>
+          <td style="text-align:right;padding:8px;font-size:12px;color:var(--muted);">Claude แพง 89 เท่า</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:8px;">Gemini 3.5 vs DeepSeek</td>
+          <td style="text-align:right;padding:8px;color:var(--orange);font-weight:700;">32x</td>
+          <td style="text-align:right;padding:8px;font-size:12px;color:var(--muted);">Gemini แพง 32 เท่า</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:8px;">Claude vs Gemini 3.5</td>
+          <td style="text-align:right;padding:8px;color:var(--amber);font-weight:700;">2.8x</td>
+          <td style="text-align:right;padding:8px;font-size:12px;color:var(--muted);">Claude แพง 2.8 เท่า</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>๖.๓ คำนวณต้นทุนต่อการประชุมสภา 1 ครั้ง</h3>
+    <p><strong>สมมติฐาน:</strong> 4 รอบ · 3 พี่น้อง x 4 รอบ = 12 ครั้งเรียก AI + 1 ครั้ง Claude วิจารณ์</p>
+    <p style="font-size:13px;color:var(--muted);">Input ~3,000 tokens/call · Output ~2,000 tokens/call · Claude: Input 5,000 + Output 1,000</p>
+
+    <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:13px;margin:12px 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--line);">
+          <th style="text-align:left;padding:8px;color:var(--cyan);">รูปแบบ</th>
+          <th style="text-align:right;padding:8px;color:var(--cyan);">ต้นทุน (USD)</th>
+          <th style="text-align:right;padding:8px;color:var(--cyan);">ต้นทุน (บาท)</th>
+          <th style="text-align:right;padding:8px;color:var(--cyan);">สัดส่วน</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);background:rgba(86,211,100,.05);">
+          <td style="padding:10px 8px;"><strong style="color:var(--green);">Council Trinity Lab</strong><br><span style="font-size:11px;color:var(--muted);">DeepSeek 12 ครั้ง + Claude 1 ครั้ง</span></td>
+          <td style="text-align:right;padding:10px 8px;color:var(--green);font-weight:700;">$0.062</td>
+          <td style="text-align:right;padding:10px 8px;color:var(--green);">2.29 ฿</td>
+          <td style="text-align:right;padding:10px 8px;color:var(--green);font-weight:700;">1x</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:10px 8px;"><strong>ใช้ Gemini 3.5 Flash ทั้งหมด</strong></td>
+          <td style="text-align:right;padding:10px 8px;">$0.287</td>
+          <td style="text-align:right;padding:10px 8px;">10.62 ฿</td>
+          <td style="text-align:right;padding:10px 8px;color:var(--orange);">4.6x</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:10px 8px;"><strong style="color:var(--violet);">ใช้ Claude Opus 4.8 ทั้งหมด</strong></td>
+          <td style="text-align:right;padding:10px 8px;color:var(--violet);">$0.830</td>
+          <td style="text-align:right;padding:10px 8px;color:var(--violet);">30.71 ฿</td>
+          <td style="text-align:right;padding:10px 8px;color:var(--red);font-weight:700;">13.4x</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:12px;color:var(--muted);">อัตราแลกเปลี่ยน: 1 USD = 37 บาท · คำนวณจากราคา cache-miss input</p>
+
+    <div class="warn" style="margin-top:16px;">
+      <strong>📊 บทสรุปต้นทุน</strong>
+      <p style="margin-top:8px;">การจัดเรียงเอเจนต์แบบ Council Trinity Lab (DeepSeek เขียน + Claude วิจารณ์) ลดต้นทุนลง <strong style="color:var(--green);">13.4 เท่า</strong> เมื่อเทียบกับการใช้ Claude อย่างเดียว และ <strong style="color:var(--green);">4.6 เท่า</strong> เมื่อเทียบกับ Gemini 3.5 Flash ทั้งหมด ตอบสมมติฐานการวิจัยที่ตั้งไว้ว่า "ต่ำลงกว่าราคาตลาด 10 ถึง 20 เท่า" ได้จริง</p>
+    </div>
+
+    <h3>๖.๔ ต้นทุนรายเดือนสำหรับ 20 ผู้ทดลอง</h3>
+    <p>สมมติฐาน: ผู้ทดลอง 20 คน × 5 ครั้ง/คน/วัน × 30 วัน = 3,000 ครั้ง/เดือน</p>
+
+    <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:13px;margin:12px 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--line);">
+          <th style="text-align:left;padding:8px;color:var(--cyan);">รูปแบบ</th>
+          <th style="text-align:right;padding:8px;color:var(--cyan);">ต่อเดือน (USD)</th>
+          <th style="text-align:right;padding:8px;color:var(--cyan);">ต่อเดือน (บาท)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line);background:rgba(86,211,100,.05);">
+          <td style="padding:10px 8px;"><strong style="color:var(--green);">Council Trinity Lab</strong></td>
+          <td style="text-align:right;padding:10px 8px;color:var(--green);font-weight:700;">$186</td>
+          <td style="text-align:right;padding:10px 8px;color:var(--green);">6,882 ฿</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:10px 8px;">Gemini 3.5 Flash ทั้งหมด</td>
+          <td style="text-align:right;padding:10px 8px;">$861</td>
+          <td style="text-align:right;padding:10px 8px;">31,857 ฿</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:10px 8px;"><strong style="color:var(--violet);">Claude Opus 4.8 ทั้งหมด</strong></td>
+          <td style="text-align:right;padding:10px 8px;color:var(--violet);">$2,490</td>
+          <td style="text-align:right;padding:10px 8px;color:var(--violet);">92,130 ฿</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="safe" style="margin-top:16px;">
+      <strong>💰 ประหยัดได้จริง</strong>
+      <p style="margin-top:8px;">เทียบกับใช้ Claude อย่างเดียว: ประหยัด <strong style="color:var(--green);">85,248 บาท/เดือน</strong> (92.5%)<br>
+      เทียบกับใช้ Gemini 3.5 Flash ทั้งหมด: ประหยัด <strong style="color:var(--green);">24,975 บาท/เดือน</strong> (78.4%)</p>
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <a href="manual.html">📖 คู่มือใช้งานสั้น</a>
+    <a href="index.html">🏛️ กลับหน้าหลัก</a>
+  </div>
+
+  <div class="footer">
+    Council Trinity Lab · รหัสโครงการ: BIS-COUNCIL-LAB-V8<br>
+    บ้านอินทร์ทรัพย์ · พ.ศ. ๒๕๖๙<br>
+    Full Script — Zero Truncation
+  </div>
+
+</div>
+</body>
+</html>

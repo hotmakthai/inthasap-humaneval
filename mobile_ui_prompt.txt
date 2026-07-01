@@ -1,0 +1,63 @@
+=========================================================
+  📱 PROMPT สำหรับ chat.z.ai — สร้าง Mobile UI
+  วิธีใช้: copy ทั้งหมดไปวางใน https://chat.z.ai/
+=========================================================
+
+ช่วยออกแบบ Mobile UI (Responsive CSS) สำหรับเว็บแอป "Council Trinity Lab" ที่ใช้งานบนมือถือเป็นหลัก
+
+## ข้อมูลเว็บแอป
+- ชื่อ: Council Trinity Lab
+- ฟังก์ชัน: แชทกับ AI 3 ตัว (แจ่มจูน, แจงจูน, เจนจูน) + โหมดประชุมสภา (รันงานอัตโนมัติ)
+- ผู้ใช้: ครอบครัวและเพื่อน 15 บัญชี + admin 1 บัญชี
+- ใช้งานจากมือถือเป็นหลัก (ทั้ง iOS และ Android)
+
+## โครงสร้างหน้าเว็บปัจจุบัน (Desktop)
+1. Header: โลโก้ ⚡ + ชื่อ + chips (สถานะ AI tiers, งบ USD, เครดิต บาท)
+2. แถบปุ่มโหมด: แจ่มจูน | แจงจูน | เจนจูน | ประชุมสภา | 💰 เติมเงิน 50 บาท | 🚪 Exit
+3. โหมดประชุมสภา:
+   - dropdown เลือก session เก่า
+   - textarea พิมพ์งาน
+   - input โปรเจกต์ path
+   - select โหมด (อัตโนมัติ/โค้ด/คิด)
+   - select จำนวนรอบ (1-6)
+   - ปุ่ม ประชุม / หยุด
+   - checkbox แก้ไฟล์จริง
+   - dropdown ย้อนคืน + ปุ่มย้อนคืน
+   - สตรีมผลการประชุม (การ์ดแต่ละ speaker)
+   - ปุ่ม บันทึก / ขยายความ / ส่งให้พี่จูนวิเคราะห์
+4. โหมดแชทเดี่ยว:
+   - dropdown session
+   - ปุ่ม ขยายความ / ส่งให้พี่จูน
+   - chat log (ข้อความซ้าย-ขวา)
+   - แถบพิมพ์: ปุ่มแนบไฟล์ + textarea + ปุ่มส่ง
+5. Login overlay: ฟอร์มล็อกอิน (username + password)
+6. ปุ่มลอย ↑↓ สำหรับเลื่อนขึ้น-ลง
+
+## ธีมสี (Dark Mode)
+- สีพื้นหลัก: #1a1a2e (สีน้ำเงินเข้มอมเทา)
+- สีพื้นรอง (การ์ด/container): #16213e (สีน้ำเงินเข้มกว่าเล็กน้อย)
+- สีพื้นแถบ/header: #0f3460 (สีน้ำเงินเข้มจัด)
+- สีข้อความหลัก: #e0e0e0 (เทาอ่อน)
+- สีข้อความรอง: #a0a0b0 (เทากลาง)
+- สี accent หลัก: #e94560 (แดงอมชมพู — ใช้กับปุ่มสำคัญ, link, highlight)
+- สี accent รอง: #533483 (ม่วงเข้ม — ใช้กับปุ่มรอง, border)
+- สี success: #00b894 (เขียวมิ้นต์ — ใช้กับสถานะพร้อม/สำเร็จ)
+- สี warning: #fdcb6e (เหลืองทอง — ใช้กับแจ้งเตือน)
+- สี error: #d63031 (แดงสด — ใช้กับข้อผิดพลาด)
+- สีพื้น input/textarea: #0d1b2a (ดำน้ำเงิน)
+- สี border: #2d3561 (น้ำเงินเทา)
+- สี scrollbar: #3a4a7a (น้ำเงินกลาง)
+- สีพื้น chips: #2a2a4a (เทาน้ำเงิน)
+- สีพื้น overlay: rgba(0, 0, 0, 0.7) (ดำโปร่งแสง)
+- เงา: rgba(0, 0, 0, 0.4) (ดำโปร่งแสงสำหรับ drop shadow)
+
+## ข้อควรระวังสำหรับ Responsive Mobile UI
+- ทุก element ต้องมีขนาด touch target อย่างน้อย 44x44px (ตาม guideline iOS/Android)
+- ใช้ flexbox/grid เป็นหลัก ห้ามใช้ float
+- ใช้ max-width: 100% สำหรับรูป/container
+- ใช้ media query ที่ breakpoint 768px (tablet) และ 480px (มือถือ)
+- ใช้ viewport meta tag: <meta name="viewport" content="width=device-width, initial-scale=1.0">
+- ใช้ CSS custom properties (--color-bg, --color-accent ฯลฯ) เพื่อให้เปลี่ยนธีมง่าย
+- ใช้ overflow-x: hidden เพื่อป้องกัน scroll แนวนอน
+- ใช้ -webkit-overflow-scrolling: touch สำหรับ smooth scroll บน iOS
+- ใช้ touch-action: manipulation เพื่อป้องกัน double-tap zoom บนปุ่ม

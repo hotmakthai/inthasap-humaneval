@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0c0c1a">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Council Trinity Lab — แยกแยะงาน</title>
+<style>body{background:#0c0c1a;margin:0;color:#eae8f4;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}</style>
+<style>
+/* ===== Variables ===== */
+:root{
+  --bg:#0c0c1a;--bg2:#101026;--panel:#16162e;
+  --card:rgba(22,22,50,0.65);--card-h:rgba(30,30,65,0.75);
+  --brd:rgba(255,255,255,0.06);--brd-h:rgba(255,255,255,0.13);
+  --txt:#eae8f4;--txt2:#c8c4dc;--muted:#78749a;
+  --accent:#b794f6;--accent-dim:rgba(183,148,246,0.13);
+  --accent-glow:rgba(183,148,246,0.25);
+  --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --radius:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%;overscroll-behavior-y:contain;scroll-behavior:smooth}
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Thai",sans-serif;
+  background:linear-gradient(160deg,#0e0a1c 0%,#0a0e20 45%,#0c0c1a 100%);
+  color:var(--txt);min-height:100dvh;min-height:100vh;
+  display:flex;flex-direction:column;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== Background Effects ===== */
+.bg-fx{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-fx .blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.07}
+.bg-fx .b1{width:500px;height:500px;background:#7c3aed;top:-15%;right:-10%;animation:blobDrift 18s ease-in-out infinite alternate}
+.bg-fx .b2{width:400px;height:400px;background:#2563eb;bottom:-10%;left:-8%;animation:blobDrift 22s ease-in-out infinite alternate-reverse}
+.bg-fx .b3{width:300px;height:300px;background:#a855f7;top:40%;left:50%;animation:blobDrift 15s ease-in-out infinite alternate}
+@keyframes blobDrift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-20px) scale(1.1)}100%{transform:translate(-20px,30px) scale(.95)}}
+.bg-fx .dots{
+  position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+
+/* ===== Progress Bar ===== */
+.prog-track{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.04);z-index:1000;padding-top:var(--safe-t)}
+.prog-fill{height:100%;width:0;background:linear-gradient(90deg,#a78bfa,#e879f9);border-radius:0 2px 2px 0;transition:width .6s cubic-bezier(.16,1,.3,1)}
+
+/* ===== Header ===== */
+.app-header{
+  position:sticky;top:0;z-index:100;
+  padding:16px 24px;padding-top:calc(16px + var(--safe-t));
+  background:rgba(12,12,26,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--brd);
+}
+.header-row{display:flex;align-items:center;gap:12px}
+.header-logo{font-size:24px;flex-shrink:0}
+.header-info{flex:1;min-width:0}
+.header-brand{font-size:14px;font-weight:700;color:var(--txt);letter-spacing:-.2px}
+.header-page{font-size:20px;font-weight:800;color:var(--txt);line-height:1.3;margin-top:1px}
+.header-sub{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.5}
+.skip-btn{
+  flex-shrink:0;background:none;border:1px solid var(--brd);color:var(--muted);
+  padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;
+  font-family:inherit;cursor:pointer;white-space:nowrap;transition:all .2s;
+}
+.skip-btn:hover{border-color:var(--brd-h);color:var(--txt2)}
+.skip-btn:active{transform:scale(.96)}
+
+/* ===== Main ===== */
+main{flex:1;position:relative;z-index:1;padding:24px;max-width:860px;margin:0 auto;width:100%}
+.sec-label{font-size:13px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.sec-title{font-size:17px;font-weight:700;color:var(--txt);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--muted);margin-bottom:16px}
+
+/* ===== Career Grid ===== */
+.career-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+}
+.career-card{
+  position:relative;background:var(--card);border:1px solid var(--brd);
+  border-radius:var(--radius);padding:18px 16px;cursor:pointer;
+  transition:all .35s cubic-bezier(.16,1,.3,1);overflow:hidden;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  outline:none;
+}
+.career-card::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.04),transparent 60%);
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.career-card:hover::before,.career-card:focus-visible::before{opacity:1}
+.career-card:hover,.career-card:focus-visible{
+  border-color:var(--brd-h);background:var(--card-h);transform:translateY(-3px);
+}
+.career-card:active{transform:translateY(-1px) scale(.99)}
+.career-card.dimmed{opacity:.35;filter:saturate(.4);transform:scale(.97)}
+.career-card.selected{
+  border-color:var(--card-accent);
+  box-shadow:0 0 0 1px var(--card-accent),0 0 24px -4px color-mix(in srgb,var(--card-accent) 30%,transparent);
+  opacity:1!important;filter:none!important;pointer-events:auto!important;transform:translateY(-4px);
+  animation:cardGlow 2.5s ease-in-out infinite;
+}
+@keyframes cardGlow{
+  0%,100%{box-shadow:0 0 0 1px var(--card-accent),0 0 24px -4px color-mix(in srgb,var(--card-accent) 25%,transparent)}
+  50%{box-shadow:0 0 0 1px var(--card-accent),0 0 36px -2px color-mix(in srgb,var(--card-accent) 35%,transparent)}
+}
+.card-icon{font-size:28px;margin-bottom:8px;display:block}
+.card-title{font-size:14px;font-weight:700;color:var(--txt);line-height:1.4;margin-bottom:4px}
+.card-desc{font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:10px}
+.card-prof{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.card-prof span{font-size:10px;padding:2px 7px;border-radius:6px;background:rgba(255,255,255,.04);color:var(--txt2);white-space:nowrap}
+.card-ai{display:flex;flex-wrap:wrap;gap:4px}
+.card-ai span{font-size:10px;padding:2px 7px;border-radius:6px;background:color-mix(in srgb,var(--card-accent) 12%,transparent);color:var(--card-accent);white-space:nowrap;font-weight:500}
+.card-check{
+  position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;
+  border:2px solid var(--brd);display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:transparent;transition:all .3s;background:var(--bg);
+}
+.career-card.selected .card-check{
+  border-color:var(--card-accent);background:var(--card-accent);color:var(--bg);
+}
+
+/* ===== Hidden Sections ===== */
+.hidden-sec{
+  max-height:0;opacity:0;overflow:hidden;
+  transform:translateY(16px);
+  transition:max-height .6s cubic-bezier(.16,1,.3,1),opacity .45s ease,transform .5s cubic-bezier(.16,1,.3,1);
+  margin-top:0;
+}
+.hidden-sec.visible{
+  max-height:800px;opacity:1;overflow:visible;transform:translateY(0);margin-top:28px;
+}
+#sec3.visible{transition-delay:.08s}
+#sec4.visible{transition-delay:.16s}
+
+/* ===== Chips ===== */
+.chip-grid{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:9px 16px;border-radius:10px;border:1px solid var(--brd);
+  background:transparent;color:var(--muted);font-size:13px;font-weight:500;
+  font-family:inherit;cursor:pointer;transition:all .25s cubic-bezier(.16,1,.3,1);
+  outline:none;user-select:none;-webkit-user-select:none;
+  min-height:42px;
+}
+.chip:hover{border-color:var(--brd-h);color:var(--txt2);background:rgba(255,255,255,.02)}
+.chip:active{transform:scale(.96)}
+.chip:focus-visible{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-dim)}
+.chip.selected{
+  border-color:var(--accent);background:var(--accent-dim);color:var(--accent);
+  font-weight:600;transform:scale(1.02);
+}
+.chip.selected::before{content:'✓';font-size:11px;font-weight:700}
+.chip-count{font-size:12px;color:var(--muted);margin-top:8px;font-weight:400}
+.chip-count b{color:var(--accent);font-weight:600}
+
+/* ===== Form (Section 4) ===== */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-grid .full{grid-column:1/-1}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.form-input,.form-select{
+  width:100%;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid var(--brd);
+  border-radius:10px;color:var(--txt);font-size:15px;font-family:inherit;
+  transition:border-color .2s;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%2378749a' viewBox='0 0 16 16'%3E%3Cpath d='M8 12L2 6h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.form-input:focus,.form-select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+.form-input::placeholder{color:var(--muted);opacity:.6}
+.form-select option{background:var(--panel);color:var(--txt);padding:8px}
+.form-select{color:var(--txt)}
+.optional-tag{font-size:11px;color:var(--muted);font-weight:400;margin-left:6px;opacity:.7}
+
+/* ===== Footer ===== */
+.app-footer{
+  position:relative;z-index:10;
+  padding:16px 24px;padding-bottom:calc(16px + var(--safe-b));
+  background:rgba(12,12,26,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--brd);
+  display:flex;gap:10px;max-width:860px;margin:0 auto;width:100%;
+}
+.btn-save{
+  flex:1;padding:14px 24px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,#a78bfa,#8b5cf6);color:#fff;
+  font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;
+  transition:all .25s;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-save:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 6px 24px rgba(139,92,246,.3)}
+.btn-save:active{transform:scale(.98)}
+.btn-save:disabled{opacity:.4;pointer-events:none;filter:none;transform:none;box-shadow:none}
+.btn-save .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn-skip{
+  padding:14px 24px;border-radius:12px;border:1px solid var(--brd);
+  background:transparent;color:var(--muted);font-size:15px;font-weight:600;
+  font-family:inherit;cursor:pointer;transition:all .2s;min-height:48px;
+  white-space:nowrap;
+}
+.btn-skip:hover{border-color:var(--brd-h);color:var(--txt2)}
+.btn-skip:active{transform:scale(.97)}
+
+/* ===== Toast ===== */
+.toast{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-120px);
+  background:var(--panel);border:1px solid var(--brd-h);color:var(--txt);
+  padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;
+  z-index:2000;box-shadow:0 8px 32px rgba(0,0,0,.5);
+  transition:transform .45s cubic-bezier(.16,1,.3,1);white-space:nowrap;
+  max-width:90vw;text-overflow:ellipsis;overflow:hidden;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:rgba(52,211,153,.4);color:#34d399}
+.toast.err{border-color:rgba(248,113,113,.4);color:#f87171}
+
+/* ===== Login Gate ===== */
+.login-gate{
+  position:fixed;inset:0;z-index:9999;background:rgba(10,10,20,.96);
+  display:flex;align-items:center;justify-content:center;
+}
+.login-box{
+  background:var(--panel);border:1px solid var(--brd);border-radius:14px;
+  padding:30px;width:340px;max-width:90vw;
+}
+.login-box h2{margin:0 0 20px;text-align:center;color:var(--accent)}
+.login-box form{display:flex;flex-direction:column;gap:12px}
+.login-box input{
+  padding:10px 14px;border:1px solid var(--brd);border-radius:8px;
+  background:rgba(255,255,255,.03);color:var(--txt);font-size:16px;font-family:inherit;
+}
+.login-box input:focus{outline:none;border-color:var(--accent)}
+.login-box button{
+  padding:12px;border:none;border-radius:8px;
+  background:linear-gradient(135deg,#a78bfa,#8b5cf6);color:#fff;
+  font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;
+}
+.login-box .hint{margin-top:14px;font-size:12px;color:var(--muted);text-align:center}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .app-header{padding:12px 16px;padding-top:calc(12px + var(--safe-t))}
+  .header-logo{font-size:20px}
+  .header-page{font-size:17px}
+  .header-sub{font-size:12px}
+  .skip-btn{padding:7px 12px;font-size:12px}
+  main{padding:16px 14px;padding-bottom:calc(80px + var(--safe-b))}
+  .career-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .career-card{padding:14px 12px}
+  .card-icon{font-size:24px;margin-bottom:6px}
+  .card-title{font-size:13px}
+  .card-desc{font-size:10.5px;margin-bottom:8px}
+  .card-prof span,.card-ai span{font-size:9px}
+  .card-check{width:20px;height:20px;top:10px;right:10px;font-size:10px}
+  .chip{padding:8px 13px;font-size:12px;min-height:40px}
+  .form-grid{grid-template-columns:1fr}
+  .app-footer{
+    position:fixed;bottom:0;left:0;right:0;
+    padding:12px 16px;padding-bottom:calc(12px + var(--safe-b));
+    max-width:none;
+  }
+  .btn-save,.btn-skip{padding:12px 16px;font-size:14px}
+}
+@media(max-width:370px){
+  .career-grid{gap:8px}
+  .career-card{padding:12px 10px}
+  .card-title{font-size:12px}
+  .card-prof{gap:3px}
+  .card-prof span,.card-ai span{font-size:8.5px;padding:1px 5px}
+  .chip{padding:7px 10px;font-size:11px}
+  .header-brand{display:none}
+}
+@media(min-width:769px) and (max-width:900px){
+  .career-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+}
+@media(orientation:landscape) and (max-height:560px){
+  .career-grid{grid-template-columns:repeat(3,1fr)}
+  .career-card{padding:10px}
+  .card-icon{font-size:20px;margin-bottom:4px}
+  .card-desc{display:none}
+  .card-prof{margin-bottom:4px}
+  .hidden-sec.visible{margin-top:14px}
+}
+
+/* ===== Reduced Motion ===== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ===== Focus Visible ===== */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.career-card:focus-visible{outline:none}
+.chip:focus-visible{outline-offset:1px}
+</style>
+</head>
+<body>
+
+<!-- Login Gate -->
+<div class="login-gate" id="loginGate" style="display:flex">
+  <div class="login-box">
+    <h2>🏛️ Council Trinity Lab</h2>
+    <form id="loginForm">
+      <input type="text" id="loginUser" placeholder="ชื่อผู้ใช้" required>
+      <input type="password" id="loginPass" placeholder="รหัสผ่าน" required>
+      <button type="submit">เข้าสู่ระบบ</button>
+    </form>
+    <div class="hint" id="loginHint">ทดสอบ: admin / (ดูรหัสผ่านจากไฟล์ users.json)</div>
+  </div>
+</div>
+
+<!-- Background -->
+<div class="bg-fx" aria-hidden="true">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="dots"></div>
+</div>
+
+<!-- Progress -->
+<div class="prog-track" aria-hidden="true"><div class="prog-fill" id="progFill"></div></div>
+
+<!-- Header -->
+<header class="app-header">
+  <div class="header-row">
+    <span class="header-logo" aria-hidden="true">🏛️</span>
+    <div class="header-info">
+      <div class="header-brand">Council Trinity Lab</div>
+      <h1 class="header-page">แยกแยะงานของคุณ</h1>
+      <p class="header-sub">เลือกกลุ่มอาชีพและความต้องการ เพื่อให้ AI ปรับตัวตามบริบทของคุณ</p>
+    </div>
+    <button class="skip-btn" id="skipHeader" aria-label="ข้ามหน้านี้">ข้าม →</button>
+  </div>
+</header>
+
+<!-- Main -->
+<main>
+
+  <!-- Section 1: Career Groups -->
+  <section id="sec1" aria-labelledby="sec1Title">
+    <div class="sec-label">เลือก 1 กลุ่ม</div>
+    <h2 class="sec-title" id="sec1Title">กลุ่มอาชีพของคุณ</h2>
+    <p class="sec-desc">เลือกกลุ่มที่ใกล้เคียงกับงานปัจจุบันมากที่สุด</p>
+
+    <div class="career-grid" role="radiogroup" aria-label="กลุ่มอาชีพ">
+
+      <!-- กลุ่ม 1: สร้างสรรค์ -->
+      <div class="career-card" data-group="1" style="--card-accent:#e879f9" tabindex="0" role="radio" aria-checked="false" aria-label="สายงานสร้างสรรค์และสื่อ">
+        <div class="card-check" aria-hidden="true">✓</div>
+        <span class="card-icon" aria-hidden="true">🎨</span>
+        <h3 class="card-title">สายงานสร้างสรรค์และสื่อ</h3>
+        <p class="card-desc">ปลดล็อกจินตนาการด้วย Generative AI</p>
+        <div class="card-prof"><span>นักเขียน</span><span>กราฟิกดีไซน์เนอร์</span><span>นักตัดต่อวิดีโอ</span><span>นักการตลาดเนื้อหา</span><span>ศิลปินดิจิทัล</span></div>
+        <div class="card-ai"><span>สร้างร่างแรก</span><span>หาไอเดีย</span><span>ผลิตสื่อหลากหลายรูปแบบ</span></div>
+      </div>
+
+      <!-- กลุ่ม 2: เทคโนโลยี -->
+      <div class="career-card" data-group="2" style="--card-accent:#22d3ee" tabindex="0" role="radio" aria-checked="false" aria-label="สายงานเทคโนโลยีและข้อมูล">
+        <div class="card-check" aria-hidden="true">✓</div>
+        <span class="card-icon" aria-hidden="true">💻</span>
+        <h3 class="card-title">สายงานเทคโนโลยีและข้อมูล</h3>
+        <p class="card-desc">AI Copilot สำหรับโค้ดและข้อมูล</p>
+        <div class="card-prof"><span>วิศวกรซอฟต์แวร์</span><span>นักวิเคราะห์ข้อมูล</span><span>วิศวกร ML</span></div>
+        <div class="card-ai"><span>เขียนโค้ดอัตโนมัติ</span><span>ตรวจบั๊ก</span><span>สร้างเทส</span><span>วิเคราะห์ Big Data</span></div>
+      </div>
+
+      <!-- กลุ่ม 3: วิชาชีพเฉพาะทาง -->
+      <div class="career-card" data-group="3" style="--card-accent:#34d399" tabindex="0" role="radio" aria-checked="false" aria-label="สายงานวิชาชีพเฉพาะทาง">
+        <div class="card-check" aria-hidden="true">✓</div>
+        <span class="card-icon" aria-hidden="true">🏥</span>
+        <h3 class="card-title">สายงานวิชาชีพเฉพาะทาง</h3>
+        <p class="card-desc">AI เสริมการตัดสินใจเฉพาะทาง</p>
+        <div class="card-prof"><span>แพทย์</span><span>นักกฎหมาย</span><span>บัญชี</span><span>การเงิน</span></div>
+        <div class="card-ai"><span>วิเคราะห์ภาพเอกซเรย์</span><span>สืบค้นคดี</span><span>ตรวจสัญญา</span><span>ตรวจธุรกรรม</span></div>
+      </div>
+
+      <!-- กลุ่ม 4: บริหาร -->
+      <div class="career-card" data-group="4" style="--card-accent:#fbbf24" tabindex="0" role="radio" aria-checked="false" aria-label="สายงานบริหารและสำนักงาน">
+        <div class="card-check" aria-hidden="true">✓</div>
+        <span class="card-icon" aria-hidden="true">📋</span>
+        <h3 class="card-title">สายงานบริหารและสำนักงาน</h3>
+        <p class="card-desc">เพิ่มประสิทธิภาพด้วยระบบอัตโนมัติ</p>
+        <div class="card-prof"><span>HR</span><span>ผู้จัดการโครงการ</span><span>ฝ่ายจัดซื้อ</span><span>เลขานุการ</span></div>
+        <div class="card-ai"><span>สรุมประชุม</span><span>จัดตารางงาน</span><span>จัดเอกสาร</span><span>คัดเรซูเม่</span></div>
+      </div>
+
+      <!-- กลุ่ม 5: บริการ -->
+      <div class="career-card" data-group="5" style="--card-accent:#fb7185" tabindex="0" role="radio" aria-checked="false" aria-label="สายงานบริการและลูกค้าสัมพันธ์">
+        <div class="card-check" aria-hidden="true">✓</div>
+        <span class="card-icon" aria-hidden="true">🤝</span>
+        <h3 class="card-title">สายงานบริการและลูกค้าสัมพันธ์</h3>
+        <p class="card-desc">บริการอัจฉริยะ 24/7</p>
+        <div class="card-prof"><span>ฝ่ายขาย</span><span>ฝ่ายบริการลูกค้า</span><span>Call center</span></div>
+        <div class="card-ai"><span>Chatbot</span><span>วิเคราะห์ความรู้สึก</span><span>แนะนำสินค้าเฉพาะบุคคล</span></div>
+      </div>
+
+      <!-- กลุ่ม 6: การศึกษา -->
+      <div class="career-card" data-group="6" style="--card-accent:#38bdf8" tabindex="0" role="radio" aria-checked="false" aria-label="สายงานการศึกษาและการวิจัย">
+        <div class="card-check" aria-hidden="true">✓</div>
+        <span class="card-icon" aria-hidden="true">📚</span>
+        <h3 class="card-title">สายงานการศึกษาและการวิจัย</h3>
+        <p class="card-desc">การเรียนรู้เฉพาะบุคคลและเร่งงานวิจัย</p>
+        <div class="card-prof"><span>ครู</span><span>อาจารย์</span><span>นักวิจัย</span></div>
+        <div class="card-ai"><span>ปรับเนื้อหาการเรียน</span><span>สรุปงานวิจัย</span><span>วิเคราะห์สถิติ</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 2: Skills -->
+  <section id="sec2" class="hidden-sec" aria-labelledby="sec2Title">
+    <div class="sec-label">เลือกได้หลายอย่าง</div>
+    <h2 class="sec-title" id="sec2Title">ความสามารถที่ต้องการ</h2>
+    <p class="sec-desc">AI จะปรับพฤติกรรมตามที่เลือก</p>
+    <div class="chip-grid" id="skillChips" role="group" aria-label="ความสามารถที่ต้องการ"></div>
+    <div class="chip-count" id="skillCount"></div>
+  </section>
+
+  <!-- Section 3: Work Style -->
+  <section id="sec3" class="hidden-sec" aria-labelledby="sec3Title">
+    <div class="sec-label">เลือกได้หลายอย่าง</div>
+    <h2 class="sec-title" id="sec3Title">สไตล์การทำงานที่ชอบ</h2>
+    <p class="sec-desc">กำหนดวิธีตอบของ AI</p>
+    <div class="chip-grid" id="styleChips" role="group" aria-label="สไตล์การทำงาน"></div>
+    <div class="chip-count" id="styleCount"></div>
+  </section>
+
+  <!-- Section 4: Project -->
+  <section id="sec4" class="hidden-sec" aria-labelledby="sec4Title">
+    <div class="sec-label">ไม่บังคับ</div>
+    <h2 class="sec-title" id="sec4Title">โปรเจกต์ปัจจุบัน<span class="optional-tag">(ไม่ใส่ก็ได้)</span></h2>
+    <div class="form-grid">
+      <div class="full">
+        <label class="form-label" for="projName">ชื่อโปรเจกต์</label>
+        <input type="text" class="form-input" id="projName" placeholder="เช่น Council Lab, เว็บร้านกาแฟ" autocomplete="off">
+      </div>
+      <div>
+        <label class="form-label" for="projType">ประเภท</label>
+        <select class="form-select" id="projType">
+          <option value="">— เลือก —</option>
+          <option>เว็บ</option>
+          <option>มือถือ</option>
+          <option>API</option>
+          <option>งานเอกสาร</option>
+          <option>งานสื่อ</option>
+          <option>งานวิจัย</option>
+          <option>อื่นๆ</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label" for="projPath">Path โฟลเดอร์</label>
+        <input type="text" class="form-input" id="projPath" placeholder="ไม่ใส่ก็ได้" autocomplete="off">
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="app-footer">
+  <button class="btn-save" id="btnSave" disabled>
+    <span id="saveText">บันทึกและเข้าใช้งาน</span>
+  </button>
+  <button class="btn-skip" id="btnSkip">ข้าม</button>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   Council Trinity Lab — Profile Page Logic
+   ============================================================ */
+
+const API = ""; // same origin
+
+// ===== ข้อมูลทักษะตามกลุ่มอาชีพ =====
+const SKILLS = {
+  1: ['สร้างร่างเนื้อหา (Drafting)', 'หาไอเดียใหม่ (Ideation)', 'ผลิตสื่อหลากหลายรูปแบบ', 'ออกแบบกราฟิก', 'เขียนสคริปต์/บท', 'สรุปเนื้อหา/แปล'],
+  2: ['เขียนโค้ด / แก้โค้ด', 'ตรวจสอบข้อผิดพลาด (Bug Detection)', 'สร้างชุดทดสอบ (Test Cases)', 'วิเคราะห์ข้อมูล / สร้างโมเดลพยากรณ์', 'รีวิวโค้ด / ตรวจช่องโหว่', 'วางแผนระบบ / ออกแบบสถาปัตยกรรม'],
+  3: ['วิเคราะห์ภาพ/ข้อมูลทางการแพทย์', 'สืบค้นคดี/กฎหมาย', 'ตรวจสอบสัญญา/เอกสาร', 'ตรวจสอบธุรกรรม/ความเสี่ยง', 'วิเคราะห์ข้อมูลการเงิน', 'สรุปรายงานเฉพาะทาง'],
+  4: ['สรุปการประชุม', 'จัดตารางงานอัตโนมัติ', 'จัดการเอกสาร', 'คัดกรองเรซูเม่/ประเมินพนักงาน', 'วางแผนกลยุทธ์องค์กร', 'สร้างรายงาน/นำเสนอ'],
+  5: ['สร้าง Chatbot/ตอบคำถาม', 'วิเคราะห์ความรู้สึกลูกค้า (Sentiment)', 'แนะนำสินค้าเฉพาะบุคคล', 'สรุปบทสนทนา/เคส', 'สร้างสคริปต์การขาย', 'วิเคราะห์ข้อมูลลูกค้า'],
+  6: ['ปรับเนื้อหาการเรียนรู้เฉพาะบุคคล', 'สรุปบทความวิจัย', 'วิเคราะห์สถิติซับซ้อน', 'สร้างแบบฝึกหัด/โจทย์', 'สร้างเนื้อหาการสอน', 'แปล/สรุปเอกสารวิชาการ']
+};
+
+const STYLES = [
+  'ตอบกระชับ ไปตรงประเด็น',
+  'อธิบายละเอียด มีเหตุผล',
+  'ตัวอย่างก่อน ทฤษฎีทีหลัง',
+  'เป็นมิตร พูดคุยสบายๆ',
+  'เคร่งครัด วิชาการ',
+  'แนะนำวิธีแก้ พร้อมอธิบายที่มา'
+];
+
+const GROUP_NAMES = {
+  1: '1. สายงานสร้างสรรค์และสื่อ',
+  2: '2. สายงานเทคโนโลยีและข้อมูล',
+  3: '3. สายงานวิชาชีพเฉพาะทาง',
+  4: '4. สายงานบริหารและสำนักงาน',
+  5: '5. สายงานบริการและลูกค้าสัมพันธ์',
+  6: '6. สายงานการศึกษาและการวิจัย'
+};
+
+// ===== State =====
+let selectedGroup = null;
+let selectedSkills = new Set();
+let selectedStyles = new Set();
+
+// ===== Elements =====
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+const cards = $$('.career-card');
+const sec2 = $('#sec2');
+const sec3 = $('#sec3');
+const sec4 = $('#sec4');
+const skillChipsEl = $('#skillChips');
+const styleChipsEl = $('#styleChips');
+const skillCountEl = $('#skillCount');
+const styleCountEl = $('#styleCount');
+const btnSave = $('#btnSave');
+const saveText = $('#saveText');
+const progFill = $('#progFill');
+const toastEl = $('#toast');
+const loginGate = $('#loginGate');
+
+// ===== Login Gate =====
+var isEditMode = new URLSearchParams(window.location.search).get('edit') === '1';
+function checkLogin(){
+  // ตั้ง timeout 5 วินาที — ถ้า server ไม่ตอบ โชว์ login
+  var done = false;
+  var timer = setTimeout(function(){
+    if(!done){
+      done = true;
+      loginGate.style.display = 'flex';
+      var hint = document.getElementById('loginHint');
+      if(hint) hint.textContent = 'เชื่อมต่อช้า — ลองใหม่อีกครั้ง';
+    }
+  }, 5000);
+
+  // ใช้ /api/system ตรวจ login + has_profile ในครั้งเดียว
+  fetch(API + "/api/system").then(function(tr){
+    if(done) return;
+    done = true;
+    clearTimeout(timer);
+    if(tr.status === 200){
+      return tr.json().then(function(d){
+        if(d && d.has_profile && !isEditMode){
+          window.location.href = "/index.html";
+        } else {
+          loginGate.style.display = 'none';
+          if(isEditMode) loadExistingProfile();
+        }
+      });
+    } else {
+      loginGate.style.display = 'flex';
+    }
+  }).catch(function(){
+    if(done) return;
+    done = true;
+    clearTimeout(timer);
+    loginGate.style.display = 'flex';
+  });
+}
+
+$('#loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const u = $('#loginUser').value.trim();
+  const p = $('#loginPass').value.trim();
+  if(!u || !p) return;
+  try{
+    const r = await fetch(API + "/login", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({username: u, password: p})
+    });
+    const d = await r.json();
+    if(d.ok){
+      // ใช้ has_profile จาก server ตรงๆ
+      if(d.has_profile){
+        window.location.href = "/index.html";
+        return;
+      }
+      loginGate.style.display = 'none';
+      showToast("เข้าสู่ระบบสำเร็จ", "ok");
+    } else {
+      showToast(d.error || "เข้าสู่ระบบไม่สำเร็จ", "err");
+    }
+  }catch(e){
+    showToast("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์", "err");
+  }
+});
+
+// ===== Load existing profile (edit mode) =====
+function loadExistingProfile(){
+  fetch(API + "/api/profile").then(r=>r.json()).then(d=>{
+    if(!d || !d.career_group) return;
+    // หา group number จาก GROUP_NAMES
+    let gNum = null;
+    for(let k in GROUP_NAMES){ if(GROUP_NAMES[k] === d.career_group){ gNum = parseInt(k); break; } }
+    if(gNum){
+      const card = document.querySelector('.career-card[data-group="'+gNum+'"]');
+      if(card) selectCard(card);
+    }
+    // skills
+    if(d.skills && Array.isArray(d.skills)){
+      d.skills.forEach(s=>selectedSkills.add(s));
+      document.querySelectorAll('#skillChips .chip').forEach(c=>{
+        if(selectedSkills.has(c.textContent)){ c.classList.add('selected'); c.setAttribute('aria-checked','true'); }
+      });
+      updateCount(skillCountEl, selectedSkills.size, SKILLS[gNum||1].length);
+    }
+    // styles
+    if(d.style && Array.isArray(d.style)){
+      d.style.forEach(s=>selectedStyles.add(s));
+      document.querySelectorAll('#styleChips .chip').forEach(c=>{
+        if(selectedStyles.has(c.textContent)){ c.classList.add('selected'); c.setAttribute('aria-checked','true'); }
+      });
+      updateCount(styleCountEl, selectedStyles.size, STYLES.length);
+    }
+    // project
+    if(d.project){
+      if(d.project.name) $('#projName').value = d.project.name;
+      if(d.project.type) $('#projType').value = d.project.type;
+      if(d.project.path) $('#projPath').value = d.project.path;
+    }
+    updateProgress();
+    showToast('โหลดโปรไฟล์เดิมแล้ว — แก้ไขได้เลย', 'ok');
+  }).catch(()=>{});
+}
+
+checkLogin();
+
+// ===== สร้าง Chips =====
+function makeChips(container, items, set, countEl) {
+  container.innerHTML = '';
+  items.forEach(item => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chip';
+    btn.role = 'checkbox';
+    btn.setAttribute('aria-checked', 'false');
+    btn.textContent = item;
+    btn.addEventListener('click', () => {
+      if (set.has(item)) {
+        set.delete(item);
+        btn.classList.remove('selected');
+        btn.setAttribute('aria-checked', 'false');
+      } else {
+        set.add(item);
+        btn.classList.add('selected');
+        btn.setAttribute('aria-checked', 'true');
+      }
+      updateCount(countEl, set.size, items.length);
+      updateProgress();
+    });
+    container.appendChild(btn);
+  });
+  updateCount(countEl, 0, items.length);
+}
+
+function updateCount(el, n, total) {
+  el.textContent = n > 0 ? 'เลือกแล้ว ' + n + ' / ' + total : '';
+}
+
+// สร้าง style chips (คงที่)
+makeChips(styleChipsEl, STYLES, selectedStyles, styleCountEl);
+
+// ===== Career Card Selection =====
+function selectCard(card) {
+  const group = parseInt(card.dataset.group);
+
+  if (selectedGroup === group) return;
+
+  selectedGroup = group;
+  selectedSkills.clear();
+
+  cards.forEach(c => {
+    const g = parseInt(c.dataset.group);
+    const isSelected = g === group;
+    c.classList.toggle('selected', isSelected);
+    c.classList.toggle('dimmed', !isSelected);
+    c.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+  });
+
+  makeChips(skillChipsEl, SKILLS[group], selectedSkills, skillCountEl);
+
+  sec2.classList.add('visible');
+  setTimeout(() => {
+    sec3.classList.add('visible');
+    sec4.classList.add('visible');
+  }, 50);
+
+  setTimeout(() => {
+    sec2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 200);
+
+  updateProgress();
+}
+
+cards.forEach(card => {
+  card.addEventListener('click', () => selectCard(card));
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectCard(card); }
+  });
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+    card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+  });
+});
+
+// ===== Progress =====
+function updateProgress() {
+  let p = 0;
+  if (selectedGroup) p += 35;
+  if (selectedSkills.size > 0) p += 25;
+  if (selectedStyles.size > 0) p += 20;
+  const name = $('#projName').value.trim();
+  const type = $('#projType').value;
+  if (name || type) p += 20;
+  progFill.style.width = p + '%';
+  btnSave.disabled = !selectedGroup;
+}
+
+$('#projName').addEventListener('input', updateProgress);
+$('#projType').addEventListener('change', updateProgress);
+
+// ===== Toast =====
+let toastTimer = null;
+function showToast(msg, type) {
+  clearTimeout(toastTimer);
+  toastEl.textContent = msg;
+  toastEl.className = 'toast' + (type ? ' ' + type : '');
+  requestAnimationFrame(() => toastEl.classList.add('show'));
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2800);
+}
+
+// ===== Save — เรียก API จริง =====
+btnSave.addEventListener('click', async () => {
+  if (!selectedGroup) {
+    showToast('กรุณาเลือกกลุ่มอาชีพก่อน', 'err');
+    return;
+  }
+
+  saveText.innerHTML = '<span class="spinner"></span> กำลังบันทึก...';
+  btnSave.disabled = true;
+
+  const payload = {
+    career_group: GROUP_NAMES[selectedGroup],
+    skills: [...selectedSkills],
+    style: [...selectedStyles],
+    project: {
+      name: $('#projName').value.trim() || null,
+      type: $('#projType').value || null,
+      path: $('#projPath').value.trim() || null
+    }
+  };
+
+  try{
+    const r = await fetch(API + "/api/profile", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+    const d = await r.json();
+    if(d.ok){
+      saveText.textContent = 'บันทึกและเข้าใช้งาน';
+      showToast('บันทึกโปรไฟล์สำเร็จ กำลังเข้าสู่ระบบ...', 'ok');
+      setTimeout(() => {
+        window.location.href = "/index.html";
+      }, 1000);
+    } else {
+      saveText.textContent = 'บันทึกและเข้าใช้งาน';
+      btnSave.disabled = false;
+      showToast(d.error || 'บันทึกไม่สำเร็จ', 'err');
+    }
+  }catch(e){
+    saveText.textContent = 'บันทึกและเข้าใช้งาน';
+    btnSave.disabled = false;
+    showToast('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์', 'err');
+  }
+});
+
+// ===== Skip — บันทึก profile แบบ minimal ก่อนไป index =====
+async function doSkip() {
+  if(isEditMode){
+    window.location.href = "/index.html";
+    return;
+  }
+  showToast('ข้ามการตั้งค่า → กำลังเข้าหน้าหลัก...', 'ok');
+  try{
+    await fetch(API + "/api/profile", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ career_group: "", skills: [], style: [], project: {} })
+    });
+  }catch(e){}
+  setTimeout(() => {
+    window.location.href = "/index.html";
+  }, 800);
+}
+
+// ===== Edit mode: เปลี่ยนข้อความปุ่ม =====
+if(isEditMode){
+  const skipHeader = $('#skipHeader');
+  if(skipHeader) skipHeader.textContent = '← ย้อนกลับ';
+  const btnSkip = $('#btnSkip');
+  if(btnSkip) btnSkip.textContent = 'ย้อนกลับหน้าหลัก';
+  const saveTxt = $('#saveText');
+  if(saveTxt) saveTxt.textContent = 'บันทึกการแก้ไข';
+  const headerPage = $('.header-page');
+  if(headerPage) headerPage.textContent = 'แก้ไขโปรไฟล์';
+}
+
+$('#skipHeader').addEventListener('click', doSkip);
+$('#btnSkip').addEventListener('click', doSkip);
+
+// ===== ป้องกัน iOS zoom =====
+$$('.form-input, .form-select').forEach(el => {
+  el.style.fontSize = '16px';
+});
+</script>
+</body>
+</html>

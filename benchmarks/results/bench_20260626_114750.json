@@ -1,0 +1,10 @@
+{
+  "ts": "2026-06-26 11:47:50",
+  "note": "BASELINE แรก (re-score หลังแก้บั๊ก tuple) — gemini3.5/v4 + verdict + incremental + เพดาน6",
+  "results": [
+    {"id": "b1_palindrome", "level": "ง่าย", "hidden_pass": true, "approved": true, "rounds": 1, "sec": 24.0},
+    {"id": "b2_safe_divide", "level": "กลาง", "hidden_pass": true, "approved": true, "rounds": 4, "sec": 22.2},
+    {"id": "b3_roman", "level": "ยาก", "hidden_pass": true, "approved": true, "rounds": 1, "sec": 26.2}
+  ],
+  "summary": {"hidden_pass": "3/3", "approved": "3/3", "avg_rounds": 2.0}
+}

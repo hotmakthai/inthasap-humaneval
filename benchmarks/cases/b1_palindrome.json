@@ -1,0 +1,7 @@
+{
+  "id": "b1_palindrome",
+  "level": "ง่าย",
+  "task": "สร้างไฟล์ palindrome.py มีฟังก์ชัน is_palindrome(s: str) -> bool ที่คืน True ถ้าสตริงอ่านกลับหน้า-หลังเหมือนเดิม โดย 'ไม่สนตัวพิมพ์ใหญ่-เล็ก และไม่สนช่องว่าง' (เช่น is_palindrome('A man a plan a canal Panama') ต้องได้ True). กำหนดให้สตริงว่าง '' ถือเป็น palindrome (True). เขียน test_palindrome.py (unittest) พิสูจน์ครอบเคส: palindrome ธรรมดา, ไม่ใช่ palindrome, สตริงว่าง, ตัวอักษรเดียว, และเคสมีช่องว่าง+ตัวพิมพ์ใหญ่ปน. เกณฑ์เสร็จ: มีไฟล์ palindrome.py + test ผ่านครบ",
+  "max_rounds": 4,
+  "hidden_test": "hidden/b1_palindrome.py"
+}

@@ -1,0 +1,26 @@
+{
+  "_comment": "ตั้งค่า Council Lab — โหมดโมเดล + fallback + งบประมาณ. แก้ไฟล์นี้ได้เลย",
+
+  "model_mode": "auto",
+  "_model_mode_options": "auto = ไล่ tier ตามลำดับเมื่อ error | deepseek/gemini/claude = บังคับตัวเดียว",
+
+  "tier_order": ["deepseek", "gemini", "claude"],
+
+  "timeouts_sec": { "deepseek": 60, "gemini": 60, "claude": 90 },
+
+  "retry_on_429": 1,
+
+  "budget": {
+    "soft_cap_usd": 3.0,
+    "hard_cap_usd": 5.0,
+    "_note": "soft = แค่เตือน | hard = หยุด escalate ขึ้น tier แพง (ยังใช้ deepseek ได้)"
+  },
+
+  "cost_estimate_per_call_usd": { "deepseek": 0.0015, "gemini": 0.0010, "claude": 0.020 },
+
+  "claude_model": "claude-3-5-sonnet-20241022",
+  "gemini_model": "gemini-3.5-flash",
+  "gemini_fallback": "gemini-3.1-pro-preview",
+  "gemini_fallback2": "gemini-3.1-flash-lite",
+  "_gemini_fallback_note": "ลอง 3.5-flash → 3.1-pro-preview → 3.1-flash-lite ถ้าหลุดทั้งหมด ตกไป deepseek ตาม tier_order"
+}

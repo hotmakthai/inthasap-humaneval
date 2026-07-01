@@ -1,0 +1,29 @@
+{
+  "ts": "2026-06-27 06:51:23",
+  "results": [
+    {
+      "id": "b1_palindrome",
+      "level": "ง่าย",
+      "hidden_pass": true,
+      "approved": true,
+      "rounds": 6,
+      "sec": 36.5
+    },
+    {
+      "id": "b2_safe_divide",
+      "level": "กลาง",
+      "hidden_pass": true,
+      "approved": true,
+      "rounds": 4,
+      "sec": 21.2
+    },
+    {
+      "id": "b3_roman",
+      "level": "ยาก",
+      "hidden_pass": true,
+      "approved": true,
+      "rounds": 1,
+      "sec": 28.4
+    }
+  ]
+}
