@@ -1,0 +1,26 @@
+# NEVER commit these — they contain proprietary architecture
+# Keep this .gitignore in the repo root to prevent accidental leaks
+
+# Core architecture (SECRET)
+core/
+bench_api.py
+bench_codetest_rerun.py
+bench_humaneval.py
+test_*.py
+debug_*.py
+
+# Progress files (not for public)
+*progress*.json
+
+# Generated during sample generation
+gen_progress.json
+
+# Keep ONLY:
+# - README.md
+# - LICENSE
+# - samples_raw.jsonl
+# - samples_scaffolded.jsonl
+# - submission_summary.json
+# - bench_humaneval_results.json
+# - bench_dashboard.html
+# - generate_samples.py (script only, no architecture)

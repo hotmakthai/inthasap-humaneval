@@ -1,0 +1,1325 @@
+{
+  "benchmark": "HumanEval",
+  "source": "OpenAI (https://github.com/openai/human-eval)",
+  "total": 164,
+  "raw_pass": 131,
+  "scaffolded_pass": 153,
+  "raw_pass_rate": 79.9,
+  "scaffolded_pass_rate": 93.3,
+  "delta": 13.4,
+  "results": [
+    {
+      "id": "HumanEval/0",
+      "entry_point": "has_close_elements",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpyp5ukd3z.py\", line 27\n    - `has_close_elements([1.0, 2.0, 3.0], 0.5)` \\u2192 คืนค่า `False` เพราะทุกคู่มีระยะห่างอย่างน้อย 1.0 ซึ่งมากกว่า 0.5\n          ",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/1",
+      "entry_point": "separate_paren_groups",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp0a7fn3p7.py\", line 30\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/2",
+      "entry_point": "truncate_number",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/3",
+      "entry_point": "below_zero",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpzan81gp5.py\", line 16\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/4",
+      "entry_point": "mean_absolute_deviation",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp46nng_e9.py\", line 20\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/5",
+      "entry_point": "intersperse",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpv6itjkci.py\", line 14\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/6",
+      "entry_point": "parse_nested_parens",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpq10cfb6h.py\", line 42\n    - `'(()())'` \\u2192 ความลึกสูงสุดคือ 2\n                 ^\nSyntaxError: invalid character '\\u2192' (U+2192)\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/7",
+      "entry_point": "filter_by_substring",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpnjhwsm4w.py\", line 9\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/8",
+      "entry_point": "sum_product",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmph6bzvs29.py\", line 20\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/9",
+      "entry_point": "rolling_max",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpn58xnkzp.py\", line 19\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/10",
+      "entry_point": "make_palindrome",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp_4qygx0x.py\", line 44, in <module>\n    check(make_palindrome)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp_4qygx0x.py",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/11",
+      "entry_point": "string_xor",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpwqb60hdc.py\", line 14\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/12",
+      "entry_point": "longest",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpvjdzmynk.py\", line 25\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/13",
+      "entry_point": "greatest_common_divisor",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/14",
+      "entry_point": "all_prefixes",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpksb51tha.py\", line 10\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/15",
+      "entry_point": "string_sequence",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/16",
+      "entry_point": "count_distinct_characters",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/17",
+      "entry_point": "parse_music",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp42ld9afl.py\", line 9\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/18",
+      "entry_point": "how_many_times",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/19",
+      "entry_point": "sort_numbers",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp4kadgrkn.py\", line 22\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/20",
+      "entry_point": "find_closest_elements",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpicyw4msv.py\", line 24\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/21",
+      "entry_point": "rescale_to_unit",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpd092v7et.py\", line 16\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/22",
+      "entry_point": "filter_integers",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpcdffofn6.py\", line 9\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/23",
+      "entry_point": "strlen",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/24",
+      "entry_point": "largest_divisor",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/25",
+      "entry_point": "factorize",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmporhqhzzw.py\", line 28\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/26",
+      "entry_point": "remove_duplicates",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpnxrk2s3d.py\", line 16\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/27",
+      "entry_point": "flip_case",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/28",
+      "entry_point": "concatenate",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp8t5s_cdt.py\", line 10\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/29",
+      "entry_point": "filter_by_prefix",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpweeqj8uz.py\", line 9\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/30",
+      "entry_point": "get_positive",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/31",
+      "entry_point": "is_prime",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/32",
+      "entry_point": "find_zero",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/33",
+      "entry_point": "sort_third",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/34",
+      "entry_point": "unique",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/35",
+      "entry_point": "max_element",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/36",
+      "entry_point": "fizz_buzz",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/37",
+      "entry_point": "sort_even",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/38",
+      "entry_point": "decode_cyclic",
+      "raw_pass": false,
+      "sc_pass": false,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmplvrega3t.py\", line 28, in <module>\n    check(decode_cyclic)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmplvrega3t.py\",",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp970c7du5.py\", line 28, in <module>\n    check(decode_cyclic)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp970c7du5.py\","
+    },
+    {
+      "id": "HumanEval/39",
+      "entry_point": "prime_fib",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/40",
+      "entry_point": "triples_sum_to_zero",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/41",
+      "entry_point": "car_race_collision",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/42",
+      "entry_point": "incr_list",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/43",
+      "entry_point": "pairs_sum_to_zero",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/44",
+      "entry_point": "change_base",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/45",
+      "entry_point": "triangle_area",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/46",
+      "entry_point": "fib4",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/47",
+      "entry_point": "median",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/48",
+      "entry_point": "is_palindrome",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/49",
+      "entry_point": "modp",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/50",
+      "entry_point": "decode_shift",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpx2pyfofi.py\", line 25, in <module>\n    check(decode_shift)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpx2pyfofi.py\", ",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/51",
+      "entry_point": "remove_vowels",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/52",
+      "entry_point": "below_threshold",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/53",
+      "entry_point": "add",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/54",
+      "entry_point": "same_chars",
+      "raw_pass": false,
+      "sc_pass": false,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpdlmeu4ss.py\", line 31, in <module>\n    check(same_chars)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpdlmeu4ss.py\", li",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpp_x9b0ma.py\", line 36, in <module>\n    check(same_chars)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpp_x9b0ma.py\", li"
+    },
+    {
+      "id": "HumanEval/55",
+      "entry_point": "fib",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/56",
+      "entry_point": "correct_bracketing",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/57",
+      "entry_point": "monotonic",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/58",
+      "entry_point": "common",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/59",
+      "entry_point": "largest_prime_factor",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/60",
+      "entry_point": "sum_to_n",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/61",
+      "entry_point": "correct_bracketing",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/62",
+      "entry_point": "derivative",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/63",
+      "entry_point": "fibfib",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/64",
+      "entry_point": "vowels_count",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/65",
+      "entry_point": "circular_shift",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/66",
+      "entry_point": "digitSum",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/67",
+      "entry_point": "fruit_distribution",
+      "raw_pass": false,
+      "sc_pass": false,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpw_a4qq15.py\", line 20, in <module>\n    check(fruit_distribution)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpw_a4qq15",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpbgob3y8v.py\", line 20, in <module>\n    check(fruit_distribution)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpbgob3y8v"
+    },
+    {
+      "id": "HumanEval/68",
+      "entry_point": "pluck",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/69",
+      "entry_point": "search",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/70",
+      "entry_point": "strange_sort_list",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/71",
+      "entry_point": "triangle_area",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/72",
+      "entry_point": "will_it_fly",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/73",
+      "entry_point": "smallest_change",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/74",
+      "entry_point": "total_match",
+      "raw_pass": true,
+      "sc_pass": false,
+      "raw_error": "",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmphlikoqh3.py\", line 29, in <module>\n    check(total_match)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmphlikoqh3.py\", l"
+    },
+    {
+      "id": "HumanEval/75",
+      "entry_point": "is_multiply_prime",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/76",
+      "entry_point": "is_simple_power",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/77",
+      "entry_point": "iscube",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/78",
+      "entry_point": "hex_key",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/79",
+      "entry_point": "decimal_to_binary",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/80",
+      "entry_point": "is_happy",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/81",
+      "entry_point": "numerical_letter_grade",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/82",
+      "entry_point": "prime_length",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/83",
+      "entry_point": "starts_one_ends",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/84",
+      "entry_point": "solve",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/85",
+      "entry_point": "add",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/86",
+      "entry_point": "anti_shuffle",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/87",
+      "entry_point": "get_row",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/88",
+      "entry_point": "sort_array",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/89",
+      "entry_point": "encrypt",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/90",
+      "entry_point": "next_smallest",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/91",
+      "entry_point": "is_bored",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/92",
+      "entry_point": "any_int",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/93",
+      "entry_point": "encode",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp4g0q79qx.py\", line 57, in <module>\n    check(encode)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp4g0q79qx.py\", line 4",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/94",
+      "entry_point": "skjkasdkd",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/95",
+      "entry_point": "check_dict_case",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/96",
+      "entry_point": "count_up_to",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/97",
+      "entry_point": "multiply",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/98",
+      "entry_point": "count_upper",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/99",
+      "entry_point": "closest_integer",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/100",
+      "entry_point": "make_a_pile",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/101",
+      "entry_point": "words_string",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/102",
+      "entry_point": "choose_num",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/103",
+      "entry_point": "rounded_avg",
+      "raw_pass": true,
+      "sc_pass": false,
+      "raw_error": "",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpjhshyzeo.py\", line 32, in <module>\n    check(rounded_avg)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpjhshyzeo.py\", l"
+    },
+    {
+      "id": "HumanEval/104",
+      "entry_point": "unique_digits",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/105",
+      "entry_point": "by_length",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/106",
+      "entry_point": "f",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/107",
+      "entry_point": "even_odd_palindrome",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/108",
+      "entry_point": "count_nums",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/109",
+      "entry_point": "move_one_ball",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/110",
+      "entry_point": "exchange",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/111",
+      "entry_point": "histogram",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/112",
+      "entry_point": "reverse_delete",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/113",
+      "entry_point": "odd_count",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/114",
+      "entry_point": "minSubArraySum",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/115",
+      "entry_point": "max_fill",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/116",
+      "entry_point": "sort_array",
+      "raw_pass": false,
+      "sc_pass": true,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpx2aqyq1j.py\", line 34, in <module>\n    check(sort_array)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpx2aqyq1j.py\", li",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/117",
+      "entry_point": "select_words",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/118",
+      "entry_point": "get_closest_vowel",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/119",
+      "entry_point": "match_parens",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/120",
+      "entry_point": "maximum",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/121",
+      "entry_point": "solution",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/122",
+      "entry_point": "add_elements",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/123",
+      "entry_point": "get_odd_collatz",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/124",
+      "entry_point": "valid_date",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/125",
+      "entry_point": "split_words",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/126",
+      "entry_point": "is_sorted",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/127",
+      "entry_point": "intersection",
+      "raw_pass": false,
+      "sc_pass": false,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpjwwto97e.py\", line 43, in <module>\n    check(intersection)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpjwwto97e.py\", ",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpgzfirqrr.py\", line 38, in <module>\n    check(intersection)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpgzfirqrr.py\", "
+    },
+    {
+      "id": "HumanEval/128",
+      "entry_point": "prod_signs",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/129",
+      "entry_point": "minPath",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/130",
+      "entry_point": "tri",
+      "raw_pass": true,
+      "sc_pass": false,
+      "raw_error": "",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpm2crel4h.py\", line 39, in <module>\n    check(tri)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpm2crel4h.py\", line 26, "
+    },
+    {
+      "id": "HumanEval/131",
+      "entry_point": "digits",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/132",
+      "entry_point": "is_nested",
+      "raw_pass": false,
+      "sc_pass": false,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpp0lh8rzx.py\", line 51, in <module>\n    check(is_nested)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpp0lh8rzx.py\", lin",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp_e8o9n_w.py\", line 65, in <module>\n    check(is_nested)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp_e8o9n_w.py\", lin"
+    },
+    {
+      "id": "HumanEval/133",
+      "entry_point": "sum_squares",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/134",
+      "entry_point": "check_if_last_char_is_a_letter",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/135",
+      "entry_point": "can_arrange",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/136",
+      "entry_point": "largest_smallest_integers",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/137",
+      "entry_point": "compare_one",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/138",
+      "entry_point": "is_equal_to_sum_even",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/139",
+      "entry_point": "special_factorial",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/140",
+      "entry_point": "fix_spaces",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/141",
+      "entry_point": "file_name_check",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/142",
+      "entry_point": "sum_squares",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/143",
+      "entry_point": "words_in_sentence",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/144",
+      "entry_point": "simplify",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/145",
+      "entry_point": "order_by_points",
+      "raw_pass": false,
+      "sc_pass": false,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp5fivb509.py\", line 37, in <module>\n    check(order_by_points)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp5fivb509.py",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp34366eyc.py\", line 32, in <module>\n    check(order_by_points)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp34366eyc.py"
+    },
+    {
+      "id": "HumanEval/146",
+      "entry_point": "specialFilter",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/147",
+      "entry_point": "get_max_triples",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/148",
+      "entry_point": "bf",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/149",
+      "entry_point": "sorted_list_sum",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/150",
+      "entry_point": "x_or_y",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/151",
+      "entry_point": "double_the_difference",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/152",
+      "entry_point": "compare",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/153",
+      "entry_point": "Strongest_Extension",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/154",
+      "entry_point": "cycpattern_check",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/155",
+      "entry_point": "even_odd_count",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/156",
+      "entry_point": "int_to_mini_roman",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/157",
+      "entry_point": "right_angle_triangle",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/158",
+      "entry_point": "find_max",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/159",
+      "entry_point": "eat",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/160",
+      "entry_point": "do_algebra",
+      "raw_pass": false,
+      "sc_pass": false,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpmocixkla.py\", line 61, in <module>\n    check(do_algebra)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpmocixkla.py\", li",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp0zoxgzdb.py\", line 52, in <module>\n    check(do_algebra)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmp0zoxgzdb.py\", li"
+    },
+    {
+      "id": "HumanEval/161",
+      "entry_point": "solve",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/162",
+      "entry_point": "string_to_md5",
+      "raw_pass": true,
+      "sc_pass": true,
+      "raw_error": "",
+      "sc_error": ""
+    },
+    {
+      "id": "HumanEval/163",
+      "entry_point": "generate_integers",
+      "raw_pass": false,
+      "sc_pass": false,
+      "raw_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpce835g44.py\", line 36, in <module>\n    check(generate_integers)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmpce835g44.",
+      "sc_error": "Traceback (most recent call last):\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmprx_f6o1h.py\", line 27, in <module>\n    check(generate_integers)\n  File \"C:\\Users\\9E84~1\\AppData\\Local\\Temp\\tmprx_f6o1h."
+    }
+  ],
+  "timestamp": "2026-07-04 07:21:46"
+}

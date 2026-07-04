@@ -1,0 +1,23 @@
+{
+  "model": "Inthasap-Council-Trinity",
+  "benchmark": "HumanEval",
+  "source": "OpenAI HumanEval (164 problems)",
+  "date": "2026-07-04",
+  "results": {
+    "raw": {
+      "pass": 132,
+      "total": 164,
+      "pass_at_1": 80.5
+    },
+    "scaffolded": {
+      "pass": 157,
+      "total": 164,
+      "pass_at_1": 95.7
+    }
+  },
+  "note": "Raw = base LLM output. Scaffolded = Council Trinity orchestration (architecture not disclosed).",
+  "files": {
+    "samples_raw": "samples_raw.jsonl",
+    "samples_scaffolded": "samples_scaffolded.jsonl"
+  }
+}
