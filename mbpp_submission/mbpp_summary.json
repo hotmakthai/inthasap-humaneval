@@ -1,0 +1,23 @@
+{
+  "model": "Inthasap-Council-Trinity",
+  "benchmark": "MBPP+",
+  "source": "EvalPlus MBPP+ (378 problems)",
+  "date": "2026-07-05",
+  "results": {
+    "raw": {
+      "pass": 346,
+      "total": 378,
+      "pass_at_1": 91.5
+    },
+    "scaffolded": {
+      "pass": 353,
+      "total": 378,
+      "pass_at_1": 93.4
+    }
+  },
+  "note": "Raw = base LLM output. Scaffolded = Council Trinity orchestration.",
+  "files": {
+    "samples_raw": "samples_mbpp_raw.jsonl",
+    "samples_scaffolded": "samples_mbpp_scaffolded.jsonl"
+  }
+}
