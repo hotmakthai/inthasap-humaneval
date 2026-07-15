@@ -150,5 +150,93 @@ class TestLLMSolve(unittest.TestCase):
         self.assertIn("evolutionary", note)
 
 
+class TestTelemetryPerTask(unittest.TestCase):
+    """R4-T0: Verify telemetry is per-task, not cumulative across tasks."""
+
+    def _make_task(self):
+        return {
+            "train": [
+                {"input": [[1, 0], [0, 1]], "output": [[2, 0], [0, 2]]},
+                {"input": [[1, 1], [0, 0]], "output": [[2, 2], [0, 0]]},
+            ],
+            "test": [{"input": [[1, 0], [1, 1]], "output": [[2, 0], [2, 2]]}],
+        }
+
+    @patch("core.llm.call_tier")
+    def test_telemetry_reset_between_tasks(self, mock_call_tier):
+        """llm_calls must reset between tasks — no cumulative leakage."""
+        deepseek_code = (
+            "def transform(grid):\n"
+            "    return [[2 if c == 1 else c for c in row] for row in grid]\n"
+        )
+        deepseek_response = f"```python\n{deepseek_code}```"
+        mock_call_tier.side_effect = lambda tier, *a, **kw: (deepseek_response, "deepseek", "ok")
+
+        reset_telemetry()
+        task = self._make_task()
+
+        # Task 1
+        _, _, t1 = llm_solve(task, max_attempts=2, evolutionary=True)
+        calls1 = t1.get("llm_calls", 0)
+
+        # Task 2 — should NOT include calls from task 1
+        reset_telemetry()
+        _, _, t2 = llm_solve(task, max_attempts=2, evolutionary=True)
+        calls2 = t2.get("llm_calls", 0)
+
+        self.assertGreater(calls1, 0, "Task 1 should have calls")
+        self.assertGreater(calls2, 0, "Task 2 should have calls")
+        self.assertEqual(calls2, calls1,
+                         f"Per-task calls should match for identical tasks. "
+                         f"Got calls1={calls1}, calls2={calls2} — telemetry leaked!")
+
+    @patch("core.llm.call_tier")
+    def test_non_evo_telemetry_per_task(self, mock_call_tier):
+        """Non-evolutionary path must return per-task llm_calls, not global cumulative."""
+        deepseek_code = (
+            "def transform(grid):\n"
+            "    return [[2 if c == 1 else c for c in row] for row in grid]\n"
+        )
+        deepseek_response = f"```python\n{deepseek_code}```"
+        mock_call_tier.side_effect = lambda tier, *a, **kw: (deepseek_response, "deepseek", "ok")
+
+        reset_telemetry()
+        task = self._make_task()
+
+        # Non-evolutionary path
+        _, _, t1 = llm_solve(task, max_attempts=2, evolutionary=False)
+        calls1 = t1.get("llm_calls", 0)
+
+        # Second call — should not accumulate
+        reset_telemetry()
+        _, _, t2 = llm_solve(task, max_attempts=2, evolutionary=False)
+        calls2 = t2.get("llm_calls", 0)
+
+        self.assertGreater(calls1, 0, "Non-evo task 1 should have calls")
+        self.assertGreater(calls2, 0, "Non-evo task 2 should have calls")
+        self.assertEqual(calls2, calls1,
+                         f"Non-evo per-task calls should match. "
+                         f"Got calls1={calls1}, calls2={calls2} — cumulative bug!")
+
+    @patch("core.llm.call_tier")
+    def test_non_evo_telemetry_has_global_fields(self, mock_call_tier):
+        """Non-evo path should include total_cost_usd and tokens from global telemetry."""
+        deepseek_code = (
+            "def transform(grid):\n"
+            "    return [[2 if c == 1 else c for c in row] for row in grid]\n"
+        )
+        deepseek_response = f"```python\n{deepseek_code}```"
+        mock_call_tier.side_effect = lambda tier, *a, **kw: (deepseek_response, "deepseek", "ok")
+
+        reset_telemetry()
+        task = self._make_task()
+        _, _, t = llm_solve(task, max_attempts=2, evolutionary=False)
+
+        self.assertIn("total_cost_usd", t, "Non-evo telemetry should have total_cost_usd")
+        self.assertIn("total_input_tokens", t, "Non-evo telemetry should have total_input_tokens")
+        self.assertIn("total_output_tokens", t, "Non-evo telemetry should have total_output_tokens")
+        self.assertIn("had_perception_hints", t, "Non-evo telemetry should have had_perception_hints")
+
+
 if __name__ == "__main__":
     unittest.main()

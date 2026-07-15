@@ -27,11 +27,14 @@ def solve_task(task: dict, top_k: int = 2, use_llm: bool = False) -> dict[str, A
         return {"output": None, "candidate": None, "status": "no_data"}
 
     _get_telemetry = None
+    _reset_telemetry = None
     if use_llm:
         try:
-            from arc_llm import get_telemetry as _get_telemetry
+            from arc_llm import get_telemetry as _get_telemetry, reset_telemetry as _reset_telemetry
         except ImportError:
             pass
+        if _reset_telemetry:
+            _reset_telemetry()
 
     passing: list[Candidate] = []
     for candidate in generate_candidates(task):
@@ -56,13 +59,15 @@ def solve_task(task: dict, top_k: int = 2, use_llm: bool = False) -> dict[str, A
                     passing = [llm_candidate]
         except Exception as e:
             # LLM ใช้ไม่ได้ ให้คืนสถานะ unsolved
-            llm_telemetry = {}
+            llm_telemetry = _get_telemetry() if _get_telemetry else {}
             return {"output": None, "candidate": None, "status": f"unsolved (llm error: {e})",
-                    "telemetry": _get_telemetry() if _get_telemetry else {}}
+                    "telemetry": llm_telemetry}
 
     if not passing:
         return {"output": None, "candidate": None, "status": "unsolved",
                 "telemetry": llm_telemetry if llm_telemetry else (_get_telemetry() if _get_telemetry else {})}
+
+    # Solved without LLM — telemetry is empty (no LLM calls)
 
     ranked = rank(passing)
     best = ranked[0]
@@ -83,7 +88,7 @@ def solve_task(task: dict, top_k: int = 2, use_llm: bool = False) -> dict[str, A
         "candidate": repr(chosen[0]),
         "candidates": [repr(c) for c in chosen],
         "status": "solved",
-        "telemetry": llm_telemetry if llm_telemetry else (_get_telemetry() if _get_telemetry else {}),
+        "telemetry": llm_telemetry if llm_telemetry else {},
     }
 
 

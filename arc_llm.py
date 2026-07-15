@@ -554,26 +554,29 @@ _STRATEGY_HINTS = [
 def _evolutionary_solve(
     task: dict, train: list[dict], n_initial: int = 8,
 ) -> tuple[PythonCandidate | Candidate | None, str, dict]:
-    """Evolutionary 3-round search.
+    """Evolutionary 4-round search.
 
     Round 1: Generate n_initial diverse candidates (different strategy hints).
     Round 2: Individual revision — top candidates get diff feedback + retry.
     Round 3: Pooled hybridization — combine best candidates' code into one attempt.
+    Round 4: Targeted repair — if fitness >= 0.9, tell LLM exactly which cells are wrong.
 
     Returns (best_candidate, note, telemetry_dict).
     """
     telemetry = {
         "llm_calls": 0, "candidates_generated": 0, "best_fitness": 0.0,
-        "solved_round": None,  # 1, 2, or 3 — which round solved it
+        "solved_round": None,  # 1, 2, 3, or 4 — which round solved it
         "solved_candidate_idx": None,  # which candidate index in that round
         "fitness_trajectory": [],  # list of (round, candidate_idx, fitness)
         "had_perception_hints": False,
         "round1_best_fitness": 0.0,
         "round2_best_fitness": 0.0,
         "round3_best_fitness": 0.0,
+        "round4_best_fitness": 0.0,
         "round1_calls": 0,
         "round2_calls": 0,
         "round3_calls": 0,
+        "round4_calls": 0,
     }
     best_candidate = None
     best_fitness = 0.0
@@ -613,6 +616,41 @@ def _evolutionary_solve(
 
     if not all_candidates:
         return None, "evolutionary round1: no valid candidates", telemetry
+
+    # ── T2: Strategy rotation fallback ──
+    # If all candidates scored < 0.3, strategy hints may have misdirected the LLM.
+    # Try 2 more candidates with default prompt (no strategy hint) as a safety net.
+    if best_fitness < 0.3:
+        for i in range(2):
+            system, user = _build_prompt(task, attempt=1, strategy_hint="")
+            text, note = _call_llm("deepseek", system, user, max_tokens=4000, no_fallback=True)
+            telemetry["llm_calls"] += 1
+
+            code = _extract_python(text)
+            if code is None:
+                continue
+            try:
+                cand = PythonCandidate(code)
+            except Exception:
+                continue
+            telemetry["candidates_generated"] += 1
+
+            fitness, _ = _cell_fitness(cand, train)
+            all_candidates.append((fitness, cand, note))
+            if fitness > best_fitness:
+                best_fitness = fitness
+                best_candidate = cand
+            telemetry["fitness_trajectory"].append((1, n_initial + i, fitness))
+            if fitness >= 1.0:
+                telemetry["best_fitness"] = 1.0
+                telemetry["solved_round"] = 1
+                telemetry["solved_candidate_idx"] = n_initial + i
+                telemetry["round1_best_fitness"] = 1.0
+                telemetry["round1_calls"] = telemetry["llm_calls"]
+                return cand, f"evolutionary round1 fallback candidate perfect; {note}", telemetry
+
+        telemetry["round1_best_fitness"] = best_fitness
+        telemetry["round1_calls"] = telemetry["llm_calls"]
 
     # Sort by fitness descending
     all_candidates.sort(key=lambda x: x[0], reverse=True)
@@ -710,6 +748,73 @@ def _evolutionary_solve(
 
     telemetry["round3_best_fitness"] = best_fitness
     telemetry["round3_calls"] = telemetry["llm_calls"] - telemetry["round1_calls"] - telemetry["round2_calls"]
+
+    # ── Round 4: Targeted repair (near-miss fix) ──
+    # If best fitness >= 0.9 but not perfect, try cell-level targeted repair.
+    # Tell the LLM exactly which cells are wrong and ask for a minimal fix.
+    if best_fitness >= 0.9 and best_fitness < 1.0 and best_candidate is not None:
+        _, repair_details = _cell_fitness(best_candidate, train)
+        wrong_cells = []
+        for idx, expected, got, correct, cells, diff_grid in repair_details:
+            for r, diff_row in enumerate(diff_grid):
+                for c, marker in enumerate(diff_row):
+                    if marker == "X":
+                        exp_val = expected[r][c] if r < len(expected) and c < len(expected[r]) else "?"
+                        got_val = got[r][c] if r < len(got) and c < len(got[r]) else "?"
+                        wrong_cells.append(f"Example {idx+1}, cell ({r},{c}): expected {exp_val}, got {got_val}")
+
+        if wrong_cells:
+            repair_system = (
+                "You are an ARC-AGI puzzle solver. "
+                "Your solution is ALMOST correct — only a few cells are wrong.\n"
+                "Here is your current code and the specific cells that need fixing.\n"
+                "Make a MINIMAL change to fix ONLY the wrong cells. Do not rewrite the whole function.\n"
+                "Return ONLY the corrected Python code in a ```python block."
+            )
+            repair_user = (
+                f"Current fitness: {best_fitness:.4f}\n"
+                f"Wrong cells ({len(wrong_cells)} total):\n"
+            )
+            for wc in wrong_cells[:20]:
+                repair_user += f"  {wc}\n"
+            if len(wrong_cells) > 20:
+                repair_user += f"  ... and {len(wrong_cells) - 20} more\n"
+            repair_user += f"\nCurrent code:\n```python\n{best_candidate.code}\n```\n\n"
+            repair_user += "Training examples for reference:\n"
+            for j, ex in enumerate(train):
+                repair_user += f"Example {j+1}:\nInput:\n{_grid_to_text(ex['input'])}\nOutput:\n{_grid_to_text(ex['output'])}\n\n"
+            repair_user += "Fix ONLY the wrong cells. Return the corrected code."
+
+            for repair_attempt in range(3):
+                text, note4 = _call_llm("deepseek", repair_system, repair_user, max_tokens=4000, no_fallback=True)
+                telemetry["llm_calls"] += 1
+
+                code = _extract_python(text)
+                if code is None:
+                    continue
+                try:
+                    cand4 = PythonCandidate(code)
+                except Exception:
+                    continue
+                telemetry["candidates_generated"] += 1
+
+                fitness4, _ = _cell_fitness(cand4, train)
+                all_candidates.append((fitness4, cand4, note4))
+                if fitness4 > best_fitness:
+                    best_fitness = fitness4
+                    best_candidate = cand4
+                telemetry["fitness_trajectory"].append((4, repair_attempt, fitness4))
+                if fitness4 >= 1.0:
+                    telemetry["best_fitness"] = 1.0
+                    telemetry["solved_round"] = 4
+                    telemetry["solved_candidate_idx"] = repair_attempt
+                    telemetry["round4_best_fitness"] = 1.0
+                    telemetry["round4_calls"] = repair_attempt + 1
+                    return cand4, f"evolutionary round4 targeted repair perfect; {note4}", telemetry
+
+            telemetry["round4_best_fitness"] = best_fitness
+            telemetry["round4_calls"] = telemetry["llm_calls"] - telemetry["round1_calls"] - telemetry["round2_calls"] - telemetry["round3_calls"]
+
     telemetry["best_fitness"] = best_fitness
     if best_candidate is not None:
         return best_candidate, f"evolutionary best fitness={best_fitness:.2f}; {all_candidates[0][2]}", telemetry
@@ -741,6 +846,32 @@ def llm_solve(task: dict, max_attempts: int = 2, evolutionary: bool = False) -> 
         evo_telem["calls_by_tier"] = dict(_TELEMETRY["calls_by_tier"])
         return cand, note, evo_telem
 
+    # Helper: build per-task telemetry snapshot from global accumulator
+    def _snapshot_telemetry(calls: int, fit: float) -> dict:
+        """Merge per-path data with global cumulative telemetry."""
+        t = {
+            "llm_calls": calls,
+            "best_fitness": fit,
+            "solved_round": None,
+            "candidates_generated": calls,
+            "fitness_trajectory": [],
+            "had_perception_hints": len(_build_perception_hints(task)) > 0,
+            "round1_best_fitness": 0.0,
+            "round2_best_fitness": 0.0,
+            "round3_best_fitness": 0.0,
+            "round1_calls": 0,
+            "round2_calls": 0,
+            "round3_calls": 0,
+        }
+        # Copy cumulative global fields (cost, tokens are running totals across all tasks)
+        global _TELEMETRY
+        t["total_input_tokens"] = _TELEMETRY["total_input_tokens"]
+        t["total_output_tokens"] = _TELEMETRY["total_output_tokens"]
+        t["total_cached_tokens"] = _TELEMETRY["total_cached_tokens"]
+        t["total_cost_usd"] = _TELEMETRY["total_cost_usd"]
+        t["calls_by_tier"] = dict(_TELEMETRY["calls_by_tier"])
+        return t
+
     history = ""
     last_note = ""
     best_candidate = None
@@ -767,7 +898,7 @@ def llm_solve(task: dict, max_attempts: int = 2, evolutionary: bool = False) -> 
                 best_candidate = candidate
 
             if fitness >= 1.0:
-                return candidate, f"deepseek attempt {attempt} ok (fitness=1.0); {note}", {"llm_calls": attempt, "best_fitness": 1.0, "solved_round": None}
+                return candidate, f"deepseek attempt {attempt} ok (fitness=1.0); {note}", _snapshot_telemetry(attempt, 1.0)
 
             # Deterministic diff feedback — no GLM call needed
             diff_feedback = _build_diff_feedback(task, details)
@@ -786,7 +917,7 @@ def llm_solve(task: dict, max_attempts: int = 2, evolutionary: bool = False) -> 
             if candidate is not None:
                 ok, _ = verify(candidate, train)
                 if ok:
-                    return candidate, f"deepseek attempt {attempt} ok (dsl); {note}", {"llm_calls": attempt, "best_fitness": 1.0, "solved_round": None}
+                    return candidate, f"deepseek attempt {attempt} ok (dsl); {note}", _snapshot_telemetry(attempt, 1.0)
                 # Deterministic diff for DSL path too
                 fitness, details = _cell_fitness(candidate, train)
                 if fitness > best_fitness:
@@ -804,5 +935,5 @@ def llm_solve(task: dict, max_attempts: int = 2, evolutionary: bool = False) -> 
 
     # Return best partial candidate if we have one (even if not perfect)
     if best_candidate is not None:
-        return best_candidate, f"deepseek best fitness={best_fitness:.2f} after {max_attempts} attempts; {last_note}", {"llm_calls": max_attempts, "best_fitness": best_fitness, "solved_round": None}
-    return None, f"deepseek failed after {max_attempts} attempts; {last_note}", {"llm_calls": max_attempts, "best_fitness": 0.0, "solved_round": None}
+        return best_candidate, f"deepseek best fitness={best_fitness:.2f} after {max_attempts} attempts; {last_note}", _snapshot_telemetry(max_attempts, best_fitness)
+    return None, f"deepseek failed after {max_attempts} attempts; {last_note}", _snapshot_telemetry(max_attempts, 0.0)
