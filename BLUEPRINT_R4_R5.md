@@ -97,6 +97,8 @@ Raw sum: 28,838 calls (ผิด — inflate ~10 เท่า)
 - คำนวณ **cell-level diff** ของ candidate ที่ดีที่สุด: บอก LLM ว่า "ผิดแค่ cell (3,4) กับ (5,1)"
 - Repair prompt เฉพาะจุด แทนการ generate ใหม่ทั้งฟังก์ชัน
 - จำกัด 3 repair attempts ต่อข้อ
+- **Data leakage audit (ผ่านแล้ว):** Targeted Repair ใช้เฉพาะ training example outputs
+  (ที่ LLM เห็นอยู่แล้วใน prompt) ไม่ใช้ test output — ไม่มีข้อมูลรั่ว
 - คาดหวัง: +30-45 ข้อ
 
 ### T2 — Strategy Rotation สำหรับข้อติดหล่ม
@@ -108,15 +110,20 @@ Raw sum: 28,838 calls (ผิด — inflate ~10 เท่า)
 ### T3 — Failure Taxonomy อัตโนมัติ
 จำแนกทุกข้อที่ fail ด้วยกฎ deterministic จาก telemetry:
 ```
-fitness < 0.1              → Perception fail
-fitness 0.1-0.3            → Rule Induction fail
-fitness 0.3-0.9 + stuck    → Search fail (ติด local optimum)
-fitness ≥ 0.9              → Execution fail (last mile)
-fitness ผันผวนแรงข้าม round → Ambiguity (โจทย์ตีความได้หลายแบบ)
+fitness < 0.1              → Perception fail (สมมติฐาน — ดูและว่า LLM สร้าง output ผิดขนาด/สี)
+fitness 0.1-0.3            → Rule Induction fail (สมมติฐาน — pattern ที่ LLM คิดไม่ตรงโจทย์)
+fitness 0.3-0.9 + stuck    → Search fail (สมมติฐาน — ติด local optimum, ลองวิธีใหม่)
+fitness ≥ 0.9              → Execution fail (สมมติฐาน — last mile, ผิดไม่กี่ cell)
+fitness ผันผวนแรงข้าม round → Ambiguity (สมมติฐาน — โจทย์ตีความได้หลายแบบ)
 ```
+> **หมายเหตุ:** การจำแนกนี้เป็น **สมมติฐานที่มีหลักฐานสนับสนุน** จาก fitness value
+> และ fitness trajectory ข้าม rounds — ไม่ใช่ข้อสรุปเด็ดขาดจาก fitness เพียงอย่างเดียว
+> สมมติฐานแต่ละข้อจะถูกตรวจสอบด้วยการดู output จริงของ candidate (เช่น
+> ผิดขนาด → Perception, ผิดสีบางจุด → Execution) เพื่อยืนยันหรือปฏิเสธ
+
 บันทึกเป็น Failure Knowledge Base:
 ```
-Task → Hypothesis → Why Failed → Evidence (telemetry) → Next Strategy
+Task → Hypothesis → Evidence (telemetry + output inspection) → Confidence → Next Strategy
 ```
 
 ### T4 — EV Stopping Criterion
@@ -128,6 +135,12 @@ Task → Hypothesis → Why Failed → Evidence (telemetry) → Next Strategy
 - **Perception ablation** (Q1): รัน 400 ข้อแบบ hints OFF — cost แค่ ~$7 ถูกมาก
 - **Multi-seed** (Q4): รัน 3 seeds — cost ~$20 รวม ตอบ variance ได้จริง
   (bootstrap ปัจจุบันบอกแค่ 220 ± 33)
+  - รายงาน variance ของ: **จำนวนข้อที่แก้ได้, cost, rounds, failure taxonomy**
+    ไม่ใช่แค่จำนวนข้ออย่างเดียว
+  - หาก variance สูงในหมวดใด → สมมติฐานนั้นไม่แข็งแรง ต้องรายงานตรงๆ
+- **Confidence calibration**: วัดว่า fitness score ทำนายความถูกต้องบน test set ได้ดีเพียงใด
+  - สมมติฐาน: fitness ≥ 0.9 บน train → น่าจะผ่าน test (calibration curve)
+  - หาก fitness สูงแต่ test พลาด → ระบบ overconfident ต้องรายงาน
 - อัปเดต `r3_reviewer_report.md` ด้วยตัวเลข calls ที่ถูกหลังแก้ T0
 
 ---
@@ -158,6 +171,11 @@ Task 123 → จำได้ว่าคำตอบคือ...
 Reflection / Rotation / Object permanence /
 Symmetry / Hierarchy / Counting
 ```
+**นิยามที่ตรวจสอบได้:** Architecture Knowledge คือกฎที่
+1. ใช้ได้กับโจทย์ที่ไม่เคยเห็น (generalization test ใน R5)
+2. สามารถอธิบายเป็นกฎเชิงตรรกะได้ (ไม่ใช่ "จำจากข้อนี้")
+3. ตรวจสอบได้ด้วยการแยก (ablation): ลบกฎออก → ระบบแย่ลงกับโจทย์ประเภทนั้น
+
 Reviewer จะยอมรับแนวนี้มากกว่าการลบทั้งหมด
 
 ---
