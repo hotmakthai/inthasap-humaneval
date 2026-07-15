@@ -13,23 +13,73 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 import threading
 from typing import Any
+
+# Safety net: ensure stdout can handle non-ASCII on Windows (cp874/cp1252)
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 from arc_diff import analyze_diff
 from arc_dsl import RULES  # kept for backward compat with old tests
 from arc_generator import Candidate  # kept for backward compat
+from arc_perception import analyze_scene, extract_objects, background_color
 from arc_verifier import verify, grids_equal
 from arc_viewer import grid_to_str
 
 # Avoid importing the heavy `core.llm` at import time; load it lazily.
 _LLM = None
+_LLM_LOADED = False
+
+# ── Telemetry accumulator (T6) ──
+_TELEMETRY: dict[str, Any] = {
+    "llm_calls": 0,
+    "total_input_tokens": 0,
+    "total_output_tokens": 0,
+    "total_cached_tokens": 0,
+    "total_cost_usd": 0.0,
+    "calls_by_tier": {},
+}
+
+
+def _telemetry_callback(tier: str, model: str, usage: dict | None) -> None:
+    """Callback registered with core.llm to capture per-call telemetry."""
+    _TELEMETRY["llm_calls"] += 1
+    if usage:
+        _TELEMETRY["total_input_tokens"] += usage.get("input_tokens", 0)
+        _TELEMETRY["total_output_tokens"] += usage.get("output_tokens", 0)
+        _TELEMETRY["total_cached_tokens"] += usage.get("cached_tokens", 0)
+        _TELEMETRY["total_cost_usd"] += usage.get("cost_usd", 0.0)
+    tier_key = f"{tier}/{model}"
+    _TELEMETRY["calls_by_tier"][tier_key] = _TELEMETRY["calls_by_tier"].get(tier_key, 0) + 1
+
+
+def get_telemetry() -> dict[str, Any]:
+    """Return a copy of the current telemetry accumulator."""
+    return dict(_TELEMETRY)
+
+
+def reset_telemetry() -> None:
+    """Reset the telemetry accumulator to zero."""
+    for k in _TELEMETRY:
+        if k == "calls_by_tier":
+            _TELEMETRY[k] = {}
+        elif isinstance(_TELEMETRY[k], float):
+            _TELEMETRY[k] = 0.0
+        else:
+            _TELEMETRY[k] = 0
 
 
 def _llm():
-    global _LLM
+    global _LLM, _LLM_LOADED
     if _LLM is None:
         import core.llm as _LLM
+    if not _LLM_LOADED:
+        _LLM.set_cost_callback(_telemetry_callback)
+        _LLM_LOADED = True
     return _LLM
 
 
@@ -41,7 +91,7 @@ _SAFE_BUILTINS = {
     'filter': filter, 'sum': sum, 'min': min, 'max': max, 'abs': abs,
     'any': any, 'all': all, 'reversed': reversed, 'round': round,
     'isinstance': isinstance, 'type': type, 'bool': bool, 'float': float,
-    'repr': repr, 'print': print, 'ord': ord, 'chr': chr,
+    'repr': repr, 'print': lambda *a, **k: print(*a, **{**k, 'file': sys.stdout}), 'ord': ord, 'chr': chr,
     'divmod': divmod, 'pow': pow,
     'True': True, 'False': False, 'None': None,
     'ValueError': ValueError, 'IndexError': IndexError, 'KeyError': KeyError,
@@ -109,7 +159,177 @@ def _grid_to_text(grid: list[list[int]]) -> str:
     return "\n".join(" ".join(str(c) for c in row) for row in grid)
 
 
-def _build_prompt(task: dict, attempt: int, history: str = "") -> tuple[str, str]:
+def _cell_fitness(candidate, train: list[dict]) -> tuple[float, list]:
+    """Compute fitness as % of correct cells across all training examples.
+
+    Returns (score 0.0-1.0, details) where details is a list of
+    (idx, expected, got, correct_cells, total_cells, diff_grid).
+    """
+    details = []
+    total_correct = 0
+    total_cells = 0
+    for idx, ex in enumerate(train):
+        if "input" not in ex or "output" not in ex:
+            continue
+        expected = ex["output"]
+        try:
+            got = _exec_or_call(candidate, ex["input"])
+        except Exception:
+            h = len(expected)
+            w = len(expected[0]) if expected else 0
+            got = [[0] * w for _ in range(h)]
+
+        # Count matching cells (handle size mismatch)
+        correct = 0
+        cells = 0
+        diff_grid = []
+        max_rows = max(len(expected), len(got))
+        for r in range(max_rows):
+            diff_row = []
+            exp_row = expected[r] if r < len(expected) else None
+            got_row = got[r] if r < len(got) else None
+            max_cols = max(
+                len(exp_row) if exp_row else 0,
+                len(got_row) if got_row else 0,
+            )
+            for c in range(max_cols):
+                cells += 1
+                ev = exp_row[c] if exp_row and c < len(exp_row) else None
+                gv = got_row[c] if got_row and c < len(got_row) else None
+                if ev == gv:
+                    correct += 1
+                    diff_row.append(".")
+                else:
+                    diff_row.append("X")
+            diff_grid.append(diff_row)
+
+        total_correct += correct
+        total_cells += cells
+        details.append((idx, expected, got, correct, cells, diff_grid))
+
+    score = total_correct / total_cells if total_cells > 0 else 0.0
+    return score, details
+
+
+def _exec_or_call(candidate, grid):
+    """Run a candidate (PythonCandidate or Candidate) on a grid."""
+    if isinstance(candidate, PythonCandidate):
+        return _exec_transform(candidate.code, grid, candidate.func_name)
+    return candidate(grid)
+
+
+def _build_diff_feedback(task: dict, details: list) -> str:
+    """Build deterministic ASCII diff feedback for the LLM.
+
+    Shows expected vs got vs diff (X=wrong, .=correct) for each failed example.
+    """
+    lines = []
+    for idx, expected, got, correct, cells, diff_grid in details[:3]:
+        pct = (correct / cells * 100) if cells > 0 else 0
+        lines.append(f"Example {idx + 1}: {correct}/{cells} cells correct ({pct:.0f}%)")
+
+        # Side-by-side: Expected | Got | Diff
+        max_rows = max(len(expected), len(got), len(diff_grid))
+        for r in range(max_rows):
+            exp_row = expected[r] if r < len(expected) else []
+            got_row = got[r] if r < len(got) else []
+            diff_row = diff_grid[r] if r < len(diff_grid) else []
+
+            max_cols = max(len(exp_row), len(got_row), len(diff_row))
+            exp_str = " ".join(str(exp_row[c]) if c < len(exp_row) else "?" for c in range(max_cols))
+            got_str = " ".join(str(got_row[c]) if c < len(got_row) else "?" for c in range(max_cols))
+            diff_str = " ".join(diff_row[c] if c < len(diff_row) else "?" for c in range(max_cols))
+            lines.append(f"  exp: {exp_str}  |  got: {got_str}  |  diff: {diff_str}")
+        lines.append("")
+    return "\n".join(lines)
+
+
+def _build_perception_hints(task: dict) -> str:
+    """Extract deterministic perception facts from the task for LLM prompting.
+
+    Only includes facts that are consistent across ALL training examples.
+    No speculation — just observable, computed facts.
+    """
+    examples = task.get("train", [])
+    if not examples:
+        return ""
+
+    hints = []
+
+    # Diff analysis facts
+    diff = analyze_diff(task)
+    if diff.size_relation:
+        hints.append(f"Size relation: input scaled by {diff.size_relation[0]}x rows, {diff.size_relation[1]}x cols")
+    if diff.color_map:
+        cm_str = ", ".join(f"{k}->{v}" for k, v in sorted(diff.color_map.items()))
+        hints.append(f"Color mapping: {cm_str}")
+    if diff.bg_color_in is not None and diff.bg_color_out is not None:
+        if diff.bg_color_in != diff.bg_color_out:
+            hints.append(f"Background color changes: {diff.bg_color_in} -> {diff.bg_color_out}")
+        else:
+            hints.append(f"Background color unchanged: {diff.bg_color_in}")
+    if diff.object_count_in is not None and diff.object_count_out is not None:
+        if diff.object_count_in != diff.object_count_out:
+            hints.append(f"Object count changes: {diff.object_count_in} -> {diff.object_count_out}")
+        else:
+            hints.append(f"Object count unchanged: {diff.object_count_in}")
+    if diff.detected_transforms:
+        hints.append(f"Detected transforms: {', '.join(diff.detected_transforms[:3])}")
+
+    # Perception facts from first example (consistent ones only)
+    first_ex = examples[0]
+    in_scene = analyze_scene(first_ex["input"])
+    out_scene = analyze_scene(first_ex["output"])
+
+    # Symmetries that are consistent across all examples
+    in_syms_all = set()
+    out_syms_all = set()
+    for ex in examples:
+        in_s = analyze_scene(ex["input"])
+        out_s = analyze_scene(ex["output"])
+        in_syms = {k for k, v in in_s.symmetries.items() if v}
+        out_syms = {k for k, v in out_s.symmetries.items() if v}
+        if not in_syms_all:
+            in_syms_all = in_syms
+        else:
+            in_syms_all &= in_syms
+        if not out_syms_all:
+            out_syms_all = out_syms
+        else:
+            out_syms_all &= out_syms
+
+    if in_syms_all:
+        hints.append(f"Input symmetries (all examples): {', '.join(sorted(in_syms_all))}")
+    if out_syms_all:
+        hints.append(f"Output symmetries (all examples): {', '.join(sorted(out_syms_all))}")
+
+    # Color counts comparison (first example as representative)
+    in_colors = set(in_scene.color_counts.keys())
+    out_colors = set(out_scene.color_counts.keys())
+    if in_colors != out_colors:
+        added = out_colors - in_colors
+        removed = in_colors - out_colors
+        if added:
+            hints.append(f"Colors added in output: {sorted(added)}")
+        if removed:
+            hints.append(f"Colors removed in output: {sorted(removed)}")
+
+    # Object sizes (first example)
+    in_objs = extract_objects(first_ex["input"], in_scene.bg_color)
+    out_objs = extract_objects(first_ex["output"], out_scene.bg_color)
+    if in_objs:
+        sizes = sorted(set(o.size for o in in_objs))
+        hints.append(f"Input object sizes: {sizes}")
+    if out_objs:
+        sizes = sorted(set(o.size for o in out_objs))
+        hints.append(f"Output object sizes: {sizes}")
+
+    if not hints:
+        return ""
+    return "Perception facts:\n" + "\n".join(f"- {h}" for h in hints)
+
+
+def _build_prompt(task: dict, attempt: int, history: str = "", strategy_hint: str = "") -> tuple[str, str]:
     """Return (system_prompt, user_prompt) for the generator LLM."""
     system = (
         "You are an ARC-AGI puzzle solver. "
@@ -145,16 +365,23 @@ def _build_prompt(task: dict, attempt: int, history: str = "") -> tuple[str, str
         f"- bg_color_out: {diff.bg_color_out}\n"
     )
 
+    perception_hints = _build_perception_hints(task)
+
     user = (
         "\n".join(example_text)
         + "\n"
         + diff_text
         + "\n"
     )
+    if perception_hints:
+        user += perception_hints + "\n\n"
+    if strategy_hint:
+        user += f"Strategy hint: {strategy_hint}\n\n"
     if attempt > 1 and history:
         user += (
-            f"Previous attempt {attempt - 1} failed. Critique:\n{history}\n"
-            "Fix the function and return only the Python code.\n"
+            f"Previous attempt {attempt - 1} failed. Feedback:\n{history}\n"
+            "The diff above shows expected vs got output. 'X' marks wrong cells, '.' marks correct cells.\n"
+            "Fix the function so ALL cells match. Return only the Python code.\n"
         )
     user += "Return only the Python code in a ```python block."
 
@@ -309,14 +536,217 @@ def _critique_candidate(candidate, task: dict, attempt: int) -> str | None:
     return critique
 
 
-def llm_solve(task: dict, max_attempts: int = 2) -> tuple[PythonCandidate | Candidate | None, str]:
-    """Try to solve a task using LLM. Return (candidate, model_note).
+# ── Evolutionary search strategies (T2) ──
+_STRATEGY_HINTS = [
+    "Focus on color mapping — identify how colors change from input to output.",
+    "Focus on spatial transformations — rotation, reflection, or translation.",
+    "Focus on object detection — identify connected components and their properties.",
+    "Focus on grid size changes — cropping, padding, or resizing.",
+    "Focus on pattern completion — fill in missing parts of a pattern.",
+    "Focus on counting — count objects and produce a grid based on counts.",
+    "Focus on symmetry — mirror or complete symmetric patterns.",
+    "Focus on line/edge detection — identify borders, boundaries, or outlines.",
+    "Focus on flood fill — fill enclosed regions with a specific color.",
+    "Focus on sorting/reordering — rearrange rows, columns, or objects by some criterion.",
+]
+
+
+def _evolutionary_solve(
+    task: dict, train: list[dict], n_initial: int = 8,
+) -> tuple[PythonCandidate | Candidate | None, str, dict]:
+    """Evolutionary 3-round search.
+
+    Round 1: Generate n_initial diverse candidates (different strategy hints).
+    Round 2: Individual revision — top candidates get diff feedback + retry.
+    Round 3: Pooled hybridization — combine best candidates' code into one attempt.
+
+    Returns (best_candidate, note, telemetry_dict).
+    """
+    telemetry = {
+        "llm_calls": 0, "candidates_generated": 0, "best_fitness": 0.0,
+        "solved_round": None,  # 1, 2, or 3 — which round solved it
+        "solved_candidate_idx": None,  # which candidate index in that round
+        "fitness_trajectory": [],  # list of (round, candidate_idx, fitness)
+        "had_perception_hints": False,
+        "round1_best_fitness": 0.0,
+        "round2_best_fitness": 0.0,
+        "round3_best_fitness": 0.0,
+        "round1_calls": 0,
+        "round2_calls": 0,
+        "round3_calls": 0,
+    }
+    best_candidate = None
+    best_fitness = 0.0
+    all_candidates: list[tuple[float, PythonCandidate, str]] = []  # (fitness, candidate, note)
+
+    # ── Round 1: Diverse initial generation ──
+    hints = _STRATEGY_HINTS[:n_initial]
+    for i, hint in enumerate(hints):
+        system, user = _build_prompt(task, attempt=1, strategy_hint=hint)
+        text, note = _call_llm("deepseek", system, user, max_tokens=4000, no_fallback=True)
+        telemetry["llm_calls"] += 1
+
+        code = _extract_python(text)
+        if code is None:
+            continue
+        try:
+            cand = PythonCandidate(code)
+        except Exception:
+            continue
+        telemetry["candidates_generated"] += 1
+
+        fitness, _ = _cell_fitness(cand, train)
+        all_candidates.append((fitness, cand, note))
+        if fitness > best_fitness:
+            best_fitness = fitness
+            best_candidate = cand
+        telemetry["fitness_trajectory"].append((1, i, fitness))
+        if fitness >= 1.0:
+            telemetry["best_fitness"] = 1.0
+            telemetry["solved_round"] = 1
+            telemetry["solved_candidate_idx"] = i
+            telemetry["round1_best_fitness"] = 1.0
+            return cand, f"evolutionary round1 candidate {i+1} perfect; {note}", telemetry
+
+    telemetry["round1_best_fitness"] = best_fitness
+    telemetry["round1_calls"] = telemetry["llm_calls"]
+
+    if not all_candidates:
+        return None, "evolutionary round1: no valid candidates", telemetry
+
+    # Sort by fitness descending
+    all_candidates.sort(key=lambda x: x[0], reverse=True)
+    telemetry["best_fitness"] = best_fitness
+
+    # ── Round 2: Individual revision (top 3 candidates get diff feedback) ──
+    top_n = min(3, len(all_candidates))
+    for i in range(top_n):
+        fitness, cand, note = all_candidates[i]
+        _, details = _cell_fitness(cand, train)
+        diff_feedback = _build_diff_feedback(task, details)
+
+        history = (
+            f"Previous fitness={fitness:.2f}.\n"
+            f"{diff_feedback}\n"
+            f"Fix the function so ALL cells match."
+        )
+        system, user = _build_prompt(task, attempt=2, history=history,
+                                     strategy_hint=_STRATEGY_HINTS[i % len(_STRATEGY_HINTS)])
+        text, note2 = _call_llm("deepseek", system, user, max_tokens=4000, no_fallback=True)
+        telemetry["llm_calls"] += 1
+
+        code = _extract_python(text)
+        if code is None:
+            continue
+        try:
+            cand2 = PythonCandidate(code)
+        except Exception:
+            continue
+        telemetry["candidates_generated"] += 1
+
+        fitness2, _ = _cell_fitness(cand2, train)
+        all_candidates.append((fitness2, cand2, note2))
+        if fitness2 > best_fitness:
+            best_fitness = fitness2
+            best_candidate = cand2
+        telemetry["fitness_trajectory"].append((2, i, fitness2))
+        if fitness2 >= 1.0:
+            telemetry["best_fitness"] = 1.0
+            telemetry["solved_round"] = 2
+            telemetry["solved_candidate_idx"] = i
+            telemetry["round2_best_fitness"] = 1.0
+            return cand2, f"evolutionary round2 candidate {i+1} perfect; {note2}", telemetry
+
+    telemetry["round2_best_fitness"] = best_fitness
+    telemetry["round2_calls"] = telemetry["llm_calls"] - telemetry["round1_calls"]
+
+    # ── Round 3: Pooled hybridization ──
+    # Show the LLM the top 2 candidates' code + their fitness scores
+    # and ask it to combine the best ideas.
+    top2 = all_candidates[:2]
+    if len(top2) >= 2:
+        cand_a_code = top2[0][1].code
+        cand_b_code = top2[1][1].code
+        fit_a = top2[0][0]
+        fit_b = top2[1][0]
+
+        hybrid_system = (
+            "You are an ARC-AGI puzzle solver. "
+            "Two candidate solutions are shown below with their fitness scores.\n"
+            "Combine the best ideas from both into a single `def transform(grid)` function.\n"
+            "Keep what works, fix what doesn't. Return ONLY Python code in a ```python block."
+        )
+        hybrid_user = (
+            f"Candidate A (fitness={fit_a:.2f}):\n```python\n{cand_a_code}\n```\n\n"
+            f"Candidate B (fitness={fit_b:.2f}):\n```python\n{cand_b_code}\n```\n\n"
+        )
+        # Add training examples
+        for j, ex in enumerate(train):
+            hybrid_user += f"Example {j+1}:\nInput:\n{_grid_to_text(ex['input'])}\nOutput:\n{_grid_to_text(ex['output'])}\n\n"
+        hybrid_user += "Combine and fix. Return only the Python code in a ```python block."
+
+        text, note3 = _call_llm("deepseek", hybrid_system, hybrid_user, max_tokens=4000, no_fallback=True)
+        telemetry["llm_calls"] += 1
+
+        code = _extract_python(text)
+        if code is not None:
+            try:
+                cand3 = PythonCandidate(code)
+                telemetry["candidates_generated"] += 1
+                fitness3, _ = _cell_fitness(cand3, train)
+                all_candidates.append((fitness3, cand3, note3))
+                if fitness3 > best_fitness:
+                    best_fitness = fitness3
+                    best_candidate = cand3
+                telemetry["fitness_trajectory"].append((3, 0, fitness3))
+                if fitness3 >= 1.0:
+                    telemetry["best_fitness"] = 1.0
+                    telemetry["solved_round"] = 3
+                    telemetry["solved_candidate_idx"] = 0
+                    telemetry["round3_best_fitness"] = 1.0
+                    return cand3, f"evolutionary round3 hybrid perfect; {note3}", telemetry
+            except Exception:
+                pass
+
+    telemetry["round3_best_fitness"] = best_fitness
+    telemetry["round3_calls"] = telemetry["llm_calls"] - telemetry["round1_calls"] - telemetry["round2_calls"]
+    telemetry["best_fitness"] = best_fitness
+    if best_candidate is not None:
+        return best_candidate, f"evolutionary best fitness={best_fitness:.2f}; {all_candidates[0][2]}", telemetry
+    return None, "evolutionary: no valid candidates", telemetry
+
+
+def llm_solve(task: dict, max_attempts: int = 2, evolutionary: bool = False) -> tuple[PythonCandidate | Candidate | None, str, dict]:
+    """Try to solve a task using LLM. Return (candidate, model_note, telemetry).
 
     Path A: DeepSeek writes a Python `def transform(grid)` function.
     Falls back to legacy DSL JSON path if Python extraction fails.
+    Uses deterministic ASCII diff feedback (no GLM critique call).
+    When evolutionary=True, uses 3-round evolutionary search (8 initial candidates,
+    individual revision, pooled hybridization).
     """
+    train = task.get("train", [])
+
+    if evolutionary:
+        cand, note, evo_telem = _evolutionary_solve(task, train, n_initial=8)
+        # Check if perception hints were non-empty
+        ph = _build_perception_hints(task)
+        evo_telem["had_perception_hints"] = len(ph) > 0
+        # Merge with global telemetry
+        global _TELEMETRY
+        evo_telem["total_input_tokens"] = _TELEMETRY["total_input_tokens"]
+        evo_telem["total_output_tokens"] = _TELEMETRY["total_output_tokens"]
+        evo_telem["total_cached_tokens"] = _TELEMETRY["total_cached_tokens"]
+        evo_telem["total_cost_usd"] = _TELEMETRY["total_cost_usd"]
+        evo_telem["calls_by_tier"] = dict(_TELEMETRY["calls_by_tier"])
+        return cand, note, evo_telem
+
     history = ""
     last_note = ""
+    best_candidate = None
+    best_fitness = 0.0
+    train = task.get("train", [])
+
     for attempt in range(1, max_attempts + 1):
         system, user = _build_prompt(task, attempt, history)
         text, note = _call_llm("deepseek", system, user, max_tokens=4000, no_fallback=True)
@@ -327,17 +757,26 @@ def llm_solve(task: dict, max_attempts: int = 2) -> tuple[PythonCandidate | Cand
         if code is not None:
             try:
                 candidate = PythonCandidate(code)
-                ok, _ = verify(candidate, task.get("train", []))
-                if ok:
-                    return candidate, f"deepseek attempt {attempt} ok; {note}"
             except Exception as e:
-                history = f"Attempt {attempt}: code execution failed: {e}"
+                history = f"Attempt {attempt}: PythonCandidate creation failed: {e}"
                 continue
 
-            critique = _critique_candidate(candidate, task, attempt)
-            if critique is None:
-                return candidate, f"deepseek attempt {attempt} accepted by GLM; {note}"
-            history = critique
+            fitness, details = _cell_fitness(candidate, train)
+            if fitness > best_fitness:
+                best_fitness = fitness
+                best_candidate = candidate
+
+            if fitness >= 1.0:
+                return candidate, f"deepseek attempt {attempt} ok (fitness=1.0); {note}", {"llm_calls": attempt, "best_fitness": 1.0, "solved_round": None}
+
+            # Deterministic diff feedback — no GLM call needed
+            diff_feedback = _build_diff_feedback(task, details)
+            history = (
+                f"Attempt {attempt} fitness={fitness:.2f}.\n"
+                f"Your function produced wrong output for some examples.\n"
+                f"{diff_feedback}\n"
+                f"Fix the function so ALL cells match. Pay attention to cells marked X in the diff."
+            )
             continue
 
         # Legacy fallback: try JSON DSL path.
@@ -345,15 +784,25 @@ def llm_solve(task: dict, max_attempts: int = 2) -> tuple[PythonCandidate | Cand
         if data is not None:
             candidate = _parse_candidate(data)
             if candidate is not None:
-                ok, _ = verify(candidate, task.get("train", []))
+                ok, _ = verify(candidate, train)
                 if ok:
-                    return candidate, f"deepseek attempt {attempt} ok (dsl); {note}"
-                critique = _critique_candidate(candidate, task, attempt)
-                if critique is None:
-                    return candidate, f"deepseek attempt {attempt} accepted by GLM (dsl); {note}"
-                history = critique
+                    return candidate, f"deepseek attempt {attempt} ok (dsl); {note}", {"llm_calls": attempt, "best_fitness": 1.0, "solved_round": None}
+                # Deterministic diff for DSL path too
+                fitness, details = _cell_fitness(candidate, train)
+                if fitness > best_fitness:
+                    best_fitness = fitness
+                    best_candidate = candidate
+                diff_feedback = _build_diff_feedback(task, details)
+                history = (
+                    f"Attempt {attempt} (dsl) fitness={fitness:.2f}.\n"
+                    f"{diff_feedback}\n"
+                    f"Write a Python function instead of DSL JSON for better flexibility."
+                )
                 continue
 
         history = f"Attempt {attempt}: could not extract Python code or JSON from response."
 
-    return None, f"deepseek failed after {max_attempts} attempts; {last_note}"
+    # Return best partial candidate if we have one (even if not perfect)
+    if best_candidate is not None:
+        return best_candidate, f"deepseek best fitness={best_fitness:.2f} after {max_attempts} attempts; {last_note}", {"llm_calls": max_attempts, "best_fitness": best_fitness, "solved_round": None}
+    return None, f"deepseek failed after {max_attempts} attempts; {last_note}", {"llm_calls": max_attempts, "best_fitness": 0.0, "solved_round": None}

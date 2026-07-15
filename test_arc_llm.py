@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from arc_generator import Candidate
-from arc_llm import _extract_json, _extract_python, _parse_candidate, llm_solve, PythonCandidate
+from arc_llm import _extract_json, _extract_python, _parse_candidate, llm_solve, PythonCandidate, _cell_fitness, _build_diff_feedback, _build_perception_hints, get_telemetry, reset_telemetry
 
 
 class TestLLMHelpers(unittest.TestCase):
@@ -31,6 +31,52 @@ class TestLLMHelpers(unittest.TestCase):
     def test_parse_candidate_invalid_name(self):
         data = {"steps": [{"name": "not_a_rule", "params": {}}]}
         self.assertIsNone(_parse_candidate(data))
+
+
+class TestCellFitness(unittest.TestCase):
+    def _make_task(self):
+        return {
+            "train": [
+                {"input": [[1, 0], [0, 1]], "output": [[2, 0], [0, 2]]},
+                {"input": [[0, 1], [1, 0]], "output": [[0, 2], [2, 0]]},
+            ],
+            "test": [{"input": [[1, 0], [0, 1]], "output": [[2, 0], [0, 2]]}],
+        }
+
+    def test_cell_fitness_perfect(self):
+        cand = PythonCandidate("def transform(grid):\n    return [[2 if c == 1 else c for c in row] for row in grid]")
+        score, details = _cell_fitness(cand, self._make_task()["train"])
+        self.assertEqual(score, 1.0)
+        self.assertEqual(len(details), 2)
+
+    def test_cell_fitness_partial(self):
+        # Wrong: returns input unchanged (0% correct on output cells that should change)
+        cand = PythonCandidate("def transform(grid):\n    return [row[:] for row in grid]")
+        score, details = _cell_fitness(cand, self._make_task()["train"])
+        self.assertLess(score, 1.0)
+        self.assertGreater(score, 0.0)
+
+    def test_build_diff_feedback(self):
+        cand = PythonCandidate("def transform(grid):\n    return [row[:] for row in grid]")
+        _, details = _cell_fitness(cand, self._make_task()["train"])
+        feedback = _build_diff_feedback(self._make_task(), details)
+        self.assertIn("cells correct", feedback)
+        self.assertIn("X", feedback)
+
+    def test_perception_hints(self):
+        hints = _build_perception_hints(self._make_task())
+        self.assertIsInstance(hints, str)
+        # Should contain some perception facts about the task
+        self.assertTrue(len(hints) > 0)
+
+
+class TestTelemetry(unittest.TestCase):
+    def test_telemetry_reset_and_get(self):
+        reset_telemetry()
+        t = get_telemetry()
+        self.assertEqual(t["llm_calls"], 0)
+        self.assertEqual(t["total_cost_usd"], 0.0)
+        self.assertEqual(t["calls_by_tier"], {})
 
 
 class TestLLMSolve(unittest.TestCase):
@@ -61,7 +107,7 @@ class TestLLMSolve(unittest.TestCase):
         mock_call_tier.side_effect = side_effect
 
         task = self._make_task()
-        candidate, note = llm_solve(task, max_attempts=2)
+        candidate, note, telem = llm_solve(task, max_attempts=2)
         self.assertIsNotNone(candidate)
         self.assertIsInstance(candidate, PythonCandidate)
         self.assertIn("deepseek", note)
@@ -81,10 +127,27 @@ class TestLLMSolve(unittest.TestCase):
         mock_call_tier.side_effect = side_effect
 
         task = self._make_task()
-        candidate, note = llm_solve(task, max_attempts=2)
+        candidate, note, telem = llm_solve(task, max_attempts=2)
         self.assertIsNotNone(candidate)
         self.assertIsInstance(candidate, Candidate)
         self.assertIn("deepseek", note)
+
+
+    @patch("core.llm.call_tier")
+    def test_llm_solve_evolutionary_perfect(self, mock_call_tier):
+        deepseek_code = (
+            "def transform(grid):\n"
+            "    return [[2 if c == 1 else c for c in row] for row in grid]\n"
+        )
+        deepseek_response = f"```python\n{deepseek_code}```"
+
+        mock_call_tier.side_effect = lambda tier, *a, **kw: (deepseek_response, "deepseek", "ok")
+
+        task = self._make_task()
+        candidate, note, telem = llm_solve(task, max_attempts=2, evolutionary=True)
+        self.assertIsNotNone(candidate)
+        self.assertIsInstance(candidate, PythonCandidate)
+        self.assertIn("evolutionary", note)
 
 
 if __name__ == "__main__":
