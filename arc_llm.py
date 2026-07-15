@@ -698,6 +698,24 @@ def _evolutionary_solve(
     telemetry["round2_best_fitness"] = best_fitness
     telemetry["round2_calls"] = telemetry["llm_calls"] - telemetry["round1_calls"]
 
+    # ── T4: EV Stopping Criterion ──
+    # If Round 2 didn't improve fitness at all over Round 1, skip Round 3.
+    # R3 data: hybridization gave only +4 from ~33% of total calls.
+    # Save budget for Round 4 targeted repair instead.
+    r1_best = telemetry["round1_best_fitness"]
+    r2_best = telemetry["round2_best_fitness"]
+    if r2_best <= r1_best and r1_best < 1.0:
+        telemetry["round3_best_fitness"] = best_fitness
+        telemetry["round3_calls"] = 0
+        # Jump directly to Round 4 if eligible
+        if best_fitness >= 0.9 and best_fitness < 1.0 and best_candidate is not None:
+            pass  # Fall through to Round 4 block below
+        else:
+            telemetry["best_fitness"] = best_fitness
+            if best_candidate is not None:
+                return best_candidate, f"evolutionary best fitness={best_fitness:.2f} (R3 skipped, stuck); {all_candidates[0][2]}", telemetry
+            return None, "evolutionary: no valid candidates (R3 skipped, stuck)", telemetry
+
     # ── Round 3: Pooled hybridization ──
     # Show the LLM the top 2 candidates' code + their fitness scores
     # and ask it to combine the best ideas.
