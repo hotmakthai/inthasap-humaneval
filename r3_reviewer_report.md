@@ -5,14 +5,17 @@
 | Metric | P5b Baseline | R3 (Evolutionary) | Delta |
 |--------|-------------|-------------------|-------|
 | Solved | 97/400 (24.2%) | 220/400 (55.0%) | **+123** |
-| Total Cost | $0.18 (est.) | $6.63 | +$6.44 |
-| LLM Calls | 800 (est.) | 28,838 | +28,038 |
+| Total Cost | $1.86 (est.) | $6.63 | +$4.77 (+257%) |
+| LLM Calls | 800 (est.) | 2,854 | +2,054 |
 | Total Tokens | — | 12,260,042 | — |
-| Cost/Solved | $0.0019 | $0.0301 | +$0.028 |
-| Marginal Cost/New Solve | — | — | **$0.0515** |
+| Cost/Solved | $0.0191 | $0.0301 | +$0.011 |
+| Marginal Cost/New Solve | — | — | **$0.0381** |
 
 > P5b cost is estimated: avg R3 cost/call × 2 calls/task (P5b had no telemetry).
 > R3 cost is from actual DeepSeek API telemetry (cumulative tracking).
+> **Data note**: 19 non-evolutionary tasks had an `llm_calls` telemetry bug (cumulative
+> global counter instead of per-task). Their calls are capped at 2/task in the total.
+> Raw uncorrected sum was 28,838 — the corrected total is 2,854. Fix scheduled for R4 T0.
 
 ---
 
@@ -122,6 +125,21 @@ This is injected into the Round 2 prompt:
 | `6b9890af` | 0.510 | 1.000 | 10 |
 
 Task `6b9890af` is notable: Round 1 only reached 0.510 fitness, but diff feedback enabled Round 2 to jump to 1.000 — a 96% improvement.
+
+---
+
+## Data Quality Note (Telemetry Bug Found During Verification)
+
+During post-run verification, we found that 19 tasks solved via the **non-evolutionary
+fallback path** recorded `llm_calls` from a cumulative global counter instead of a
+per-task counter (e.g., `ed36ccf7` shows calls=2625). All 19 anomalies have
+`solved_round=None`, confirming the bug is isolated to the non-evolutionary path.
+
+- **Impact**: raw calls sum (28,838) was inflated ~10×. Corrected total: **2,854**
+  (381 evolutionary tasks = 2,816 verified per-task calls + 19 non-evo tasks capped at 2).
+- **Not affected**: cost ($6.63), tokens (12.26M), solve counts, and attribution —
+  these are read from the cumulative totals or per-task status, which are correct.
+- **Fix**: scheduled as R4 Task T0 with a unit test to prevent cross-task leakage.
 
 ---
 
@@ -261,16 +279,16 @@ This is the **single most important experiment** for the research narrative.
 | Evolution (R3 hybrid) | +4 | +$0.45 | $0.112/solve |
 | Diff Feedback (R2) | +15 | +$1.37 | $0.091/solve |
 | Perception (hints) | +125 | $0 | $0 (deterministic) |
-| Non-evolutionary | +0 | +$0.63 | — |
+| Non-evolutionary | +0 | +$0.82 | — |
 | Regression | -2 | — | — |
-| **Net Total** | **+123** | **+$6.44** | **$0.052/solve** |
+| **Net Total** | **+123** | **+$4.77 (vs P5b est.)** | **$0.038/solve** |
 
 ### Key Findings
 
 1. **Evolution is the primary driver**: 110/123 net new solves (89%) from evolutionary search, mostly Round 1 diverse generation.
 2. **Perception is ubiquitous but free**: Present in 95% of tasks, zero marginal cost. Proper ablation needed for clean attribution.
 3. **Diff Feedback recovers 15 tasks at $0.09/solve**: Tasks where R1 got close but couldn't finish. The deterministic diff tells the LLM exactly what to fix.
-4. **Cost is modest**: $6.63 total for 400 tasks = $0.017/task average. Marginal cost per new solve is only $0.052.
+4. **Cost is modest**: $6.63 total for 400 tasks = $0.017/task average. Marginal cost per new solve is only $0.038.
 5. **2 regressions analyzed**: Both caused by evolutionary search exploring too broadly. R4 fixes identified.
 6. **Statistical significance**: Single run gives 220 ± 33 (95% CI). Multi-seed runs needed for publication. Delta vs P5b is robust.
 7. **Generalization untested**: R5 (memory ablation) is the most important next experiment.

@@ -13,9 +13,10 @@
 | P5b | 97/400 | 24.2% | simple 2-attempt + GLM critique |
 | **R3** | **220/400** | **55.0%** | evolutionary search + diff feedback + perception hints |
 
-- Attribution: Evolution R1 +106, Diff Feedback R2 +15, Evolution R3 +4
-- Cost: $6.63 รวม / marginal $0.052 ต่อข้อใหม่
+- Attribution: Evolution R1 +106, Diff Feedback R2 +15, Evolution R3 +4 (ยืนยันซ้ำแล้ว)
+- Cost: $6.63 รวม / 2,854 calls / marginal $0.038 ต่อข้อใหม่
 - Regressions: 2 ข้อ (`a68b268e`, `75b8110e`)
+- ข้อมูลทั้งหมดผ่าน verification 10 ข้อ (`tmp_verify_all.py`)
 
 ---
 
@@ -64,11 +65,13 @@ R3 (hybridization) ช่วยให้ดีขึ้น:              7/180  
 19 ข้อที่ solve ผ่าน non-evolutionary path มี `llm_calls` เป็น **cumulative global counter** ไม่ใช่ per-task:
 ```
 เช่น ed36ccf7: calls=2625 (ผิด — ควรเป็น 1-2)
-Raw sum: 28,838 calls (ผิด)
-ค่าจริงประมาณ: ~2,900-3,050 calls
+Raw sum: 28,838 calls (ผิด — inflate ~10 เท่า)
+ค่าจริง (ยืนยันแล้ว): 2,816 calls จาก 381 evo tasks (per-task ถูกต้อง)
+                     + 19 non-evo tasks × ~2 = ~2,854 calls รวม
 ```
-- Cost $6.63 ถูกต้อง (อ่านจาก cumulative ตัวสุดท้าย)
-- แต่ตัวเลข calls ในรายงานต้องแก้
+- ทุก anomaly (19 ข้อ) มี solved_round=None ยืนยัน bug อยู่เฉพาะ non-evo path
+- Cost $6.63 ถูกต้อง (อ่านจาก cumulative ตัวสุดท้าย — ตรวจ monotonic แล้ว)
+- รายงาน `r3_reviewer_report.md` แก้ตัวเลขแล้ว (2,854 + data quality note)
 - **R4 Task 0: แก้ telemetry ให้ per-task สนิท + เพิ่ม unit test**
 
 ---

@@ -97,8 +97,13 @@ def main():
         r3_total_output_tokens = 0
         r3_total_cached_tokens = 0
 
-    # llm_calls is per-task, so sum them
-    r3_calls = sum(r.get("telemetry", {}).get("llm_calls", 0) for r in r3_results.values())
+    # llm_calls is per-task for evolutionary path (max 12), but 19 non-evolutionary
+    # tasks have a BUG: llm_calls contains cumulative global counter.
+    # Fix: cap invalid values (>12) at 2 (non-evo path uses 1-2 calls).
+    r3_calls = sum(
+        c if c <= 12 else 2
+        for c in (r.get("telemetry", {}).get("llm_calls", 0) for r in r3_results.values())
+    )
     r3_total_tokens = r3_total_input_tokens + r3_total_output_tokens
 
     # Per-task cost: compute by subtracting consecutive cumulative values
