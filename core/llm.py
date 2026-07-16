@@ -3,7 +3,7 @@
 core/llm.py — ตัวเรียกโมเดล + Fallback Chain (ชั้น A: กันล่ม)
   DeepSeek → Gemini → Claude (ตาม council_config.json)
   - error/timeout/quota → สลับ tier ถัดไปอัตโนมัติ
-  - 429 retry 1 ครั้งก่อน escalate
+  - 429 retry ด้วย exponential backoff + full jitter (สูงสุด 5 ครั้ง)
   - per-tier timeout / budget cap (soft เตือน, hard หยุดขึ้น tier แพง)
   - tier ไหนไม่มี key → ข้าม
 อ่านกุญแจจาก Council_Lab/.env เท่านั้น (ไม่ผูกกับบ้าน)
@@ -12,6 +12,8 @@ import os
 import re
 import json as _json
 import time
+import random
+import threading
 from datetime import datetime
 import requests
 
@@ -20,7 +22,16 @@ _ENV_LOADED = False
 _CONFIG = None
 _BUDGET_WARNED = False
 
-_PLACEHOLDERS = {"", "YOUR_API_KEY_HERE", "YOUR_ANTHROPIC_API_KEY", "PUT_KEY_HERE"}
+_PLACEHOLDERS = {"", "YOUR_API_KEY_HERE", "YOUR_ANTHROPIC_API_KEY", "PUT_KEY_HERE", "YOUR_GLM_API_KEY"}
+
+_COST_LOCK = threading.Lock()
+
+_ARC_THINKING = False
+
+
+def enable_arc_thinking():
+    global _ARC_THINKING
+    _ARC_THINKING = True
 
 
 def _load_env():
@@ -29,12 +40,12 @@ def _load_env():
         return
     envp = os.path.join(_BASE, ".env")
     if os.path.exists(envp):
-        for line in open(envp, encoding="utf-8"):
+        for line in open(envp, encoding="utf-8", errors="replace"):
             line = line.strip()
             if "=" in line and not line.startswith("#"):
                 k, v = line.split("=", 1)
                 v = re.sub(r"\s+#.*$", "", v).strip()
-                os.environ.setdefault(k.strip(), v.strip())
+                os.environ[k.strip()] = v.strip()
     _ENV_LOADED = True
 
 
@@ -51,7 +62,8 @@ def _config():
 def _key_for(tier):
     _load_env()
     name = {"deepseek": "DEEPSEEK_API_KEY", "gemini": "GEMINI_API_KEY",
-            "claude": "ANTHROPIC_API_KEY"}.get(tier, "")
+            "claude": "ANTHROPIC_API_KEY", "glm": "GLM_API_KEY",
+            "glm5": "GLM_API_KEY", "reasoner": "DEEPSEEK_API_KEY"}.get(tier, "")
     val = os.getenv(name, "").split()[0] if os.getenv(name, "").strip() else ""
     return "" if val in _PLACEHOLDERS else val
 
@@ -67,11 +79,16 @@ def _key_for(tier):
 #   gemini-3.1-pro-preview: free (preview)
 # Claude pricing (USD per 1M tokens):
 #   claude-3-5-sonnet: input $3.00, output $15.00
+# GLM-4 pricing (Zhipu AI, free tier available — set to 0 for now):
+#   glm-4: input $0.00, output $0.00 (free tier)
 
 _PRICING = {
     "deepseek": {"input": 0.27, "output": 1.10, "cache_input": 0.07},
     "gemini":  {"input": 0.0,  "output": 0.0,  "cache_input": 0.0},
     "claude":  {"input": 3.00, "output": 15.00, "cache_input": 3.00},
+    "glm":     {"input": 0.0,  "output": 0.0,  "cache_input": 0.0},
+    "glm5":    {"input": 0.70, "output": 2.80,  "cache_input": 0.70},
+    "reasoner": {"input": 0.55, "output": 2.19, "cache_input": 0.14},
 }
 
 # Peak hours in UTC (hour ranges, 0-based)
@@ -109,17 +126,17 @@ def _calc_cost(tier, input_tokens, output_tokens, cached_tokens=0):
 
 
 def _add_cost(tier, input_tokens=0, output_tokens=0, cached_tokens=0):
-    """เพิ่มค่าใช้จ่ายตาม token จริง — คืน total รวม"""
-    cost, peak = _calc_cost(tier, input_tokens, output_tokens, cached_tokens)
-    if cost == 0:
-        # fallback: ใช้ estimate เดิมถ้าไม่มี token info
-        cost = _config().get("cost_estimate_per_call_usd", {}).get(tier, 0.0)
-    total = _today_cost() + cost
-    try:
-        open(_budget_file(), "w", encoding="utf-8").write(str(total))
-    except Exception:
-        pass
-    return total
+    """เพิ่มค่าใช้จ่ายตาม token จริง — คืน total รวม (thread-safe)"""
+    with _COST_LOCK:
+        cost, peak = _calc_cost(tier, input_tokens, output_tokens, cached_tokens)
+        if cost == 0:
+            cost = _config().get("cost_estimate_per_call_usd", {}).get(tier, 0.0)
+        total = _today_cost() + cost
+        try:
+            open(_budget_file(), "w", encoding="utf-8").write(str(total))
+        except Exception:
+            pass
+        return total
 
 
 # ── ตัวเรียกแต่ละ provider — คืน (text, ok) ──
@@ -154,6 +171,45 @@ def _call_deepseek(system, user, max_tokens, timeout):
         return (text, True, mdl, {"tier": "deepseek", "input_tokens": in_tok, "output_tokens": out_tok, "cached_tokens": cached, "cost_usd": cost, "peak": peak})
     except Exception as e:
         return (f"(DeepSeek error: {str(e)[:80]})", False, mdl)
+
+
+def _call_reasoner(system, user, max_tokens, timeout, images=None):
+    """DeepSeek-R1 (deepseek-reasoner) — reasoning model for ARC-hard problems.
+    Uses same API key as deepseek but different model name.
+    Returns reasoning_content + content merged."""
+    mdl = os.getenv("DEEPSEEK_REASONER_MODEL", "deepseek-reasoner")
+    key = _key_for("reasoner")
+    if not key:
+        return ("(ไม่มี DEEPSEEK_API_KEY — ใส่ใน .env)", False, mdl)
+    url = os.getenv("DEEPSEEK_API_URL", "https://api.deepseek.com/v1/chat/completions")
+    try:
+        r = _post_json(url,
+                       {"Authorization": "Bearer " + key, "Content-Type": "application/json; charset=utf-8"},
+                       {"model": mdl, "messages": [{"role": "system", "content": system},
+                                                   {"role": "user", "content": user}],
+                        "max_tokens": max_tokens, "temperature": 0.15,
+                        "top_p": 0.95,
+                        "frequency_penalty": 0.1,
+                        "presence_penalty": 0.1,
+                        "stop": ["\n\n\n", "###"]}, timeout)
+        if r.status_code == 429:
+            return ("429", False, mdl)
+        if r.status_code != 200:
+            return (f"(Reasoner HTTP {r.status_code}: {r.text[:200]})", False, mdl)
+        resp = r.json()
+        msg = resp["choices"][0]["message"]
+        text = (msg.get("content") or "").strip()
+        reasoning = (msg.get("reasoning_content") or "").strip()
+        if not text and reasoning:
+            text = reasoning
+        usage = resp.get("usage", {})
+        in_tok = usage.get("prompt_tokens", 0)
+        out_tok = usage.get("completion_tokens", 0)
+        cached = usage.get("prompt_cache_hit_tokens", 0)
+        cost, peak = _calc_cost("reasoner", in_tok, out_tok, cached)
+        return (text, True, mdl, {"tier": "reasoner", "input_tokens": in_tok, "output_tokens": out_tok, "cached_tokens": cached, "cost_usd": cost, "peak": peak})
+    except Exception as e:
+        return (f"(Reasoner error: {str(e)[:80]})", False, mdl)
 
 
 def _gemini_request(models, system, user, max_tokens, timeout, images=None):
@@ -222,17 +278,27 @@ def _call_claude(system, user, max_tokens, timeout, images=None):
                     "type": "base64",
                     "media_type": img.get("mime", "image/png"),
                     "data": img.get("data", "")}})
+        body = {"model": mdl, "max_tokens": max_tokens, "system": system,
+                "messages": [{"role": "user", "content": content}]}
+        if _ARC_THINKING:
+            body["thinking"] = {"type": "adaptive"}
+            body["temperature"] = 1
+        else:
+            body["temperature"] = 0
         r = _post_json("https://api.anthropic.com/v1/messages",
                        {"x-api-key": key, "anthropic-version": "2023-06-01",
                         "Content-Type": "application/json; charset=utf-8"},
-                       {"model": mdl, "max_tokens": max_tokens, "system": system,
-                        "messages": [{"role": "user", "content": content}]}, timeout)
+                       body, timeout)
         if r.status_code == 429:
             return ("429", False, mdl)
         if r.status_code != 200:
-            return (f"(Claude HTTP {r.status_code})", False, mdl)
+            return (f"(Claude HTTP {r.status_code}: {r.text[:200]})", False, mdl)
         resp = r.json()
-        text = resp["content"][0]["text"].strip()
+        text_parts = []
+        for block in resp.get("content", []):
+            if block.get("type") == "text":
+                text_parts.append(block["text"].strip())
+        text = "\n".join(text_parts) if text_parts else ""
         usage = resp.get("usage", {})
         in_tok = usage.get("input_tokens", 0)
         out_tok = usage.get("output_tokens", 0)
@@ -242,35 +308,126 @@ def _call_claude(system, user, max_tokens, timeout, images=None):
         return (f"(Claude error: {str(e)[:80]})", False, mdl)
 
 
-_CALLERS = {"deepseek": _call_deepseek, "gemini": _call_gemini, "claude": _call_claude}
+def _call_glm(system, user, max_tokens, timeout, images=None):
+    """GLM-4.7-Flash (Z.AI) — OpenAI-compatible API."""
+    mdl = os.getenv("GLM_MODEL", "glm-4.7-flash")
+    key = _key_for("glm")
+    if not key:
+        return ("(ไม่มี GLM_API_KEY — ใส่ใน .env)", False, mdl)
+    url = os.getenv("GLM_API_URL", "https://api.z.ai/api/paas/v4/chat/completions")
+    try:
+        r = _post_json(url,
+                       {"Authorization": "Bearer " + key, "Content-Type": "application/json; charset=utf-8"},
+                       {"model": mdl, "messages": [{"role": "system", "content": system},
+                                                       {"role": "user", "content": user}],
+                        "max_tokens": max_tokens, "temperature": 0.0,
+                        "thinking": {"type": "disabled"}}, timeout)
+        if r.status_code == 429:
+            return ("429", False, mdl)
+        if r.status_code != 200:
+            return (f"(GLM HTTP {r.status_code}: {r.text[:200]})", False, mdl)
+        resp = r.json()
+        msg = resp["choices"][0]["message"]
+        text = (msg.get("content") or "").strip()
+        if not text and msg.get("reasoning_content"):
+            text = msg["reasoning_content"].strip()
+        usage = resp.get("usage", {})
+        in_tok = usage.get("prompt_tokens", 0)
+        out_tok = usage.get("completion_tokens", 0)
+        cost, peak = _calc_cost("glm", in_tok, out_tok, 0)
+        return (text, True, mdl, {"tier": "glm", "input_tokens": in_tok, "output_tokens": out_tok, "cached_tokens": 0, "cost_usd": cost, "peak": peak})
+    except Exception as e:
+        return (f"(GLM error: {str(e)[:80]})", False, mdl)
+
+
+def _call_glm5(system, user, max_tokens, timeout, images=None):
+    """GLM-5.2 (Z.AI) — architect tier, uses same key as glm but different model."""
+    mdl = os.getenv("GLM_5_MODEL", "glm-5.2")
+    key = _key_for("glm5")
+    if not key:
+        return ("(ไม่มี GLM_API_KEY — ใส่ใน .env)", False, mdl)
+    url = os.getenv("GLM_API_URL", "https://api.z.ai/api/paas/v4/chat/completions")
+    try:
+        r = _post_json(url,
+                       {"Authorization": "Bearer " + key, "Content-Type": "application/json; charset=utf-8"},
+                       {"model": mdl, "messages": [{"role": "system", "content": system},
+                                                       {"role": "user", "content": user}],
+                        "max_tokens": max_tokens, "temperature": 0.0,
+                        "thinking": {"type": "disabled"}}, timeout)
+        if r.status_code == 429:
+            return ("429", False, mdl)
+        if r.status_code != 200:
+            return (f"(GLM5 HTTP {r.status_code}: {r.text[:200]})", False, mdl)
+        resp = r.json()
+        msg = resp["choices"][0]["message"]
+        text = (msg.get("content") or "").strip()
+        if not text and msg.get("reasoning_content"):
+            text = msg["reasoning_content"].strip()
+        usage = resp.get("usage", {})
+        in_tok = usage.get("prompt_tokens", 0)
+        out_tok = usage.get("completion_tokens", 0)
+        cost, peak = _calc_cost("glm5", in_tok, out_tok, 0)
+        return (text, True, mdl, {"tier": "glm5", "input_tokens": in_tok, "output_tokens": out_tok, "cached_tokens": 0, "cost_usd": cost, "peak": peak})
+    except Exception as e:
+        return (f"(GLM5 error: {str(e)[:80]})", False, mdl)
+
+
+_CALLERS = {"deepseek": _call_deepseek, "gemini": _call_gemini, "claude": _call_claude, "glm": _call_glm, "glm5": _call_glm5, "reasoner": _call_reasoner}
 
 
 def _call_one(tier, system, user, max_tokens, images=None):
-    """เรียก tier เดียว + retry 429 ครั้งเดียว — คืน (text, ok, model, usage_info)"""
+    """เรียก tier เดียว + exponential backoff + full jitter (กัน 429/thundering herd)
+    คืน (text, ok, model, usage_info) — ถ้าทุก retry ล้มเหลว ok=False, text มีสัญญาณ QUOTA_EXHAUSTED
+    """
     cfg = _config()
     timeout = cfg.get("timeouts_sec", {}).get(tier, 60)
+    if tier == "reasoner" and max_tokens < 24000:
+        max_tokens = 24000
+    if tier == "claude" and _ARC_THINKING and max_tokens < 24000:
+        max_tokens = 24000
     fn = _CALLERS.get(tier)
     if not fn:
         return (f"(ไม่รู้จัก tier {tier})", False, tier, None)
     kwargs = {"images": images} if images and tier in ("gemini", "claude") else {}
-    result = fn(system, user, max_tokens, timeout, **kwargs)
-    # ผลลัพธ์: (text, ok, model) หรือ (text, ok, model, usage_info)
-    if len(result) == 4:
-        text, ok, model, usage = result
-    else:
-        text, ok, model = result
-        usage = None
-    if (not ok) and text == "429" and cfg.get("retry_on_429", 1):
-        time.sleep(2)
+
+    max_retries = cfg.get("retry_on_429", 5)
+    base_delay = 2.0
+    max_delay = 60.0
+
+    for attempt in range(max_retries + 1):
         result = fn(system, user, max_tokens, timeout, **kwargs)
         if len(result) == 4:
             text, ok, model, usage = result
         else:
             text, ok, model = result
             usage = None
-    if text == "429":
-        text = f"({tier} quota เต็ม 429)"
-    return (text, ok, model, usage)
+
+        if ok:
+            return (text, True, model, usage)
+
+        # ตรวจ 429 / rate limit
+        is_429 = (text == "429" or "429" in str(text) or "rate_limit" in str(text).lower())
+        # ตรวจ connection/network error — ต้อง retry ด้วย (เน็ตหลุด/ไฟดับชั่วคราว)
+        _t = str(text).lower()
+        is_conn_err = any(s in _t for s in (
+            "connection", "connect", "timeout", "timed out", "temporary failure",
+            "name resolution", "getaddrinfo", "unreachable", "reset by peer",
+            "max retries exceeded", "newconnectionerror", "connectionerror",
+        ))
+        if (is_429 or is_conn_err) and attempt < max_retries:
+            delay = min(max_delay, base_delay * (2 ** attempt))
+            jittered = random.uniform(delay * 0.5, delay)
+            kind = "429/rate_limit" if is_429 else "connection error"
+            print(f"[llm] WARN {tier} {kind} -- retry {attempt+1}/{max_retries} sleep {jittered:.1f}s", flush=True)
+            time.sleep(jittered)
+            continue
+
+        # non-429 error หรือ retry หมดแล้ว
+        break
+
+    if text == "429" or "429" in str(text):
+        text = f"QUOTA_EXHAUSTED ({tier} quota เต็ม 429 หลัง {max_retries} retries)"
+    return (text, False, model, usage)
 
 
 _COST_CALLBACK = None
@@ -296,7 +453,7 @@ def call_with_fallback(system_prompt, user_prompt, max_tokens=3000):
         if not _key_for(tier):
             continue                                   # ไม่มี key → ข้าม
         # งบ hard cap → ห้ามขึ้น tier แพงกว่า deepseek
-        if _today_cost() >= hard and tier != "deepseek":
+        if _today_cost() >= hard and tier not in ("deepseek", "reasoner"):
             note = f"⚠️ ถึง hard cap ${hard} — ข้าม {tier}"
             continue
         text, ok, model, usage = _call_one(tier, system_prompt, user_prompt, max_tokens)
@@ -315,22 +472,29 @@ def call_with_fallback(system_prompt, user_prompt, max_tokens=3000):
                 _BUDGET_WARNED = True
             return (text, model, note)
         last = text
+    if "QUOTA_EXHAUSTED" in str(last):
+        return ("QUOTA_EXHAUSTED: ทุก tier หมดโควต้า", "none", note)
     return (f"(ทุก tier ล้มเหลว: {last})", "none", note)
 
 
-def call_tier(preferred_tier, system_prompt, user_prompt, max_tokens=3000, images=None):
+def call_tier(preferred_tier, system_prompt, user_prompt, max_tokens=3000, images=None,
+              no_fallback=False):
     """บังคับใช้ tier ที่ระบุก่อน (เช่น reviewer = claude) — ถ้าไม่มี key/error
-    ค่อยไล่ tier ที่เหลือตามลำดับ คืน (text, tier_used, note)"""
+    ค่อยไล่ tier ที่เหลือตามลำดับ คืน (text, tier_used, note)
+    no_fallback=True → ลองเฉพาะ preferred_tier เท่านั้น (ใช้ใน ARC mode ป้องกัน claude→deepseek)"""
     cfg = _config()
-    rest = [t for t in cfg.get("tier_order", ["deepseek", "gemini", "claude"])
-            if t != preferred_tier]
-    chain = [preferred_tier] + rest
+    if no_fallback:
+        chain = [preferred_tier]
+    else:
+        rest = [t for t in cfg.get("tier_order", ["deepseek", "gemini", "claude"])
+                if t != preferred_tier]
+        chain = [preferred_tier] + rest
     hard = cfg.get("budget", {}).get("hard_cap_usd", 9e9)
     last = ""
     for tier in chain:
         if not _key_for(tier):
             continue
-        if _today_cost() >= hard and tier != "deepseek":
+        if _today_cost() >= hard and tier not in ("deepseek", "reasoner"):
             continue
         text, ok, model, usage = _call_one(tier, system_prompt, user_prompt, max_tokens, images)
         if ok:
@@ -345,6 +509,8 @@ def call_tier(preferred_tier, system_prompt, user_prompt, max_tokens=3000, image
                 except: pass
             return (text, model, "")
         last = text
+    if "QUOTA_EXHAUSTED" in str(last):
+        return ("QUOTA_EXHAUSTED: ทุก tier หมดโควต้า", "none", "")
     return (f"(ทุก tier ล้มเหลว: {last})", "none", "")
 
 

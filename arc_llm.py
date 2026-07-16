@@ -402,6 +402,20 @@ def _extract_json(text: str) -> dict | None:
         return None
 
 
+def _is_llm_error(text: str) -> bool:
+    """Detect error responses from core.llm (all tiers failed / quota / connection)."""
+    if not text:
+        return True
+    t = text.strip()
+    return (
+        t.startswith("(ทุก tier ล้มเหลว")
+        or t.startswith("QUOTA_EXHAUSTED")
+        or t.startswith("(DeepSeek error")
+        or t.startswith("(DeepSeek HTTP")
+        or t.startswith("(ไม่มี DEEPSEEK_API_KEY")
+    )
+
+
 def _extract_python(text: str) -> str | None:
     """Extract Python code from LLM response."""
     # Try ```python code fence first.
@@ -584,10 +598,22 @@ def _evolutionary_solve(
 
     # ── Round 1: Diverse initial generation ──
     hints = _STRATEGY_HINTS[:n_initial]
+    llm_error_count = 0
     for i, hint in enumerate(hints):
         system, user = _build_prompt(task, attempt=1, strategy_hint=hint)
         text, note = _call_llm("deepseek", system, user, max_tokens=4000, no_fallback=True)
         telemetry["llm_calls"] += 1
+
+        # ตรวจจับ LLM unreachable — error text จาก core.llm เมื่อทุก tier ล้มเหลว (เน็ตหลุด/ไฟดับ)
+        if _is_llm_error(text):
+            llm_error_count += 1
+            # 3 ครั้งติดกัน = LLM ตายจริง — หยุดทันที อย่าเผา call ต่อ
+            if llm_error_count >= 3 and telemetry["candidates_generated"] == 0:
+                telemetry["llm_unreachable"] = True
+                telemetry["round1_best_fitness"] = best_fitness
+                telemetry["round1_calls"] = telemetry["llm_calls"]
+                return None, f"LLM_UNREACHABLE: {text[:120]}", telemetry
+            continue
 
         code = _extract_python(text)
         if code is None:
@@ -615,6 +641,10 @@ def _evolutionary_solve(
     telemetry["round1_calls"] = telemetry["llm_calls"]
 
     if not all_candidates:
+        # ถ้ามี LLM error เกินครึ่งของ calls และไม่ได้ code เลย — น่าจะ unreachable
+        if llm_error_count >= n_initial // 2:
+            telemetry["llm_unreachable"] = True
+            return None, "LLM_UNREACHABLE: no valid candidates, mostly LLM errors", telemetry
         return None, "evolutionary round1: no valid candidates", telemetry
 
     # ── T2: Strategy rotation fallback ──

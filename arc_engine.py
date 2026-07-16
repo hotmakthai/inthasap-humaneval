@@ -64,6 +64,10 @@ def solve_task(task: dict, top_k: int = 2, use_llm: bool = False) -> dict[str, A
                     "telemetry": llm_telemetry}
 
     if not passing:
+        # LLM unreachable (เน็ตหลุด/ไฟดับ) — ใช้ status พิเศษเพื่อให้ rerun แยกข้อได้
+        if llm_telemetry.get("llm_unreachable"):
+            return {"output": None, "candidate": None, "status": "llm_unreachable",
+                    "telemetry": llm_telemetry}
         return {"output": None, "candidate": None, "status": "unsolved",
                 "telemetry": llm_telemetry if llm_telemetry else (_get_telemetry() if _get_telemetry else {})}
 
@@ -117,6 +121,7 @@ def run_baseline(
     tasks = task_paths[:limit] if limit else task_paths
     results = state["results"]
 
+    consecutive_unreachable = 0
     for i in range(start, len(tasks)):
         path = tasks[i]
         task = json.loads(path.read_text(encoding="utf-8"))
@@ -127,6 +132,29 @@ def run_baseline(
         except Exception as e:
             sol = {"output": None, "candidate": None, "status": f"error:{e}"}
         latency = time.time() - start_time
+
+        # Circuit breaker — LLM unreachable ติดกัน 3 ข้อ = เน็ตตายยาว → หยุดรอ 5 นาทีแล้วลองข้อเดิมซ้ำ
+        if sol["status"] == "llm_unreachable":
+            consecutive_unreachable += 1
+            print(f"[{i+1}/{len(tasks)}] {path.stem}: LLM UNREACHABLE ({consecutive_unreachable} in a row)", flush=True)
+            if consecutive_unreachable >= 3:
+                print("[circuit breaker] LLM unreachable 3 tasks in a row — sleeping 300s before retrying...", flush=True)
+                time.sleep(300)
+                consecutive_unreachable = 0
+            # ไม่บันทึกผลข้อนี้ทันที — ลองข้อเดิมซ้ำ 1 ครั้งหลังพัก
+            start_time = time.time()
+            try:
+                sol = solve_task(task, use_llm=use_llm)
+            except Exception as e:
+                sol = {"output": None, "candidate": None, "status": f"error:{e}"}
+            latency = time.time() - start_time
+            if sol["status"] == "llm_unreachable":
+                # ยังไม่ฟื้น — บันทึก unreachable ไว้ ให้ rerun ภายหลังด้วย script ล้าง state
+                pass
+            else:
+                consecutive_unreachable = 0
+        else:
+            consecutive_unreachable = 0
         result = {
             "task_id": path.stem,
             "status": sol["status"],
@@ -138,6 +166,14 @@ def run_baseline(
         state["index"] = i + 1
         state["results"] = results
         _save_state(resume_path, state)
+
+        # Progress print — flush so output is visible in real-time
+        tel = sol.get("telemetry", {})
+        fit = tel.get("best_fitness", 0.0)
+        rnd = tel.get("solved_round", "-")
+        calls = tel.get("llm_calls", 0)
+        status_short = "OK" if sol["status"] == "solved" else "FAIL"
+        print(f"[{i+1}/{len(tasks)}] {path.stem}: {status_short} fit={fit:.2f} rnd={rnd} calls={calls} {latency:.0f}s", flush=True)
 
         # บันทึก predictions แยก (บันทึกทุกข้อ แม้ None)
         predictions = _load_state(output_path) if output_path.exists() else {}
