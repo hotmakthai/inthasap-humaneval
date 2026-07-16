@@ -623,6 +623,7 @@ def _evolutionary_solve(
         except Exception:
             continue
         telemetry["candidates_generated"] += 1
+        llm_error_count = 0  # reset — got a valid candidate, LLM is alive
 
         fitness, _ = _cell_fitness(cand, train)
         all_candidates.append((fitness, cand, note))

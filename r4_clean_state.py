@@ -74,7 +74,8 @@ def main():
             break
 
     # Keep only results before new_index (run_baseline resumes sequentially)
-    keep_sequential = [r for r in keep if task_order.index(r["task_id"]) < new_index]
+    task_pos = {tid: pos for pos, tid in enumerate(task_order)}
+    keep_sequential = [r for r in keep if task_pos.get(r["task_id"], 999999) < new_index]
     removed_extra = len(keep) - len(keep_sequential)
 
     state["results"] = keep_sequential

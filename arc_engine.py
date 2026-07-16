@@ -149,10 +149,19 @@ def run_baseline(
                 sol = {"output": None, "candidate": None, "status": f"error:{e}"}
             latency = time.time() - start_time
             if sol["status"] == "llm_unreachable":
-                # ยังไม่ฟื้น — บันทึก unreachable ไว้ ให้ rerun ภายหลังด้วย script ล้าง state
-                pass
-            else:
-                consecutive_unreachable = 0
+                # ยังไม่ฟื้น — พัก 60s แล้วลองครั้งสุดท้าย
+                print(f"[circuit breaker] {path.stem} still unreachable after 300s — sleeping 60s for last attempt...", flush=True)
+                time.sleep(60)
+                start_time = time.time()
+                try:
+                    sol = solve_task(task, use_llm=use_llm)
+                except Exception as e:
+                    sol = {"output": None, "candidate": None, "status": f"error:{e}"}
+                latency = time.time() - start_time
+                if sol["status"] != "llm_unreachable":
+                    consecutive_unreachable = 0
+                else:
+                    print(f"[circuit breaker] {path.stem} still unreachable — recording and moving on", flush=True)
         else:
             consecutive_unreachable = 0
         result = {
