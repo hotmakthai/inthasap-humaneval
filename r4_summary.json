@@ -1,0 +1,21 @@
+{
+  "correct": 213,
+  "total": 400,
+  "pass_rate": 0.5325,
+  "telemetry": {
+    "total_llm_calls": 2992,
+    "total_input_tokens": 50271,
+    "total_output_tokens": 8343,
+    "total_cost_usd": 0.013994999999999999,
+    "calls_by_tier": {
+      "deepseek/deepseek-chat": 2981
+    },
+    "solved_by_round": {
+      "1": 183,
+      "4": 11,
+      "null": 19,
+      "3": 4,
+      "2": 13
+    }
+  }
+}

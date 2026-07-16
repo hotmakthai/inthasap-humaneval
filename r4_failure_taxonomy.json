@@ -1,0 +1,5447 @@
+{
+  "summary": {
+    "total": 400,
+    "solved": 220,
+    "failed": 180,
+    "categories": {
+      "Execution fail": 87,
+      "Search fail": 87,
+      "Rule Induction fail": 5,
+      "Perception fail": 1
+    },
+    "category_percentages": {
+      "Execution fail": "48.3%",
+      "Search fail": "48.3%",
+      "Rule Induction fail": "2.8%",
+      "Perception fail": "0.6%"
+    },
+    "category_examples": {
+      "Execution fail": [
+        "017c7c7b",
+        "025d127b",
+        "045e512c",
+        "06df4c85",
+        "0e206a2e"
+      ],
+      "Search fail": [
+        "05269061",
+        "09629e4f",
+        "0a938d79",
+        "10fcaaa3",
+        "137eaa0f"
+      ],
+      "Rule Induction fail": [
+        "27a28665",
+        "75b8110e",
+        "8731374e",
+        "c8cbb738",
+        "f9012d9b"
+      ],
+      "Perception fail": [
+        "4290ef0e"
+      ]
+    }
+  },
+  "knowledge_base": {
+    "007bbfb7": {
+      "task_id": "007bbfb7",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "00d62c1b": {
+      "task_id": "00d62c1b",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "017c7c7b": {
+      "task_id": "017c7c7b",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9753086419753086,
+        "r1_fitness": 0.9753086419753086,
+        "r2_fitness": 0.9753086419753086,
+        "r3_fitness": 0.9753086419753086,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "025d127b": {
+      "task_id": "025d127b",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9494949494949495,
+        "r1_fitness": 0.9494949494949495,
+        "r2_fitness": 0.9494949494949495,
+        "r3_fitness": 0.9494949494949495,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "045e512c": {
+      "task_id": "045e512c",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9304610733182161,
+        "r1_fitness": 0.9229024943310657,
+        "r2_fitness": 0.9304610733182161,
+        "r3_fitness": 0.9304610733182161,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0075585789871503994,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "0520fde7": {
+      "task_id": "0520fde7",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "05269061": {
+      "task_id": "05269061",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.4421768707482993,
+        "r1_fitness": 0.4421768707482993,
+        "r2_fitness": 0.4421768707482993,
+        "r3_fitness": 0.4421768707482993,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "05f2a901": {
+      "task_id": "05f2a901",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "06df4c85": {
+      "task_id": "06df4c85",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9753086419753086,
+        "r1_fitness": 0.9753086419753086,
+        "r2_fitness": 0.9753086419753086,
+        "r3_fitness": 0.9753086419753086,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "08ed6ac7": {
+      "task_id": "08ed6ac7",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "09629e4f": {
+      "task_id": "09629e4f",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7024793388429752,
+        "r1_fitness": 0.7024793388429752,
+        "r2_fitness": 0.7024793388429752,
+        "r3_fitness": 0.7024793388429752,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "0962bcdd": {
+      "task_id": "0962bcdd",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "0a938d79": {
+      "task_id": "0a938d79",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7303370786516854,
+        "r1_fitness": 0.7303370786516854,
+        "r2_fitness": 0.7303370786516854,
+        "r3_fitness": 0.7303370786516854,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "0b148d64": {
+      "task_id": "0b148d64",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "0ca9ddb6": {
+      "task_id": "0ca9ddb6",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "0d3d703e": {
+      "task_id": "0d3d703e",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "0dfd9992": {
+      "task_id": "0dfd9992",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "0e206a2e": {
+      "task_id": "0e206a2e",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9475218658892128,
+        "r1_fitness": 0.9475218658892128,
+        "r2_fitness": 0.9475218658892128,
+        "r3_fitness": 0.9475218658892128,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "10fcaaa3": {
+      "task_id": "10fcaaa3",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.6764705882352942,
+        "r1_fitness": 0.5490196078431373,
+        "r2_fitness": 0.5490196078431373,
+        "r3_fitness": 0.6764705882352942,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.12745098039215685,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "11852cab": {
+      "task_id": "11852cab",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1190e5a7": {
+      "task_id": "1190e5a7",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "137eaa0f": {
+      "task_id": "137eaa0f",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.48148148148148145,
+        "r1_fitness": 0.48148148148148145,
+        "r2_fitness": 0.48148148148148145,
+        "r3_fitness": 0.48148148148148145,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "150deff5": {
+      "task_id": "150deff5",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9322709163346613,
+        "r1_fitness": 0.9322709163346613,
+        "r2_fitness": 0.9322709163346613,
+        "r3_fitness": 0.9322709163346613,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "178fcbfb": {
+      "task_id": "178fcbfb",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1a07d186": {
+      "task_id": "1a07d186",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1b2d62fb": {
+      "task_id": "1b2d62fb",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.76,
+        "r1_fitness": 0.76,
+        "r2_fitness": 0.76,
+        "r3_fitness": 0.76,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "1b60fb0c": {
+      "task_id": "1b60fb0c",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9066666666666666,
+        "r1_fitness": 0.9066666666666666,
+        "r2_fitness": 0.9066666666666666,
+        "r3_fitness": 0.9066666666666666,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "1bfc4729": {
+      "task_id": "1bfc4729",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1c786137": {
+      "task_id": "1c786137",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1caeab9d": {
+      "task_id": "1caeab9d",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1cf80156": {
+      "task_id": "1cf80156",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1e0a9b12": {
+      "task_id": "1e0a9b12",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1e32b0e9": {
+      "task_id": "1e32b0e9",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8650519031141869,
+        "r1_fitness": 0.8650519031141869,
+        "r2_fitness": 0.8650519031141869,
+        "r3_fitness": 0.8650519031141869,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "1f0c79e5": {
+      "task_id": "1f0c79e5",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7932098765432098,
+        "r1_fitness": 0.7932098765432098,
+        "r2_fitness": 0.7932098765432098,
+        "r3_fitness": 0.7932098765432098,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "1f642eb9": {
+      "task_id": "1f642eb9",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1f85a75f": {
+      "task_id": "1f85a75f",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1f876c06": {
+      "task_id": "1f876c06",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "1fad071e": {
+      "task_id": "1fad071e",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "2013d3e2": {
+      "task_id": "2013d3e2",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "2204b7a8": {
+      "task_id": "2204b7a8",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "22168020": {
+      "task_id": "22168020",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "22233c11": {
+      "task_id": "22233c11",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.95,
+        "r1_fitness": 0.95,
+        "r2_fitness": 0.95,
+        "r3_fitness": 0.95,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "2281f1f4": {
+      "task_id": "2281f1f4",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "228f6490": {
+      "task_id": "228f6490",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8133333333333334,
+        "r1_fitness": 0.8133333333333334,
+        "r2_fitness": 0.8133333333333334,
+        "r3_fitness": 0.8133333333333334,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "22eb0ac0": {
+      "task_id": "22eb0ac0",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "234bbc79": {
+      "task_id": "234bbc79",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6153846153846154,
+        "r1_fitness": 0.6153846153846154,
+        "r2_fitness": 0.6153846153846154,
+        "r3_fitness": 0.6153846153846154,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "23581191": {
+      "task_id": "23581191",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "239be575": {
+      "task_id": "239be575",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6666666666666666,
+        "r1_fitness": 0.6666666666666666,
+        "r2_fitness": 0.6666666666666666,
+        "r3_fitness": 0.6666666666666666,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "23b5c85d": {
+      "task_id": "23b5c85d",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "253bf280": {
+      "task_id": "253bf280",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "25d487eb": {
+      "task_id": "25d487eb",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9514767932489452,
+        "r1_fitness": 0.9514767932489452,
+        "r2_fitness": 0.9514767932489452,
+        "r3_fitness": 0.9514767932489452,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "25d8a9c8": {
+      "task_id": "25d8a9c8",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "25ff71a9": {
+      "task_id": "25ff71a9",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "264363fd": {
+      "task_id": "264363fd",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9114814814814814,
+        "r1_fitness": 0.8977777777777778,
+        "r2_fitness": 0.8977777777777778,
+        "r3_fitness": 0.9114814814814814,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.013703703703703662,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "272f95fa": {
+      "task_id": "272f95fa",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "27a28665": {
+      "task_id": "27a28665",
+      "status": "unsolved",
+      "category": "Rule Induction fail",
+      "hypothesis": "LLM found a wrong pattern — output has some structure but fundamentally incorrect",
+      "evidence": {
+        "best_fitness": 0.2857142857142857,
+        "r1_fitness": 0.2857142857142857,
+        "r2_fitness": 0.2857142857142857,
+        "r3_fitness": 0.2857142857142857,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Try DSL/program-synthesis path or completely different strategy hint"
+    },
+    "28bf18c6": {
+      "task_id": "28bf18c6",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "28e73c20": {
+      "task_id": "28e73c20",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9612794612794613,
+        "r1_fitness": 0.9612794612794613,
+        "r2_fitness": 0.9612794612794613,
+        "r3_fitness": 0.9612794612794613,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "29623171": {
+      "task_id": "29623171",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.8264462809917356,
+        "r1_fitness": 0.8044077134986226,
+        "r2_fitness": 0.8264462809917356,
+        "r3_fitness": 0.8264462809917356,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.02203856749311295,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "29c11459": {
+      "task_id": "29c11459",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "29ec7d0e": {
+      "task_id": "29ec7d0e",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.970679012345679,
+        "r1_fitness": 0.970679012345679,
+        "r2_fitness": 0.970679012345679,
+        "r3_fitness": 0.970679012345679,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "2bcee788": {
+      "task_id": "2bcee788",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9775,
+        "r1_fitness": 0.9775,
+        "r2_fitness": 0.9775,
+        "r3_fitness": 0.9775,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "2bee17df": {
+      "task_id": "2bee17df",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7731958762886598,
+        "r1_fitness": 0.7731958762886598,
+        "r2_fitness": 0.7731958762886598,
+        "r3_fitness": 0.7731958762886598,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "2c608aff": {
+      "task_id": "2c608aff",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "2dc579da": {
+      "task_id": "2dc579da",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "2dd70a9a": {
+      "task_id": "2dd70a9a",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9462068965517242,
+        "r1_fitness": 0.9462068965517242,
+        "r2_fitness": 0.9462068965517242,
+        "r3_fitness": 0.9462068965517242,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "2dee498d": {
+      "task_id": "2dee498d",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7631578947368421,
+        "r1_fitness": 0.7631578947368421,
+        "r2_fitness": 0.7631578947368421,
+        "r3_fitness": 0.7631578947368421,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "31aa019c": {
+      "task_id": "31aa019c",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.91,
+        "r1_fitness": 0.91,
+        "r2_fitness": 0.91,
+        "r3_fitness": 0.91,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "321b1fc6": {
+      "task_id": "321b1fc6",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "32597951": {
+      "task_id": "32597951",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9792387543252595,
+        "r1_fitness": 0.9792387543252595,
+        "r2_fitness": 0.9792387543252595,
+        "r3_fitness": 0.9792387543252595,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "3345333e": {
+      "task_id": "3345333e",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9765625,
+        "r1_fitness": 0.9765625,
+        "r2_fitness": 0.9765625,
+        "r3_fitness": 0.9765625,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "3428a4f5": {
+      "task_id": "3428a4f5",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "3618c87e": {
+      "task_id": "3618c87e",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "3631a71a": {
+      "task_id": "3631a71a",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9961111111111111,
+        "r1_fitness": 0.995,
+        "r2_fitness": 0.995,
+        "r3_fitness": 0.9961111111111111,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0011111111111110628,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "363442ee": {
+      "task_id": "363442ee",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "36d67576": {
+      "task_id": "36d67576",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9526627218934911,
+        "r1_fitness": 0.9526627218934911,
+        "r2_fitness": 0.9526627218934911,
+        "r3_fitness": 0.9526627218934911,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "36fdfd69": {
+      "task_id": "36fdfd69",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9484126984126984,
+        "r1_fitness": 0.9470899470899471,
+        "r2_fitness": 0.9484126984126984,
+        "r3_fitness": 0.9484126984126984,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.001322751322751281,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "3906de3d": {
+      "task_id": "3906de3d",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.97,
+        "r1_fitness": 0.95,
+        "r2_fitness": 0.95,
+        "r3_fitness": 0.97,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.020000000000000018,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "39a8645d": {
+      "task_id": "39a8645d",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7777777777777778,
+        "r1_fitness": 0.7777777777777778,
+        "r2_fitness": 0.7777777777777778,
+        "r3_fitness": 0.7777777777777778,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "39e1d7f9": {
+      "task_id": "39e1d7f9",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8510324483775811,
+        "r1_fitness": 0.8510324483775811,
+        "r2_fitness": 0.8510324483775811,
+        "r3_fitness": 0.8510324483775811,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "3aa6fb7a": {
+      "task_id": "3aa6fb7a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "3ac3eb23": {
+      "task_id": "3ac3eb23",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "3af2c5a8": {
+      "task_id": "3af2c5a8",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "3bd67248": {
+      "task_id": "3bd67248",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "3bdb4ada": {
+      "task_id": "3bdb4ada",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "3befdf3e": {
+      "task_id": "3befdf3e",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8533333333333334,
+        "r1_fitness": 0.8533333333333334,
+        "r2_fitness": 0.8533333333333334,
+        "r3_fitness": 0.8533333333333334,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "3c9b0459": {
+      "task_id": "3c9b0459",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "3de23699": {
+      "task_id": "3de23699",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6388888888888888,
+        "r1_fitness": 0.6388888888888888,
+        "r2_fitness": 0.6388888888888888,
+        "r3_fitness": 0.6388888888888888,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "3e980e27": {
+      "task_id": "3e980e27",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9748520710059172,
+        "r1_fitness": 0.9674556213017751,
+        "r2_fitness": 0.9748520710059172,
+        "r3_fitness": 0.9748520710059172,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.007396449704142105,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "3eda0437": {
+      "task_id": "3eda0437",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9275862068965517,
+        "r1_fitness": 0.9275862068965517,
+        "r2_fitness": 0.9275862068965517,
+        "r3_fitness": 0.9275862068965517,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "3f7978a0": {
+      "task_id": "3f7978a0",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6132075471698113,
+        "r1_fitness": 0.6132075471698113,
+        "r2_fitness": 0.6132075471698113,
+        "r3_fitness": 0.6132075471698113,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "40853293": {
+      "task_id": "40853293",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "4093f84a": {
+      "task_id": "4093f84a",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9795918367346939,
+        "r1_fitness": 0.9795918367346939,
+        "r2_fitness": 0.9795918367346939,
+        "r3_fitness": 0.9795918367346939,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "41e4d17e": {
+      "task_id": "41e4d17e",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "4258a5f9": {
+      "task_id": "4258a5f9",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "4290ef0e": {
+      "task_id": "4290ef0e",
+      "status": "unsolved",
+      "category": "Perception fail",
+      "hypothesis": "LLM cannot perceive the pattern — output is almost entirely wrong",
+      "evidence": {
+        "best_fitness": 0.0682095006090134,
+        "r1_fitness": 0.0682095006090134,
+        "r2_fitness": 0.0682095006090134,
+        "r3_fitness": 0.0682095006090134,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Try different perception hints or manual grid analysis"
+    },
+    "42a50994": {
+      "task_id": "42a50994",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "4347f46a": {
+      "task_id": "4347f46a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "444801d8": {
+      "task_id": "444801d8",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9166666666666666,
+        "r1_fitness": 0.9166666666666666,
+        "r2_fitness": 0.9166666666666666,
+        "r3_fitness": 0.9166666666666666,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "445eab21": {
+      "task_id": "445eab21",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "447fd412": {
+      "task_id": "447fd412",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8948412698412699,
+        "r1_fitness": 0.8948412698412699,
+        "r2_fitness": 0.8948412698412699,
+        "r3_fitness": 0.8948412698412699,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "44d8ac46": {
+      "task_id": "44d8ac46",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9652777777777778,
+        "r1_fitness": 0.9652777777777778,
+        "r2_fitness": 0.9652777777777778,
+        "r3_fitness": 0.9652777777777778,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "44f52bb0": {
+      "task_id": "44f52bb0",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "4522001f": {
+      "task_id": "4522001f",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6790123456790124,
+        "r1_fitness": 0.6790123456790124,
+        "r2_fitness": 0.6790123456790124,
+        "r3_fitness": 0.6790123456790124,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "4612dd53": {
+      "task_id": "4612dd53",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9417249417249417,
+        "r1_fitness": 0.9417249417249417,
+        "r2_fitness": 0.9417249417249417,
+        "r3_fitness": 0.9417249417249417,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "46442a0e": {
+      "task_id": "46442a0e",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9090909090909091,
+        "r1_fitness": 0.9090909090909091,
+        "r2_fitness": 0.9090909090909091,
+        "r3_fitness": 0.9090909090909091,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "469497ad": {
+      "task_id": "469497ad",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "46f33fce": {
+      "task_id": "46f33fce",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "47c1f68c": {
+      "task_id": "47c1f68c",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "484b58aa": {
+      "task_id": "484b58aa",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.992072929052715,
+        "r1_fitness": 0.992072929052715,
+        "r2_fitness": 0.992072929052715,
+        "r3_fitness": 0.992072929052715,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "48d8fb45": {
+      "task_id": "48d8fb45",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8518518518518519,
+        "r1_fitness": 0.8518518518518519,
+        "r2_fitness": 0.8518518518518519,
+        "r3_fitness": 0.8518518518518519,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "4938f0c2": {
+      "task_id": "4938f0c2",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9723502304147466,
+        "r1_fitness": 0.9723502304147466,
+        "r2_fitness": 0.9723502304147466,
+        "r3_fitness": 0.9723502304147466,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "496994bd": {
+      "task_id": "496994bd",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "49d1d64f": {
+      "task_id": "49d1d64f",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "4be741c5": {
+      "task_id": "4be741c5",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6666666666666666,
+        "r1_fitness": 0.6666666666666666,
+        "r2_fitness": 0.6666666666666666,
+        "r3_fitness": 0.6666666666666666,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "4c4377d9": {
+      "task_id": "4c4377d9",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "4c5c2cf0": {
+      "task_id": "4c5c2cf0",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.8675373134328358,
+        "r1_fitness": 0.8563432835820896,
+        "r2_fitness": 0.8563432835820896,
+        "r3_fitness": 0.8675373134328358,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.011194029850746245,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "50846271": {
+      "task_id": "50846271",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9779299847792998,
+        "r1_fitness": 0.9756468797564688,
+        "r2_fitness": 0.9779299847792998,
+        "r3_fitness": 0.9779299847792998,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0022831050228310223,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "508bd3b6": {
+      "task_id": "508bd3b6",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9675925925925926,
+        "r1_fitness": 0.9675925925925926,
+        "r2_fitness": 0.9675925925925926,
+        "r3_fitness": 0.9675925925925926,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "50cb2852": {
+      "task_id": "50cb2852",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "5117e062": {
+      "task_id": "5117e062",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "5168d44c": {
+      "task_id": "5168d44c",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.987012987012987,
+        "r1_fitness": 0.987012987012987,
+        "r2_fitness": 0.987012987012987,
+        "r3_fitness": 0.987012987012987,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "539a4f51": {
+      "task_id": "539a4f51",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6833333333333333,
+        "r1_fitness": 0.6833333333333333,
+        "r2_fitness": 0.6833333333333333,
+        "r3_fitness": 0.6833333333333333,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "53b68214": {
+      "task_id": "53b68214",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.99,
+        "r1_fitness": 0.99,
+        "r2_fitness": 0.99,
+        "r3_fitness": 0.99,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "543a7ed5": {
+      "task_id": "543a7ed5",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "54d82841": {
+      "task_id": "54d82841",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "54d9e175": {
+      "task_id": "54d9e175",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "5521c0d9": {
+      "task_id": "5521c0d9",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "5582e5ca": {
+      "task_id": "5582e5ca",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "5614dbcf": {
+      "task_id": "5614dbcf",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "56dc2b01": {
+      "task_id": "56dc2b01",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8803418803418803,
+        "r1_fitness": 0.8803418803418803,
+        "r2_fitness": 0.8803418803418803,
+        "r3_fitness": 0.8803418803418803,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "56ff96f3": {
+      "task_id": "56ff96f3",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "57aa92db": {
+      "task_id": "57aa92db",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.915719696969697,
+        "r1_fitness": 0.915719696969697,
+        "r2_fitness": 0.915719696969697,
+        "r3_fitness": 0.915719696969697,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "5ad4f10b": {
+      "task_id": "5ad4f10b",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.5555555555555556,
+        "r1_fitness": 0.5555555555555556,
+        "r2_fitness": 0.5555555555555556,
+        "r3_fitness": 0.5555555555555556,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "5bd6f4ac": {
+      "task_id": "5bd6f4ac",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "5c0a986e": {
+      "task_id": "5c0a986e",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "5c2c9af4": {
+      "task_id": "5c2c9af4",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7107750472589792,
+        "r1_fitness": 0.7107750472589792,
+        "r2_fitness": 0.7107750472589792,
+        "r3_fitness": 0.7107750472589792,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "5daaa586": {
+      "task_id": "5daaa586",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.4563758389261745,
+        "r1_fitness": 0.4563758389261745,
+        "r2_fitness": 0.4563758389261745,
+        "r3_fitness": 0.4563758389261745,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "60b61512": {
+      "task_id": "60b61512",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9753086419753086,
+        "r1_fitness": 0.9753086419753086,
+        "r2_fitness": 0.9753086419753086,
+        "r3_fitness": 0.9753086419753086,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 11
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6150a2bd": {
+      "task_id": "6150a2bd",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "623ea044": {
+      "task_id": "623ea044",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "62c24649": {
+      "task_id": "62c24649",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "63613498": {
+      "task_id": "63613498",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9633333333333334,
+        "r1_fitness": 0.9633333333333334,
+        "r2_fitness": 0.9633333333333334,
+        "r3_fitness": 0.9633333333333334,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6430c8c4": {
+      "task_id": "6430c8c4",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.71875,
+        "r1_fitness": 0.671875,
+        "r2_fitness": 0.71875,
+        "r3_fitness": 0.71875,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.046875,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "6455b5f5": {
+      "task_id": "6455b5f5",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6317780580075663,
+        "r1_fitness": 0.6317780580075663,
+        "r2_fitness": 0.6317780580075663,
+        "r3_fitness": 0.6317780580075663,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "662c240a": {
+      "task_id": "662c240a",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.5,
+        "r1_fitness": 0.25,
+        "r2_fitness": 0.5,
+        "r3_fitness": 0.5,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.25,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "67385a82": {
+      "task_id": "67385a82",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "673ef223": {
+      "task_id": "673ef223",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9619565217391305,
+        "r1_fitness": 0.9619565217391305,
+        "r2_fitness": 0.9619565217391305,
+        "r3_fitness": 0.9619565217391305,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6773b310": {
+      "task_id": "6773b310",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "67a3c6ac": {
+      "task_id": "67a3c6ac",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "67a423a3": {
+      "task_id": "67a423a3",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.896551724137931,
+        "r1_fitness": 0.896551724137931,
+        "r2_fitness": 0.896551724137931,
+        "r3_fitness": 0.896551724137931,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "67e8384a": {
+      "task_id": "67e8384a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "681b3aeb": {
+      "task_id": "681b3aeb",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.7777777777777778,
+        "r1_fitness": 0.6666666666666666,
+        "r2_fitness": 0.7777777777777778,
+        "r3_fitness": 0.7777777777777778,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.11111111111111116,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "6855a6e4": {
+      "task_id": "6855a6e4",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.965925925925926,
+        "r1_fitness": 0.965925925925926,
+        "r2_fitness": 0.965925925925926,
+        "r3_fitness": 0.965925925925926,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "68b16354": {
+      "task_id": "68b16354",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "694f12f3": {
+      "task_id": "694f12f3",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "6a1e5592": {
+      "task_id": "6a1e5592",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.8233333333333334,
+        "r1_fitness": 0.65,
+        "r2_fitness": 0.8233333333333334,
+        "r3_fitness": 0.8233333333333334,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.17333333333333334,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "6aa20dc0": {
+      "task_id": "6aa20dc0",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9294770206022187,
+        "r1_fitness": 0.9294770206022187,
+        "r2_fitness": 0.9294770206022187,
+        "r3_fitness": 0.9294770206022187,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6b9890af": {
+      "task_id": "6b9890af",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "6c434453": {
+      "task_id": "6c434453",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "6cdd2623": {
+      "task_id": "6cdd2623",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9603698811096433,
+        "r1_fitness": 0.9603698811096433,
+        "r2_fitness": 0.9603698811096433,
+        "r3_fitness": 0.9603698811096433,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6cf79266": {
+      "task_id": "6cf79266",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.97,
+        "r1_fitness": 0.97,
+        "r2_fitness": 0.97,
+        "r3_fitness": 0.97,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6d0160f0": {
+      "task_id": "6d0160f0",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9504132231404959,
+        "r1_fitness": 0.9421487603305785,
+        "r2_fitness": 0.9421487603305785,
+        "r3_fitness": 0.9504132231404959,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.008264462809917439,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6d0aefbc": {
+      "task_id": "6d0aefbc",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "6d58a25d": {
+      "task_id": "6d58a25d",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9416666666666667,
+        "r1_fitness": 0.9416666666666667,
+        "r2_fitness": 0.9416666666666667,
+        "r3_fitness": 0.9416666666666667,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6d75e8bb": {
+      "task_id": "6d75e8bb",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9067164179104478,
+        "r1_fitness": 0.9067164179104478,
+        "r2_fitness": 0.9067164179104478,
+        "r3_fitness": 0.9067164179104478,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6e02f1e3": {
+      "task_id": "6e02f1e3",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "6e19193c": {
+      "task_id": "6e19193c",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.98,
+        "r1_fitness": 0.98,
+        "r2_fitness": 0.98,
+        "r3_fitness": 0.98,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6e82a1ae": {
+      "task_id": "6e82a1ae",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.92,
+        "r1_fitness": 0.91,
+        "r2_fitness": 0.92,
+        "r3_fitness": 0.92,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.010000000000000009,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "6ecd11f4": {
+      "task_id": "6ecd11f4",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.4411764705882353,
+        "r1_fitness": 0.38235294117647056,
+        "r2_fitness": 0.4411764705882353,
+        "r3_fitness": 0.4411764705882353,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.05882352941176472,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "6f8cd79b": {
+      "task_id": "6f8cd79b",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "6fa7a44f": {
+      "task_id": "6fa7a44f",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "72322fa7": {
+      "task_id": "72322fa7",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9957627118644068,
+        "r1_fitness": 0.9957627118644068,
+        "r2_fitness": 0.9957627118644068,
+        "r3_fitness": 0.9957627118644068,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "72ca375d": {
+      "task_id": "72ca375d",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "73251a56": {
+      "task_id": "73251a56",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "7447852a": {
+      "task_id": "7447852a",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.7674418604651163,
+        "r1_fitness": 0.6589147286821705,
+        "r2_fitness": 0.7674418604651163,
+        "r3_fitness": 0.7674418604651163,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.10852713178294582,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "7468f01a": {
+      "task_id": "7468f01a",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7283950617283951,
+        "r1_fitness": 0.7283950617283951,
+        "r2_fitness": 0.7283950617283951,
+        "r3_fitness": 0.7283950617283951,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "746b3537": {
+      "task_id": "746b3537",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "74dd1130": {
+      "task_id": "74dd1130",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "75b8110e": {
+      "task_id": "75b8110e",
+      "status": "unsolved",
+      "category": "Rule Induction fail",
+      "hypothesis": "LLM found a wrong pattern — output has some structure but fundamentally incorrect",
+      "evidence": {
+        "best_fitness": 0.2875,
+        "r1_fitness": 0.2875,
+        "r2_fitness": 0.2875,
+        "r3_fitness": 0.2875,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Try DSL/program-synthesis path or completely different strategy hint"
+    },
+    "760b3cac": {
+      "task_id": "760b3cac",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9012345679012346,
+        "r1_fitness": 0.9012345679012346,
+        "r2_fitness": 0.9012345679012346,
+        "r3_fitness": 0.9012345679012346,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "776ffc46": {
+      "task_id": "776ffc46",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "77fdfe62": {
+      "task_id": "77fdfe62",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "780d0b14": {
+      "task_id": "780d0b14",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "7837ac64": {
+      "task_id": "7837ac64",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.6111111111111112,
+        "r1_fitness": 0.5,
+        "r2_fitness": 0.6111111111111112,
+        "r3_fitness": 0.6111111111111112,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.11111111111111116,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "794b24be": {
+      "task_id": "794b24be",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9666666666666667,
+        "r1_fitness": 0.9666666666666667,
+        "r2_fitness": 0.9666666666666667,
+        "r3_fitness": 0.9666666666666667,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "7b6016b9": {
+      "task_id": "7b6016b9",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "7b7f7511": {
+      "task_id": "7b7f7511",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "7c008303": {
+      "task_id": "7c008303",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.5925925925925926,
+        "r1_fitness": 0.5370370370370371,
+        "r2_fitness": 0.5370370370370371,
+        "r3_fitness": 0.5925925925925926,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.05555555555555547,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "7ddcd7ec": {
+      "task_id": "7ddcd7ec",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.98,
+        "r1_fitness": 0.98,
+        "r2_fitness": 0.98,
+        "r3_fitness": 0.98,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "7df24a62": {
+      "task_id": "7df24a62",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9456521739130435,
+        "r1_fitness": 0.9456521739130435,
+        "r2_fitness": 0.9456521739130435,
+        "r3_fitness": 0.9456521739130435,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "7e0986d6": {
+      "task_id": "7e0986d6",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.958974358974359,
+        "r1_fitness": 0.958974358974359,
+        "r2_fitness": 0.958974358974359,
+        "r3_fitness": 0.958974358974359,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "7f4411dc": {
+      "task_id": "7f4411dc",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9566074950690335,
+        "r1_fitness": 0.9566074950690335,
+        "r2_fitness": 0.9566074950690335,
+        "r3_fitness": 0.9566074950690335,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "7fe24cdd": {
+      "task_id": "7fe24cdd",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "80af3007": {
+      "task_id": "80af3007",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7777777777777778,
+        "r1_fitness": 0.7777777777777778,
+        "r2_fitness": 0.7777777777777778,
+        "r3_fitness": 0.7777777777777778,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "810b9b61": {
+      "task_id": "810b9b61",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "82819916": {
+      "task_id": "82819916",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "83302e8f": {
+      "task_id": "83302e8f",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.7570303712035995,
+        "r1_fitness": 0.6822272215973003,
+        "r2_fitness": 0.7570303712035995,
+        "r3_fitness": 0.7570303712035995,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.07480314960629919,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "834ec97d": {
+      "task_id": "834ec97d",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9391304347826087,
+        "r1_fitness": 0.9391304347826087,
+        "r2_fitness": 0.9391304347826087,
+        "r3_fitness": 0.9391304347826087,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "8403a5d5": {
+      "task_id": "8403a5d5",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "846bdb03": {
+      "task_id": "846bdb03",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.43670886075949367,
+        "r1_fitness": 0.43670886075949367,
+        "r2_fitness": 0.43670886075949367,
+        "r3_fitness": 0.43670886075949367,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "855e0971": {
+      "task_id": "855e0971",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "85c4e7cd": {
+      "task_id": "85c4e7cd",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "868de0fa": {
+      "task_id": "868de0fa",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "8731374e": {
+      "task_id": "8731374e",
+      "status": "unsolved",
+      "category": "Rule Induction fail",
+      "hypothesis": "LLM found a wrong pattern — output has some structure but fundamentally incorrect",
+      "evidence": {
+        "best_fitness": 0.25555555555555554,
+        "r1_fitness": 0.25555555555555554,
+        "r2_fitness": 0.25555555555555554,
+        "r3_fitness": 0.25555555555555554,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Try DSL/program-synthesis path or completely different strategy hint"
+    },
+    "88a10436": {
+      "task_id": "88a10436",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "88a62173": {
+      "task_id": "88a62173",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "890034e9": {
+      "task_id": "890034e9",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9652305366591081,
+        "r1_fitness": 0.9652305366591081,
+        "r2_fitness": 0.9652305366591081,
+        "r3_fitness": 0.9652305366591081,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "8a004b2b": {
+      "task_id": "8a004b2b",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6858108108108109,
+        "r1_fitness": 0.6858108108108109,
+        "r2_fitness": 0.6858108108108109,
+        "r3_fitness": 0.6858108108108109,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "8be77c9e": {
+      "task_id": "8be77c9e",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "8d5021e8": {
+      "task_id": "8d5021e8",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9259259259259259,
+        "r1_fitness": 0.9259259259259259,
+        "r2_fitness": 0.9259259259259259,
+        "r3_fitness": 0.9259259259259259,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "8d510a79": {
+      "task_id": "8d510a79",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.835,
+        "r1_fitness": 0.835,
+        "r2_fitness": 0.835,
+        "r3_fitness": 0.835,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "8e1813be": {
+      "task_id": "8e1813be",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.7464788732394366,
+        "r1_fitness": 0.5353535353535354,
+        "r2_fitness": 0.7464788732394366,
+        "r3_fitness": 0.7464788732394366,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.21112533788590127,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "8e5a5113": {
+      "task_id": "8e5a5113",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "8eb1be9a": {
+      "task_id": "8eb1be9a",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.6197530864197531,
+        "r1_fitness": 0.5308641975308642,
+        "r2_fitness": 0.6197530864197531,
+        "r3_fitness": 0.6197530864197531,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0888888888888889,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "8efcae92": {
+      "task_id": "8efcae92",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.4880546075085324,
+        "r1_fitness": 0.4880546075085324,
+        "r2_fitness": 0.4880546075085324,
+        "r3_fitness": 0.4880546075085324,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "8f2ea7aa": {
+      "task_id": "8f2ea7aa",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8189300411522634,
+        "r1_fitness": 0.8189300411522634,
+        "r2_fitness": 0.8189300411522634,
+        "r3_fitness": 0.8189300411522634,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "90c28cc7": {
+      "task_id": "90c28cc7",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "90f3ed37": {
+      "task_id": "90f3ed37",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9,
+        "r1_fitness": 0.8977777777777778,
+        "r2_fitness": 0.8977777777777778,
+        "r3_fitness": 0.9,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0022222222222222365,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "913fb3ed": {
+      "task_id": "913fb3ed",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "91413438": {
+      "task_id": "91413438",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9418604651162791,
+        "r1_fitness": 0.8888888888888888,
+        "r2_fitness": 0.9418604651162791,
+        "r3_fitness": 0.9418604651162791,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.05297157622739024,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "91714a58": {
+      "task_id": "91714a58",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "9172f3a0": {
+      "task_id": "9172f3a0",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "928ad970": {
+      "task_id": "928ad970",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9215686274509803,
+        "r1_fitness": 0.9215686274509803,
+        "r2_fitness": 0.9215686274509803,
+        "r3_fitness": 0.9215686274509803,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "93b581b8": {
+      "task_id": "93b581b8",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9537037037037037,
+        "r1_fitness": 0.9351851851851852,
+        "r2_fitness": 0.9537037037037037,
+        "r3_fitness": 0.9537037037037037,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.01851851851851849,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "941d9a10": {
+      "task_id": "941d9a10",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9533333333333334,
+        "r1_fitness": 0.9533333333333334,
+        "r2_fitness": 0.9533333333333334,
+        "r3_fitness": 0.9533333333333334,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "94f9d214": {
+      "task_id": "94f9d214",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.828125,
+        "r1_fitness": 0.828125,
+        "r2_fitness": 0.828125,
+        "r3_fitness": 0.828125,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "952a094c": {
+      "task_id": "952a094c",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "9565186b": {
+      "task_id": "9565186b",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "95990924": {
+      "task_id": "95990924",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "963e52fc": {
+      "task_id": "963e52fc",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "97999447": {
+      "task_id": "97999447",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "97a05b5b": {
+      "task_id": "97a05b5b",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8791946308724832,
+        "r1_fitness": 0.8791946308724832,
+        "r2_fitness": 0.8791946308724832,
+        "r3_fitness": 0.8791946308724832,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "98cf29f8": {
+      "task_id": "98cf29f8",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.8731836195508587,
+        "r1_fitness": 0.8599735799207398,
+        "r2_fitness": 0.8718626155878467,
+        "r3_fitness": 0.8731836195508587,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.013210039630118908,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "995c5fa3": {
+      "task_id": "995c5fa3",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "99b1bc43": {
+      "task_id": "99b1bc43",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "99fa7670": {
+      "task_id": "99fa7670",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "9aec4887": {
+      "task_id": "9aec4887",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.44329896907216493,
+        "r1_fitness": 0.44329896907216493,
+        "r2_fitness": 0.44329896907216493,
+        "r3_fitness": 0.44329896907216493,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "9af7a82c": {
+      "task_id": "9af7a82c",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "9d9215db": {
+      "task_id": "9d9215db",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9501385041551247,
+        "r1_fitness": 0.9501385041551247,
+        "r2_fitness": 0.9501385041551247,
+        "r3_fitness": 0.9501385041551247,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "9dfd6313": {
+      "task_id": "9dfd6313",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "9ecd008a": {
+      "task_id": "9ecd008a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "9edfc990": {
+      "task_id": "9edfc990",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.92,
+        "r1_fitness": 0.92,
+        "r2_fitness": 0.92,
+        "r3_fitness": 0.92,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "9f236235": {
+      "task_id": "9f236235",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a1570a43": {
+      "task_id": "a1570a43",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a2fd1cf0": {
+      "task_id": "a2fd1cf0",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a3325580": {
+      "task_id": "a3325580",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.4246575342465753,
+        "r1_fitness": 0.4246575342465753,
+        "r2_fitness": 0.4246575342465753,
+        "r3_fitness": 0.4246575342465753,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "a3df8b1e": {
+      "task_id": "a3df8b1e",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a416b8f3": {
+      "task_id": "a416b8f3",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a48eeaf7": {
+      "task_id": "a48eeaf7",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a5313dff": {
+      "task_id": "a5313dff",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a5f85a15": {
+      "task_id": "a5f85a15",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9357798165137615,
+        "r1_fitness": 0.926605504587156,
+        "r2_fitness": 0.9357798165137615,
+        "r3_fitness": 0.9357798165137615,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.00917431192660556,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "a61ba2ce": {
+      "task_id": "a61ba2ce",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.75,
+        "r1_fitness": 0.75,
+        "r2_fitness": 0.75,
+        "r3_fitness": 0.75,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "a61f2674": {
+      "task_id": "a61f2674",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9506172839506173,
+        "r1_fitness": 0.8641975308641975,
+        "r2_fitness": 0.9506172839506173,
+        "r3_fitness": 0.9506172839506173,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0864197530864198,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "a64e4611": {
+      "task_id": "a64e4611",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8807407407407407,
+        "r1_fitness": 0.8807407407407407,
+        "r2_fitness": 0.8807407407407407,
+        "r3_fitness": 0.8807407407407407,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "a65b410d": {
+      "task_id": "a65b410d",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a68b268e": {
+      "task_id": "a68b268e",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9375,
+        "r1_fitness": 0.9375,
+        "r2_fitness": 0.9375,
+        "r3_fitness": 0.9375,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "a699fb00": {
+      "task_id": "a699fb00",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a740d043": {
+      "task_id": "a740d043",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a78176bb": {
+      "task_id": "a78176bb",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9133333333333333,
+        "r1_fitness": 0.86,
+        "r2_fitness": 0.9133333333333333,
+        "r3_fitness": 0.9133333333333333,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.053333333333333344,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "a79310a0": {
+      "task_id": "a79310a0",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a85d4709": {
+      "task_id": "a85d4709",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a87f7484": {
+      "task_id": "a87f7484",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "a8c38be5": {
+      "task_id": "a8c38be5",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.3765432098765432,
+        "r1_fitness": 0.3765432098765432,
+        "r2_fitness": 0.3765432098765432,
+        "r3_fitness": 0.3765432098765432,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "a8d7556c": {
+      "task_id": "a8d7556c",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9362139917695473,
+        "r1_fitness": 0.9362139917695473,
+        "r2_fitness": 0.9362139917695473,
+        "r3_fitness": 0.9362139917695473,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "a9f96cdd": {
+      "task_id": "a9f96cdd",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "aabf363d": {
+      "task_id": "aabf363d",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "aba27056": {
+      "task_id": "aba27056",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7771084337349398,
+        "r1_fitness": 0.7771084337349398,
+        "r2_fitness": 0.7771084337349398,
+        "r3_fitness": 0.7771084337349398,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "ac0a08a4": {
+      "task_id": "ac0a08a4",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ae3edfdc": {
+      "task_id": "ae3edfdc",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ae4f1146": {
+      "task_id": "ae4f1146",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.7777777777777778,
+        "r1_fitness": 0.6666666666666666,
+        "r2_fitness": 0.6666666666666666,
+        "r3_fitness": 0.7777777777777778,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.11111111111111116,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "aedd82e4": {
+      "task_id": "aedd82e4",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "af902bf9": {
+      "task_id": "af902bf9",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b0c4d837": {
+      "task_id": "b0c4d837",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.8888888888888888,
+        "r1_fitness": 0.8518518518518519,
+        "r2_fitness": 0.8518518518518519,
+        "r3_fitness": 0.8888888888888888,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.03703703703703698,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "b190f7f5": {
+      "task_id": "b190f7f5",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.7822966507177034,
+        "r1_fitness": 0.7822966507177034,
+        "r2_fitness": 0.7822966507177034,
+        "r3_fitness": 0.7822966507177034,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "b1948b0a": {
+      "task_id": "b1948b0a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b230c067": {
+      "task_id": "b230c067",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9866666666666667,
+        "r1_fitness": 0.9866666666666667,
+        "r2_fitness": 0.9866666666666667,
+        "r3_fitness": 0.9866666666666667,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "b27ca6d3": {
+      "task_id": "b27ca6d3",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9431372549019608,
+        "r1_fitness": 0.9431372549019608,
+        "r2_fitness": 0.9431372549019608,
+        "r3_fitness": 0.9431372549019608,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "b2862040": {
+      "task_id": "b2862040",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b527c5c6": {
+      "task_id": "b527c5c6",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.82,
+        "r1_fitness": 0.82,
+        "r2_fitness": 0.82,
+        "r3_fitness": 0.82,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "b548a754": {
+      "task_id": "b548a754",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b60334d2": {
+      "task_id": "b60334d2",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b6afb2da": {
+      "task_id": "b6afb2da",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b7249182": {
+      "task_id": "b7249182",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9066666666666666,
+        "r1_fitness": 0.9066666666666666,
+        "r2_fitness": 0.9066666666666666,
+        "r3_fitness": 0.9066666666666666,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "b775ac94": {
+      "task_id": "b775ac94",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.945855614973262,
+        "r1_fitness": 0.945855614973262,
+        "r2_fitness": 0.945855614973262,
+        "r3_fitness": 0.945855614973262,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "b782dc8a": {
+      "task_id": "b782dc8a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b8825c91": {
+      "task_id": "b8825c91",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b8cdaf2b": {
+      "task_id": "b8cdaf2b",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8888888888888888,
+        "r1_fitness": 0.8888888888888888,
+        "r2_fitness": 0.8888888888888888,
+        "r3_fitness": 0.8888888888888888,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "b91ae062": {
+      "task_id": "b91ae062",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b94a9452": {
+      "task_id": "b94a9452",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "b9b7f026": {
+      "task_id": "b9b7f026",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ba26e723": {
+      "task_id": "ba26e723",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ba97ae07": {
+      "task_id": "ba97ae07",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9791666666666666,
+        "r1_fitness": 0.9791666666666666,
+        "r2_fitness": 0.9791666666666666,
+        "r3_fitness": 0.9791666666666666,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "bb43febb": {
+      "task_id": "bb43febb",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "bbc9ae5d": {
+      "task_id": "bbc9ae5d",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "bc1d5164": {
+      "task_id": "bc1d5164",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.6666666666666666,
+        "r1_fitness": 0.5111111111111111,
+        "r2_fitness": 0.6666666666666666,
+        "r3_fitness": 0.6666666666666666,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.15555555555555556,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "bd4472b8": {
+      "task_id": "bd4472b8",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "bda2d7a6": {
+      "task_id": "bda2d7a6",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "bdad9b1f": {
+      "task_id": "bdad9b1f",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "be94b721": {
+      "task_id": "be94b721",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "beb8660c": {
+      "task_id": "beb8660c",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c0f76784": {
+      "task_id": "c0f76784",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c1d99e64": {
+      "task_id": "c1d99e64",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c3e719e8": {
+      "task_id": "c3e719e8",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c3f564a4": {
+      "task_id": "c3f564a4",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c444b776": {
+      "task_id": "c444b776",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c59eb873": {
+      "task_id": "c59eb873",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c8cbb738": {
+      "task_id": "c8cbb738",
+      "status": "unsolved",
+      "category": "Rule Induction fail",
+      "hypothesis": "LLM found a wrong pattern — output has some structure but fundamentally incorrect",
+      "evidence": {
+        "best_fitness": 0.22033898305084745,
+        "r1_fitness": 0.22033898305084745,
+        "r2_fitness": 0.22033898305084745,
+        "r3_fitness": 0.22033898305084745,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Try DSL/program-synthesis path or completely different strategy hint"
+    },
+    "c8f0f002": {
+      "task_id": "c8f0f002",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c909285e": {
+      "task_id": "c909285e",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c9e6f938": {
+      "task_id": "c9e6f938",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "c9f8e694": {
+      "task_id": "c9f8e694",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "caa06a1f": {
+      "task_id": "caa06a1f",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "cbded52d": {
+      "task_id": "cbded52d",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.984375,
+        "r1_fitness": 0.984375,
+        "r2_fitness": 0.984375,
+        "r3_fitness": 0.984375,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "cce03e0d": {
+      "task_id": "cce03e0d",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "cdecee7f": {
+      "task_id": "cdecee7f",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ce22a75a": {
+      "task_id": "ce22a75a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ce4f8723": {
+      "task_id": "ce4f8723",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ce602527": {
+      "task_id": "ce602527",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.5365853658536586,
+        "r1_fitness": 0.2875,
+        "r2_fitness": 0.5365853658536586,
+        "r3_fitness": 0.5365853658536586,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.2490853658536586,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "ce9e57f2": {
+      "task_id": "ce9e57f2",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "cf98881b": {
+      "task_id": "cf98881b",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d037b0a7": {
+      "task_id": "d037b0a7",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d06dbe63": {
+      "task_id": "d06dbe63",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.893491124260355,
+        "r1_fitness": 0.8846153846153846,
+        "r2_fitness": 0.8846153846153846,
+        "r3_fitness": 0.893491124260355,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.00887573964497046,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "d07ae81c": {
+      "task_id": "d07ae81c",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9404186795491143,
+        "r1_fitness": 0.92914653784219,
+        "r2_fitness": 0.9404186795491143,
+        "r3_fitness": 0.9404186795491143,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.011272141706924255,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "d0f5fe59": {
+      "task_id": "d0f5fe59",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d10ecb37": {
+      "task_id": "d10ecb37",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d13f3404": {
+      "task_id": "d13f3404",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d22278a0": {
+      "task_id": "d22278a0",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6471861471861472,
+        "r1_fitness": 0.6471861471861472,
+        "r2_fitness": 0.6471861471861472,
+        "r3_fitness": 0.6471861471861472,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "d23f8c26": {
+      "task_id": "d23f8c26",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d2abd087": {
+      "task_id": "d2abd087",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9333333333333333,
+        "r1_fitness": 0.9333333333333333,
+        "r2_fitness": 0.9333333333333333,
+        "r3_fitness": 0.9333333333333333,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "d364b489": {
+      "task_id": "d364b489",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d406998b": {
+      "task_id": "d406998b",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8367346938775511,
+        "r1_fitness": 0.8367346938775511,
+        "r2_fitness": 0.8367346938775511,
+        "r3_fitness": 0.8367346938775511,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "d43fd935": {
+      "task_id": "d43fd935",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d4469b4b": {
+      "task_id": "d4469b4b",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d4a91cb9": {
+      "task_id": "d4a91cb9",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d4f3cd78": {
+      "task_id": "d4f3cd78",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d511f180": {
+      "task_id": "d511f180",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d5d6de2d": {
+      "task_id": "d5d6de2d",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d631b094": {
+      "task_id": "d631b094",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d687bc17": {
+      "task_id": "d687bc17",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d6ad076f": {
+      "task_id": "d6ad076f",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9266666666666666,
+        "r1_fitness": 0.9266666666666666,
+        "r2_fitness": 0.9266666666666666,
+        "r3_fitness": 0.9266666666666666,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "d89b689b": {
+      "task_id": "d89b689b",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d8c310e9": {
+      "task_id": "d8c310e9",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d90796e8": {
+      "task_id": "d90796e8",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "d9f24cd1": {
+      "task_id": "d9f24cd1",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9,
+        "r1_fitness": 0.9,
+        "r2_fitness": 0.9,
+        "r3_fitness": 0.9,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "d9fac9be": {
+      "task_id": "d9fac9be",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "dae9d2b5": {
+      "task_id": "dae9d2b5",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "db3e9e38": {
+      "task_id": "db3e9e38",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "db93a21d": {
+      "task_id": "db93a21d",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.64,
+        "r1_fitness": 0.64,
+        "r2_fitness": 0.64,
+        "r3_fitness": 0.64,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "dbc1a6ce": {
+      "task_id": "dbc1a6ce",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "dc0a314f": {
+      "task_id": "dc0a314f",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.30666666666666664,
+        "r1_fitness": 0.30666666666666664,
+        "r2_fitness": 0.30666666666666664,
+        "r3_fitness": 0.30666666666666664,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "dc1df850": {
+      "task_id": "dc1df850",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "dc433765": {
+      "task_id": "dc433765",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ddf7fa4f": {
+      "task_id": "ddf7fa4f",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "de1cd16c": {
+      "task_id": "de1cd16c",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ded97339": {
+      "task_id": "ded97339",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "e179c5f4": {
+      "task_id": "e179c5f4",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "e21d9049": {
+      "task_id": "e21d9049",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "e26a3af2": {
+      "task_id": "e26a3af2",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.5611745513866232,
+        "r1_fitness": 0.5611745513866232,
+        "r2_fitness": 0.5611745513866232,
+        "r3_fitness": 0.5611745513866232,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "e3497940": {
+      "task_id": "e3497940",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9666666666666667,
+        "r1_fitness": 0.9666666666666667,
+        "r2_fitness": 0.9666666666666667,
+        "r3_fitness": 0.9666666666666667,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "e40b9e2f": {
+      "task_id": "e40b9e2f",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.94,
+        "r1_fitness": 0.94,
+        "r2_fitness": 0.94,
+        "r3_fitness": 0.94,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "e48d4e1a": {
+      "task_id": "e48d4e1a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "e5062a87": {
+      "task_id": "e5062a87",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.89,
+        "r1_fitness": 0.8866666666666667,
+        "r2_fitness": 0.89,
+        "r3_fitness": 0.89,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0033333333333332993,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "e509e548": {
+      "task_id": "e509e548",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9158050221565731,
+        "r1_fitness": 0.914327917282127,
+        "r2_fitness": 0.9158050221565731,
+        "r3_fitness": 0.9158050221565731,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.001477104874446078,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "e50d258f": {
+      "task_id": "e50d258f",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.4782608695652174,
+        "r1_fitness": 0.39080459770114945,
+        "r2_fitness": 0.4782608695652174,
+        "r3_fitness": 0.4782608695652174,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.08745627186406796,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "e6721834": {
+      "task_id": "e6721834",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.4966292134831461,
+        "r1_fitness": 0.4966292134831461,
+        "r2_fitness": 0.4966292134831461,
+        "r3_fitness": 0.4966292134831461,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "e73095fd": {
+      "task_id": "e73095fd",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.934876989869754,
+        "r1_fitness": 0.934876989869754,
+        "r2_fitness": 0.934876989869754,
+        "r3_fitness": 0.934876989869754,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "e76a88a6": {
+      "task_id": "e76a88a6",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "e8593010": {
+      "task_id": "e8593010",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8533333333333334,
+        "r1_fitness": 0.8533333333333334,
+        "r2_fitness": 0.8533333333333334,
+        "r3_fitness": 0.8533333333333334,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "e8dc4411": {
+      "task_id": "e8dc4411",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9477477477477477,
+        "r1_fitness": 0.9477477477477477,
+        "r2_fitness": 0.9477477477477477,
+        "r3_fitness": 0.9477477477477477,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "e9614598": {
+      "task_id": "e9614598",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "e98196ab": {
+      "task_id": "e98196ab",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "e9afcf9a": {
+      "task_id": "e9afcf9a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ea32f347": {
+      "task_id": "ea32f347",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ea786f4a": {
+      "task_id": "ea786f4a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "eb281b96": {
+      "task_id": "eb281b96",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "eb5a1d5d": {
+      "task_id": "eb5a1d5d",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.39759036144578314,
+        "r1_fitness": 0.39759036144578314,
+        "r2_fitness": 0.39759036144578314,
+        "r3_fitness": 0.39759036144578314,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "ec883f72": {
+      "task_id": "ec883f72",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.96,
+        "r1_fitness": 0.96,
+        "r2_fitness": 0.96,
+        "r3_fitness": 0.96,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "ecdecbb3": {
+      "task_id": "ecdecbb3",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ed36ccf7": {
+      "task_id": "ed36ccf7",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ef135b50": {
+      "task_id": "ef135b50",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9066666666666666,
+        "r1_fitness": 0.9066666666666666,
+        "r2_fitness": 0.9066666666666666,
+        "r3_fitness": 0.9066666666666666,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "f15e1fac": {
+      "task_id": "f15e1fac",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.8647540983606558,
+        "r1_fitness": 0.8647540983606558,
+        "r2_fitness": 0.8647540983606558,
+        "r3_fitness": 0.8647540983606558,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "f1cefba8": {
+      "task_id": "f1cefba8",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.839240506329114,
+        "r1_fitness": 0.839240506329114,
+        "r2_fitness": 0.839240506329114,
+        "r3_fitness": 0.839240506329114,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "f25fbde4": {
+      "task_id": "f25fbde4",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "f25ffba3": {
+      "task_id": "f25ffba3",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "f2829549": {
+      "task_id": "f2829549",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6833333333333333,
+        "r1_fitness": 0.6833333333333333,
+        "r2_fitness": 0.6833333333333333,
+        "r3_fitness": 0.6833333333333333,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "f35d900a": {
+      "task_id": "f35d900a",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.820040899795501,
+        "r1_fitness": 0.803680981595092,
+        "r2_fitness": 0.820040899795501,
+        "r3_fitness": 0.820040899795501,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.01635991820040894,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "f5b8619d": {
+      "task_id": "f5b8619d",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.5255102040816326,
+        "r1_fitness": 0.5255102040816326,
+        "r2_fitness": 0.5255102040816326,
+        "r3_fitness": 0.5255102040816326,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "f76d97a5": {
+      "task_id": "f76d97a5",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.847457627118644,
+        "r1_fitness": 0.847457627118644,
+        "r2_fitness": 0.847457627118644,
+        "r3_fitness": 0.847457627118644,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "f8a8fe49": {
+      "task_id": "f8a8fe49",
+      "status": "unsolved",
+      "category": "Execution fail",
+      "hypothesis": "Last-mile execution error — near-perfect but can't close",
+      "evidence": {
+        "best_fitness": 0.9496296296296296,
+        "r1_fitness": 0.9496296296296296,
+        "r2_fitness": 0.9496296296296296,
+        "r3_fitness": 0.9496296296296296,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Targeted repair (Round 4)"
+    },
+    "f8b3ba0a": {
+      "task_id": "f8b3ba0a",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.5,
+        "r1_fitness": 0.5,
+        "r2_fitness": 0.5,
+        "r3_fitness": 0.5,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "f8c80d96": {
+      "task_id": "f8c80d96",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.48,
+        "r1_fitness": 0.48,
+        "r2_fitness": 0.48,
+        "r3_fitness": 0.48,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "f8ff0b80": {
+      "task_id": "f8ff0b80",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "f9012d9b": {
+      "task_id": "f9012d9b",
+      "status": "unsolved",
+      "category": "Rule Induction fail",
+      "hypothesis": "LLM found a wrong pattern — output has some structure but fundamentally incorrect",
+      "evidence": {
+        "best_fitness": 0.1111111111111111,
+        "r1_fitness": 0.1111111111111111,
+        "r2_fitness": 0.1111111111111111,
+        "r3_fitness": 0.1111111111111111,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Try DSL/program-synthesis path or completely different strategy hint"
+    },
+    "fafffa47": {
+      "task_id": "fafffa47",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "fcb5c309": {
+      "task_id": "fcb5c309",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.6462585034013606,
+        "r1_fitness": 0.6462585034013606,
+        "r2_fitness": 0.6462585034013606,
+        "r3_fitness": 0.6462585034013606,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    },
+    "fcc82909": {
+      "task_id": "fcc82909",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Partial pattern found but can't improve — search space too narrow",
+      "evidence": {
+        "best_fitness": 0.8866666666666667,
+        "r1_fitness": 0.8,
+        "r2_fitness": 0.8866666666666667,
+        "r3_fitness": 0.8866666666666667,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.08666666666666667,
+        "trajectory_points": 12
+      },
+      "confidence": "medium",
+      "next_strategy": "Expand strategy pool or hybridize with different candidates"
+    },
+    "feca6190": {
+      "task_id": "feca6190",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ff28f65a": {
+      "task_id": "ff28f65a",
+      "status": "solved",
+      "category": "solved",
+      "hypothesis": "",
+      "evidence": {},
+      "confidence": "high",
+      "next_strategy": ""
+    },
+    "ff805c23": {
+      "task_id": "ff805c23",
+      "status": "unsolved",
+      "category": "Search fail",
+      "hypothesis": "Stuck in local optimum — fitness doesn't improve across rounds",
+      "evidence": {
+        "best_fitness": 0.32,
+        "r1_fitness": 0.32,
+        "r2_fitness": 0.32,
+        "r3_fitness": 0.32,
+        "r4_fitness": 0.0,
+        "r3_skipped": false,
+        "r4_attempted": false,
+        "fitness_range_across_rounds": 0.0,
+        "trajectory_points": 12
+      },
+      "confidence": "high",
+      "next_strategy": "Strategy rotation or DSL path — try fundamentally different approach"
+    }
+  }
+}
