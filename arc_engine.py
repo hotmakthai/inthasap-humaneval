@@ -11,20 +11,40 @@ from arc_generator import Candidate, generate_candidates
 from arc_ranking import rank
 from arc_verifier import grids_equal, verify
 
+try:
+    from near_miss_verifier import check_invariants, FailureReport
+    _HAS_FAILURE_CLASSIFIER = True
+except ImportError:
+    _HAS_FAILURE_CLASSIFIER = False
+
 Grid = list[list[int]]
 
 
 def _grids_equal(a: Grid, b: Grid) -> bool:
+    if a is None or b is None:
+        return False
     if len(a) != len(b):
         return False
     return all(row_a == row_b for row_a, row_b in zip(a, b))
+
+
+def _valid_grid(g: Any) -> bool:
+    """ตรวจว่า output grid ถูกรูปแบบ (list-of-lists of ints, ไม่ empty)"""
+    if not isinstance(g, list) or not g:
+        return False
+    if not all(isinstance(row, list) and row for row in g):
+        return False
+    if not all(isinstance(c, int) for row in g for c in row):
+        return False
+    return True
 
 
 def solve_task(task: dict, top_k: int = 2, use_llm: bool = False) -> dict[str, Any]:
     """แก้โจทย์ 1 ข้อ คืนคำตอบที่ดีที่สุด (และอันดับ 2 ถ้าต่างกัน)"""
     examples = task.get("train", [])
     if not examples or not task.get("test"):
-        return {"output": None, "candidate": None, "status": "no_data"}
+        return {"output": None, "candidate": None, "status": "no_data",
+                "failure_reports": [], "has_invariant_warning": False}
 
     _get_telemetry = None
     _reset_telemetry = None
@@ -48,51 +68,82 @@ def solve_task(task: dict, top_k: int = 2, use_llm: bool = False) -> dict[str, A
 
     llm_telemetry = {}
     if not passing and use_llm:
-        # ขั้น 4: ให้ LLM ลองเสนอ candidate สูงสุด 2 ครั้ง
+        # ขั้น 4: ให้ LLM เสนอ candidate ที่ผ่าน train ได้สูงสุด 2 ตัว
         try:
             from arc_llm import llm_solve
 
-            llm_candidate, note, llm_telemetry = llm_solve(task, max_attempts=2, evolutionary=True)
-            if llm_candidate is not None:
-                ok, _ = verify(llm_candidate, examples)
-                if ok:
-                    passing = [llm_candidate]
+            llm_candidates, note, llm_telemetry = llm_solve(
+                task, max_attempts=2, evolutionary=True, return_all=True
+            )
+            # llm_candidates เป็น list ของ candidate ที่ verify ผ่าน train แล้ว (0-2 ตัว)
+            for cand in llm_candidates or []:
+                ok, _ = verify(cand, examples)
+                if ok and cand not in passing:
+                    passing.append(cand)
+                    if len(passing) >= top_k * 3:
+                        break
         except Exception as e:
             # LLM ใช้ไม่ได้ ให้คืนสถานะ unsolved
             llm_telemetry = _get_telemetry() if _get_telemetry else {}
             return {"output": None, "candidate": None, "status": f"unsolved (llm error: {e})",
-                    "telemetry": llm_telemetry}
+                    "telemetry": llm_telemetry,
+                    "failure_reports": [], "has_invariant_warning": False}
 
     if not passing:
         # LLM unreachable (เน็ตหลุด/ไฟดับ) — ใช้ status พิเศษเพื่อให้ rerun แยกข้อได้
         if llm_telemetry.get("llm_unreachable"):
             return {"output": None, "candidate": None, "status": "llm_unreachable",
-                    "telemetry": llm_telemetry}
+                    "telemetry": llm_telemetry,
+                    "failure_reports": [], "has_invariant_warning": False}
         return {"output": None, "candidate": None, "status": "unsolved",
-                "telemetry": llm_telemetry if llm_telemetry else (_get_telemetry() if _get_telemetry else {})}
+                "telemetry": llm_telemetry if llm_telemetry else (_get_telemetry() if _get_telemetry else {}),
+                "failure_reports": [], "has_invariant_warning": False}
 
     # Solved without LLM — telemetry is empty (no LLM calls)
 
     ranked = rank(passing)
-    best = ranked[0]
     test_input = task["test"][0]["input"]
-    outputs = [best(test_input)]
-    chosen = [best]
-    for cand in ranked[1:]:
+    outputs: list[Grid] = []
+    chosen = []
+    for cand in ranked:
         if len(outputs) >= top_k:
             break
-        out = cand(test_input)
-        if not any(_grids_equal(out, o) for o in outputs):
+        try:
+            out = cand(test_input)
+        except Exception:
+            out = None
+        if _valid_grid(out) and not any(_grids_equal(out, o) for o in outputs):
             outputs.append(out)
             chosen.append(cand)
+
+    if not outputs:
+        return {"output": None, "candidate": None, "status": "unsolved (invalid output)",
+                "telemetry": llm_telemetry if llm_telemetry else {},
+                "failure_reports": [], "has_invariant_warning": False}
+
+    failure_reports = []
+    if _HAS_FAILURE_CLASSIFIER and outputs:
+        try:
+            failure_reports = check_invariants(task, outputs[0])
+        except Exception:
+            failure_reports = []
 
     return {
         "output": outputs[0],
         "outputs": outputs,
+        "attempt_1": outputs[0],
+        "attempt_2": outputs[1] if len(outputs) > 1 else None,
         "candidate": repr(chosen[0]),
         "candidates": [repr(c) for c in chosen],
         "status": "solved",
+        "train_fit_only": True,
+        "ambiguous": len(outputs) > 1,
         "telemetry": llm_telemetry if llm_telemetry else {},
+        "failure_reports": [
+            {"failure_class": r.failure_class.value, "confidence": r.confidence, "hints": r.hints}
+            for r in failure_reports
+        ],
+        "has_invariant_warning": len(failure_reports) > 0,
     }
 
 
@@ -186,7 +237,14 @@ def run_baseline(
 
         # บันทึก predictions แยก (บันทึกทุกข้อ แม้ None)
         predictions = _load_state(output_path) if output_path.exists() else {}
-        predictions[path.stem] = sol.get("output")
+        # รูปแบบใหม่: เก็บ 2 attempts (backward-compatible ด้วย attempt_1)
+        if isinstance(sol.get("output"), list):
+            predictions[path.stem] = {
+                "attempt_1": sol.get("output"),
+                "attempt_2": sol.get("attempt_2"),
+            }
+        else:
+            predictions[path.stem] = sol.get("output")
         _save_state(output_path, predictions)
 
     return {
@@ -197,7 +255,13 @@ def run_baseline(
 
 
 def score_predictions(predictions_path: str | Path, ground_truth_dir: str | Path) -> dict[str, Any]:
-    """ให้คะแนน predictions กับ ground truth (test output)"""
+    """ให้คะแนน predictions กับ ground truth (test output)
+
+    รองรับ 2 รูปแบบ:
+      - เก่า: {task_id: grid}
+      - ใหม่: {task_id: {"attempt_1": grid, "attempt_2": grid_or_null}}
+    ถูกถ้า attempt ใด attempt หนึ่งตรง
+    """
     predictions = json.loads(Path(predictions_path).read_text(encoding="utf-8"))
     gt_dir = Path(ground_truth_dir)
     correct = 0
@@ -209,6 +273,12 @@ def score_predictions(predictions_path: str | Path, ground_truth_dir: str | Path
         task = json.loads(gt_path.read_text(encoding="utf-8"))
         total += 1
         true_output = task["test"][0]["output"]
-        if pred is not None and _grids_equal(pred, true_output):
+
+        if isinstance(pred, dict) and ("attempt_1" in pred or "attempt_2" in pred):
+            attempts = [pred.get("attempt_1"), pred.get("attempt_2")]
+        else:
+            attempts = [pred]
+
+        if any(a is not None and _grids_equal(a, true_output) for a in attempts):
             correct += 1
     return {"correct": correct, "total": total, "pass_rate": correct / total if total else 0.0}
